@@ -1,0 +1,161 @@
+<!DOCTYPE HTML> 
+<html lang="en">
+  <head> 
+    <title>the front page of reddit in shell form</title>
+    <link href="css/jquery.terminal.css" rel="stylesheet"/>
+    <link href="css/style.css" rel="stylesheet"/>
+  </head> 
+<body style="margin:0 auto;">
+</body>
+</html>
+<script src="js/jquery-1.7.1.min.js"></script>
+<script src="js/jquery.mousewheel-min.js"></script>
+<script src="js/jquery.terminal-min.js"></script>
+<script src="js/moment.min.js"></script>   
+<script type="text/javascript">
+$(function() {
+  var posts = [];
+  var c = 0;
+  var anim = false;
+  function typed(finish_typing) {
+    return function(term, message, delay, finish) {
+      anim = true;
+      var prompt = term.get_prompt();
+      var c = 0;
+      if (message.length > 0) {
+        term.set_prompt('[frontpage@reddit ~]# ');
+        var interval = setInterval(function() {
+          term.insert(message[c++]);
+          if (c == message.length) {
+            clearInterval(interval);
+            setTimeout(function() {
+              finish_typing(term, message, prompt);
+              anim = false
+              finish && finish();
+            }, delay);
+          }
+        }, delay);
+      }
+    };
+  }
+
+  var typed_prompt = typed(function(term, message, prompt) {
+    term.set_command('');
+    term.set_prompt(message + ' ');
+  });
+
+  var typed_message = typed(function(term, message, prompt) {
+      term.set_command('');
+      term.echo(message)
+      term.set_prompt(prompt);
+  });
+
+  function greetings(term) {
+    term.echo('reddit shell v0.1 by <a href="https://twitter.com/jasonbeee" target="_blank">@jasonbeee</a><br />' + 
+      '- type "reddit list [subreddit]" to list the latest posts from the specified subreddit, or leave the subreddit out to list posts from the front page<br />- type "reddit view [number]" to the corresponding post you want to view the comments for<br />- type "clear" to clear the screen<br />- type "help" to display these instructions again<p />', {raw:true});
+  }
+
+  $('body').terminal(function(cmd, term) {
+    var finish = false;
+    term.set_prompt('[frontpage@reddit ~]# ');
+    var frontpage = "";
+    command = cmd.split(" ");
+    if (command[0] == "reddit" && command[1] == "list" && command[2]) {
+      $.getJSON('http://www.reddit.com/r/'+command[2]+'/.json?jsonp=?', function(data) {
+        var redditjson = data.data.children;
+        $(redditjson).each(function() {
+          if (this.data != undefined) {
+            permalink = "http://reddit.com"+this.data.permalink+".json?jsonp=?";
+            url = this.data.url;
+            //console.log(permalink);
+            posts.push(permalink);
+            // line 1
+            title = this.data.title;
+            domain = this.data.domain;
+            if (url) {
+              line1 = "<a href='"+url+"' target='_blank'>"+title + "</a> (" + domain + ")<br />";
+            } else {
+              line1 = title + " (" + domain + ")<br />";
+            }
+            // line 2
+            created = this.data.created_utc;
+            time = moment.unix(created).fromNow();
+            author = this.data.author;
+            line2 = "submitted " + time + " by " + author + "<br />";
+            // line 3
+            ups = this.data.ups;
+            num_comments = this.data.num_comments;
+            line3 = ups + " upvotes with " + num_comments + " comments<p />";
+            frontpage = '[' + c + '] ' + line1 + '[' + c + '] ' + line2 + '[' + c + '] ' + line3;
+            c = c + 1;
+            term.echo(frontpage, {raw:true});
+          }
+        });
+      });
+    } else if (cmd == "reddit list") {
+      $.getJSON('http://www.reddit.com/.json?jsonp=?', function(data) {
+        var redditjson = data.data.children;
+        $(redditjson).each(function() {
+          if (this.data != undefined) {
+            permalink = "http://reddit.com"+this.data.permalink+".json?jsonp=?";
+            url = this.data.url;
+            //console.log(permalink);
+            posts.push(permalink);
+            // line 1
+            title = this.data.title;
+            domain = this.data.domain;
+            if (url) {
+              line1 = "<a href='"+url+"' target='_blank'>"+title + "</a> (" + domain + ")<br />";
+            } else {
+              line1 = title + " (" + domain + ")<br />";
+            }
+            // line 2
+            created = this.data.created_utc;
+            time = moment.unix(created).fromNow();
+            author = this.data.author;
+            line2 = "submitted " + time + " by " + author + "<br />";
+            // line 3
+            ups = this.data.ups;
+            num_comments = this.data.num_comments;
+            line3 = ups + " upvotes with " + num_comments + " comments<p/>";
+            frontpage = '[' + c + '] ' + line1 + '[' + c + '] ' + line2 + '[' + c + '] ' + line3;
+            c = c + 1;
+            term.echo(frontpage, {raw:true});
+          }
+        });
+      });
+    } else if (posts.length !== 0 && command[0] == "reddit" && command[1] == "view" && command[2]) {
+      $.getJSON(posts[command[2]], function foo(result) {
+        $.each(result[1].data.children, function (i, reply) {
+          author = reply.data.author;
+          body = reply.data.body;
+          created = reply.data.created_utc;
+          time = moment.unix(created).fromNow();
+          ups = reply.data.ups;
+          line1 = body + "<br />";
+          line2 = "<span style='margin-left:40px;color: #666;'>posted " + time + " by " + author + " with " + ups + " upvotes</span><p/>";
+          reply_message = line1 + line2;
+          term.echo(reply_message, {raw:true});
+          console.log(reply);
+        });
+      });
+    } else if (cmd == "help") {
+      greetings(term);
+    } else {
+      term.echo("please run reddit list first", {raw:true});
+    }
+  }, {
+    name: 'xxx',
+    greetings: null,
+    onInit: function(term) {
+      greetings(term);
+      term.set_prompt('[frontpage@reddit ~]# ');
+    },
+    keydown: function(e) {
+      if (anim) {
+        return false;
+      }
+    }
+  });
+});
+</script>
