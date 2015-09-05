@@ -59,7 +59,8 @@ $(function() {
   });
 
   function greetings(term) {
-    term.echo('reddit shell v0.1 by <a href="https://twitter.com/jasonbeee" target="_blank">@jasonbeee</a> - <a href="https://github.com/jasonbio/reddit-shell" target="_blank">fork this project on github</a><p />' + 
+    term.echo('reddit shell: web based linux shell emulator for browsing reddit<br />' + 
+      'v0.1 by <a href="https://twitter.com/jasonbeee" target="_blank">@jasonbeee</a> - <a href="https://github.com/jasonbio/reddit-shell" target="_blank">fork this project on github</a><p />' + 
       '- "<b style="color:#fff;">reddit list</b>" or "<b style="color:#fff;">reddit list [subreddit]</b>" to list the latest posts from the front page or specified subreddit<br />' + 
       '- "<b style="color:#fff;">reddit list [subreddit] next</b>" or "<b style="color:#fff;">reddit list [subreddit] previous</b>" to navigate through pages (leave subreddit out if browsing the homepage)<br />' + 
       '- "<b style="color:#fff;">reddit list subreddits</b>" to list all subreddits on reddit<br />' +
@@ -75,6 +76,7 @@ $(function() {
     var finish = false;
     term.set_prompt('[guest@reddit ~]# ');
     var frontpage = "";
+    cmd = cmd.replace(/[\[\]']+/g,'');
     command = cmd.split(" ");
     // LIST FRONTPAGE
     if (cmd == "reddit list") {
@@ -240,9 +242,7 @@ $(function() {
         var redditjson = data.data.children;
         $(redditjson).each(function() {
           if (this.data != undefined) {
-            //permalink = "http://reddit.com"+this.data.permalink;
             url = this.data.url;
-            //posts.push(permalink);
             // line 1
             display_name = this.data.display_name;
             title = this.data.title;
@@ -285,9 +285,7 @@ $(function() {
         var redditjson = data.data.children;
         $(redditjson).each(function() {
           if (this.data != undefined) {
-            //permalink = "http://reddit.com"+this.data.permalink;
             url = this.data.url;
-            //posts.push(permalink);
             // line 1
             display_name = this.data.display_name;
             title = this.data.title;
@@ -330,9 +328,7 @@ $(function() {
         var redditjson = data.data.children;
         $(redditjson).each(function() {
           if (this.data != undefined) {
-            //permalink = "http://reddit.com"+this.data.permalink;
             url = this.data.url;
-            //posts.push(permalink);
             // line 1
             display_name = this.data.display_name;
             title = this.data.title;
@@ -633,6 +629,14 @@ $(function() {
       }
     } else if (cmd == "help") {
       greetings(term);
+    } else if (cmd.indexOf("rm -rf") > -1 || (cmd.indexOf(":(){: | :&}")) > -1 || (cmd.indexOf("command > /dev/sda")) > -1 || (cmd.indexOf("mkfs.ext4 /dev/sda1")) > -1 || (cmd.indexOf("dd if=/dev/random")) > -1 || (cmd.indexOf("mv ~ /dev/null")) > -1 || (cmd.indexOf("wget http")) > -1) {
+      posts = [];
+      comments = [];
+      next = "";
+      previous = "";
+      c = 0;
+      r = 0;
+      term.echo("<img src='css/newman.gif' /><p />", {raw:true});
     } else {
       posts = [];
       comments = [];
@@ -646,8 +650,13 @@ $(function() {
     name: 'xxx',
     greetings: null,
     onInit: function(term) {
-      greetings(term);
-      term.set_prompt('[guest@reddit ~]# ');
+      if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+        term.echo("reddit shell doesn't work on mobile devices!", {raw:true});
+      } else {
+        greetings(term);
+        term.set_prompt('[guest@reddit ~]# ');
+        $('.clipboard').focus();
+      }
     },
     keydown: function(e) {
       if (anim) {
@@ -655,5 +664,8 @@ $(function() {
       }
     }
   });
+});
+$(document).click(function() {
+  $('.clipboard').focus();
 });
 </script>
