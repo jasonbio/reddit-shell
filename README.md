@@ -7,7 +7,7 @@ web based linux shell emulator that allows you to browse reddit programmatically
 Commands:
 
 1. **reddit list** or **reddit list [subreddit]** to list the latest posts from the front page or specified subreddit
-2. **reddit list [subreddit] next** or **reddit list [subreddit] previous** to navigate through pages (leave subreddit out if browsing the homepage)
+2. **reddit list [subreddit] next** or **reddit list [subreddit] previous** to navigate through pages (leave subreddit out if browsing the front page)
 3. **reddit list subreddits** to list the all subreddits and **reddit list subreddits next** or **reddit list subreddits previous** to navigate pages
 4. **reddit view content [index]** to open the content URL for a specific post in a new window
 5. **reddit view comments [index]** to view the comments for a specific post
