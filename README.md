@@ -1,6 +1,6 @@
 # reddit-shell
 
-LIVE DEMO: http://jasonb.io/redditshell/
+TRY IT: http://redditshell.com/
 
 web based linux shell emulator that allows you to browse reddit programmatically via command line
 
