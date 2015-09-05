@@ -525,19 +525,13 @@ $(function() {
           term.set_prompt('[guest@reddit '+command[2]+']# ');
         }
       });
-    // VIEW CONTENT
-    } else if (posts.length !== 0 && command[0] == "reddit" && command[1] == "view" && command[2] == "content" && command[3]) {
-      var content_url = content[command[3]];
-      if (content_url) {
-        window.open(content_url);
-      }
     // VIEW THREAD
-    } else if (posts.length !== 0 && command[0] == "reddit" && command[1] == "view" && command[2] == "comments" && command[3]) {
+    } else if (posts.length !== 0 && command[0] == "reddit" && command[1] == "view" && command[2] == "comments" && command[3] !== "more") {
       comments = [];
       r = 0;
       var json_base = posts[command[3]];
       $.getJSON(posts[command[3]]+".json?jsonp=?", function foo(result) {
-        $.each(result[1].data.children, function (i, reply) {
+        $.each(result[1].data.children, function (idx, reply) {
           var reply_message = "";
           var reply2_message = "";
           author = reply.data.author;
@@ -553,45 +547,45 @@ $(function() {
           line1 = body + "<br />";
           line2 = "<span style='margin-left:32px;color: #666;'>posted " + time + " by " + author + "</span><br/>";
           line3 = "<span style='margin-left:32px;color: #666;'>" + ups + " upvotes with " + nested_count + " replies</span><p />";
-          if (reply.data.replies != "") {
-            $.each(reply.data.replies.data.children, function (z, reply2) {
-              if (reply2.kind != "more") {
-                nested_author = reply2.data.author;
-                nested_body = reply2.data.body;
-                nested_created = reply2.data.created_utc;
+
+          for(var i = 0, l = reply["data"]["replies"]["data"]["children"].length; i < l; i++) {
+              if (reply.data.replies["data"]["children"][i]["kind"] == "t1") {
+                nested_author = reply.data.replies["data"]["children"][i]["data"]["author"];
+                nested_body = reply.data.replies["data"]["children"][i]["data"]["body"];
+                nested_created = reply.data.replies["data"]["children"][i]["data"]["created"];
                 nested_time = moment.unix(nested_created).fromNow();
-                nested_ups = reply2.data.ups;
+                nested_ups = reply.data.replies["data"]["children"][i]["data"]["ups"];
                 nest_line1 = "<span style='margin-left:64px;'>" + nested_body + "<br />";
                 nest_line2 = "<span style='margin-left:98px;color: #666;'>posted " + nested_time + " by " + nested_author + "</span><br/>";
                 nest_line3 = "<span style='margin-left:98px;color: #666;'>" + nested_ups + " upvotes with " + nested_ups + " replies</span><p/>";
                 reply_message = line1 + line2 + line3;
                 reply_message += nest_line1 + nest_line2 + nest_line3;
                 reply_message += comments_line;
-              } else {
-                nested_count = reply2.data.count;
-                nested_id = reply2.data.id;
+              } 
+              if (reply.data.replies["data"]["children"][i]["kind"] == "more") {
+                nested_count = reply.data.replies["data"]["children"][i]["data"]["count"];
+                nested_id = reply.data.replies["data"]["children"][i]["data"]["id"];
                 if (nested_id) {
-                  comments.push(json_base+nested_id);
-                  comments_line = "<span style='margin-left:130px;'>[<span style='color: #B3A600;'>" + r + "</span>] view more comments ...<p />";
+                  nested_url = json_base+nested_id;
+                  comments.push(nested_url);
+                  comments_line = "<span style='margin-left:130px;'>[<span style='color: #2C9A96;'>" + r + "</span>] view more comments ...<p />";
                   r = r + 1;
                   reply_message = line1 + line2 + line3;
                   reply_message += nest_line1 + nest_line2 + nest_line3;
                   reply_message += comments_line;
                 }
               }
-            });
-            
-          } else {
-            reply_message = line1 + line2 + line3;
-            reply_message += nest_line1 + nest_line2 + nest_line3;
-            reply_message += comments_line;
           }
+          reply_message = line1 + line2 + line3;
+          reply_message += nest_line1 + nest_line2 + nest_line3;
+          reply_message += comments_line;
           term.echo(reply_message, {raw:true});
           term.set_prompt('[guest@reddit comments]# ');
         });
       });
     // VIEW MORE COMMENTS THREAD
-    } else if (posts.length !== 0 && command[0] == "reddit" && command[1] == "view" && command[2] == "comments" && command[3] == "more" && command[4]) {
+    } else if (command[0] == "reddit" && command[1] == "view" && command[2] == "comments" && command[3] == "more" && command[4]) {
+      var json_base = comments[command[4]];
       $.getJSON(comments[command[4]]+"/.json?jsonp=?", function foo(result) {
         $.each(result[1].data.children, function (i, reply) {
           var reply_message = "";
@@ -611,7 +605,7 @@ $(function() {
               if (reply2.kind == "more") {
                 nested_id = reply2.data.id;
                 comments.push(json_base+nested_id);
-                nest_line1 = "<span style='margin-left:64px;'>[<span style='color: #B3A600;'>" + r + "</span>] view more comments ...<p />";
+                nest_line1 = "<span style='margin-left:64px;'>[<span style='color: #2C9A96;'>" + r + "</span>] view more comments ...<p />";
                 reply_message += nest_line1;
               } else {
                 nested_author = reply2.data.author;
@@ -631,6 +625,12 @@ $(function() {
           term.set_prompt('[guest@reddit comments]# ');
         });
       });
+    // VIEW CONTENT
+    } else if (posts.length !== 0 && command[0] == "reddit" && command[1] == "view" && command[2] == "content" && command[3]) {
+      var content_url = content[command[3]];
+      if (content_url) {
+        window.open(content_url);
+      }
     } else if (cmd == "help") {
       greetings(term);
     } else {
