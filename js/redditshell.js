@@ -46,21 +46,7 @@ $(function() {
   });
 
   function greetings(term) {
-    term.echo('>reddit shell: web based linux shell emulator for browsing reddit<br />' + 
-      'v0.4 by <a href="https://twitter.com/jasonbeee" target="_blank">@jasonbeee</a> - <a href="https://github.com/jasonbio/reddit-shell" target="_blank">fork this project on github</a><p />' + 
-      '"<b style="color:#fff;">reddit list</b>" or "<b style="color:#fff;">reddit list [subreddit]</b>" to list the latest posts from the front page or specified subreddit<br />' + 
-      '"<b style="color:#fff;">reddit list [subreddit] [new|rising|top|controversial]</b>" to list posts from the specified subreddit in the specified order<br />' + 
-      '"<b style="color:#fff;">reddit list [subreddit] [next|previous]</b>" or "<b style="color:#fff;">reddit list [next|previous]</b>" to navigate through page listings<br />' + 
-      '"<b style="color:#fff;">reddit list subreddits</b>" to list all subreddits on reddit<br />' +
-      '"<b style="color:#fff;">reddit list subreddits [next|previous]</b>" to navigate through the subreddit list<br />' +
-      '"<b style="color:#fff;">reddit view content [index]</b>" to open the content URL in a new window<br />' + 
-      '"<b style="color:#fff;">reddit view comments [index]</b>" to view the comments for the post<br />' + 
-      '"<b style="color:#fff;">reddit view comments more [index]</b>" to view more comments in the selected indexes tree<br />' + 
-      '"<b style="color:#fff;">reddit search [search term]</b>" to search reddit for something specific<br />' +
-      '"<b style="color:#fff;">reddit search [next|previous]</b>" to navigate through search results<br />' +
-      '"<b style="color:#fff;">settings images [on|off]</b>" set inline image display on or off<br />' +
-      '"<b style="color:#fff;">clear</b>" to clear the screen<br />' + 
-      '"<b style="color:#fff;">help</b>" to display these instructions again<p />', {raw:true});
+    term.echo("<div id='greeting'><div style=' font-weight: bold;width:100%;white-space:nowrap;float:left;line-height: 7px;font-size: 7px;color: #2FD4CE;padding-left:5px;' id='ascii'>_________<span style='color:transparent;'>__</span>_______<span style='color:transparent;'>___</span>________<span style='color:transparent;'>__</span>________<span style='color:transparent;'>__</span>___<span style='color:transparent;'>__</span>_________<span style='color:transparent;'>________</span>________<span style='color:transparent;'>__</span>___<span style='color:transparent;'>__</span>___<span style='color:transparent;'>__</span>_______<span style='color:transparent;'>___</span>___<span style='color:transparent;'>_______</span>___<span style='color:transparent;'>__________</span><br /><span style='color:transparent;'><span style='color:#fff;' id='asciitext'>|\\_______\\|\\______\\_|\\_______\\|\\_______\\|\\__\\|\\_________\\</span></span><span style='color:transparent;'>_____</span><span style='color:#fff;' id='asciitext'>|\\_______\\|\\__\\|\\__\\|\\______\\_|\\__\\<span style='color:transparent;'>_____</span>|\\__\\</span><span style='color:transparent;'>_________</span><br /><span style='color:transparent;'><span style='color:#fff;' id='asciitext'>\\_\\__\\|\\__\\_\\_____/|\\_\\__\\_|\\_\\_\\__\\_|\\_\\_\\__\\|____\\__\\_|</span></span><span style='color:transparent;'>_____</span><span style='color:#fff;' id='asciitext'>\\_\\__\\___|\\_\\__\\\\\\__\\_\\_____/|\\_\\__\\<span style='color:transparent;'>____</span>\\_\\__\\</span><span style='color:transparent;'>________</span><br /><span style='color:transparent;'>_</span><span style='color:#fff;' id='asciitext'>\\_\\_______\\_\\__\\_|/_\\_\\__\\_\\\\_\\_\\__\\_\\\\_\\_\\__\\</span></span><span style='color:transparent;'>___</span><span style='color:#fff;' id='asciitext'>\\_\\__\\</span><span style='color:transparent;'>_______</span><span style='color:#fff;' id='asciitext'>\\_\\_______\\_\\_______\\_\\__\\_|/_\\_\\__\\<span style='color:transparent'>____</span>\\_\\__\\</span><span style='color:transparent;'>_______</span><br /><span style='color:transparent;'>__<span style='color:#fff;' id='asciitext'>\\_\\__\\\\__\\\\_\\__\\_|\\_\\_\\__\\_\\\\_\\_\\__\\_\\\\_\\_\\__\\</span></span><span style='color:transparent;'>___</span><span style='color:#fff;' id='asciitext'>\\_\\__\\</span><span style='color:transparent;'>_______</span><span style='color:#fff;' id='asciitext'>\\|____|\\__\\_\\__\\_\\__\\_\\__\\_|\\_\\_\\__\\____\\_\\__\\</span><span style='color:#fff;' id='asciitext'>_____</span><br /><span style='color:transparent;'>___<span style='color:#fff;' id='asciitext'>\\_\\__\\\\__\\\\_\\_______\\_\\_______\\_\\_______\\_\\__\\</span></span><span style='color:transparent;'>___</span><span style='color:#fff;' id='asciitext'>\\_\\__\\</span><span style='color:transparent;'></span><span style='color:transparent;'>_______</span><span style='color:#fff;' id='asciitext'>_____<span style='color:#fff;' id='asciitext'>\\_\\__\\_\\__\\_\\__\\_\\_______\\_\\_______\\_\\_______\\</span></span><br /><span style='color:transparent;'>____<span style='color:#fff;' id='asciitext'>\\|__|\\|__|\\|_______|\\|_______|\\|_______|\\|__|</span></span><span style='color:transparent;'>____</span><span style='color:#fff;' id='asciitext'>\\|__|</span><span style='color:transparent;'>_______</span><span style='color:#fff;' id='asciitext'>|\\_________\\|__|\\|__|\\|_______|\\|_______|\\|_______|</span><br /><span style='color:transparent;'>_________________________________________________________________</span><span style='color:#fff;' id='asciitext'>\\|_________|</span><span style='color:transparent;'>_______________________________________</span><br /><span style='color:transparent;'>____________________________________________________________________________________________________________________</span></div><p/>reddit shell: web based shell emulator that allows you to browse<br />reddit programmatically - by <a href='https://twitter.com/jasonbeee' target='_blank'>@jasonbeee</a> - <a href='https://github.com/jasonbio/reddit-shell' target='_blank'>fork this project on github</a><p /> <b style='color:#fff;'>reddit list</b> or <b style='color:#fff;'>reddit list [subreddit]</b> to list the latest posts from the front page or specified subreddit<br /> <b style='color:#fff;'>reddit list [subreddit] [new|rising|top|controversial]</b> to list posts from the specified subreddit in the specified order<br /> <b style='color:#fff;'>reddit list [subreddit] [next|previous]</b> or <b style='color:#fff;'>reddit list [next|previous]</b> to navigate through page listings<br /> <b style='color:#fff;'>reddit list subreddits</b> to list all subreddits on reddit<br /><b style='color:#fff;'>reddit list subreddits [next|previous]</b> to navigate through the subreddit list<br /><b style='color:#fff;'>reddit view content [index]</b> to open the content URL in a new window<br /> <b style='color:#fff;'>reddit view comments [index]</b> to view the comments for the post<br /> <b style='color:#fff;'>reddit view comments more [index]</b> to view more comments in the selected indexes tree<br /> <b style='color:#fff;'>reddit search [search term]</b> to search reddit for something specific<br /><b style='color:#fff;'>reddit search [next|previous]</b> to navigate through search results<br /><b style='color:#fff;'>settings images [on|off]</b> set inline image display on or off<br /><b style='color:#fff;'>clear</b> to clear the screen<br /> <b style='color:#fff;'>help</b> to display these instructions again<p /></div>", {raw:true});
   }
 
   $('body').terminal(function(cmd, term) {
@@ -83,11 +69,11 @@ $(function() {
       r = 0;
       s = 0;
       u = 0;
-      $.getJSON('http://www.reddit.com/.json?jsonp=?', function(data) {
+      $.getJSON('https://www.reddit.com/.json?jsonp=?', function(data) {
         var redditjson = data.data.children;
         $(redditjson).each(function() {
           if (this.data != undefined) {
-            permalink = "http://reddit.com"+this.data.permalink;
+            permalink = "https://reddit.com"+this.data.permalink;
             url = this.data.url;
             content.push(url);
             posts.push(permalink);
@@ -146,7 +132,7 @@ $(function() {
         var redditjson = data.data.children;
         $(redditjson).each(function() {
           if (this.data != undefined) {
-            permalink = "http://reddit.com"+this.data.permalink;
+            permalink = "https://reddit.com"+this.data.permalink;
             url = this.data.url;
             content.push(url);
             posts.push(permalink);
@@ -205,7 +191,7 @@ $(function() {
         var redditjson = data.data.children;
         $(redditjson).each(function() {
           if (this.data != undefined) {
-            permalink = "http://reddit.com"+this.data.permalink;
+            permalink = "https://reddit.com"+this.data.permalink;
             url = this.data.url;
             content.push(url);
             posts.push(permalink);
@@ -262,7 +248,7 @@ $(function() {
       next = "";
       previous = "";
       s = 0;
-      $.getJSON('http://www.reddit.com/subreddits/.json?jsonp=?', function(data) {
+      $.getJSON('https://www.reddit.com/subreddits/.json?jsonp=?', function(data) {
         var redditjson = data.data.children;
         $(redditjson).each(function() {
           if (this.data != undefined) {
@@ -270,7 +256,7 @@ $(function() {
             // line 1
             display_name = this.data.display_name;
             title = this.data.title;
-            line1 = "<div style='width:100%;float:left;'>[<span style='color: #2C9A96;'>" + s + "</span>] <a href='http://reddit.com" + url + "' target='_blank'>/r/" + display_name + " - " + title + "</a><br />";
+            line1 = "<div style='width:100%;float:left;'>[<span style='color: #2C9A96;'>" + s + "</span>] <a href='https://reddit.com" + url + "' target='_blank'>/r/" + display_name + " - " + title + "</a><br />";
             // line 2
             description = this.data.public_description;
             line2 = "<span style='color: #666;'>" + description + "</span><br />";
@@ -313,7 +299,7 @@ $(function() {
             // line 1
             display_name = this.data.display_name;
             title = this.data.title;
-            line1 = "<div style='width:100%;float:left;'>[<span style='color: #2C9A96;'>" + s + "</span>] <a href='http://reddit.com" + url + "' target='_blank'>/r/" + display_name + " - " + title + "</a><br />";
+            line1 = "<div style='width:100%;float:left;'>[<span style='color: #2C9A96;'>" + s + "</span>] <a href='https://reddit.com" + url + "' target='_blank'>/r/" + display_name + " - " + title + "</a><br />";
             // line 2
             description = this.data.public_description;
             line2 = "<span style='color: #666;'>" + description + "</span><br />";
@@ -356,7 +342,7 @@ $(function() {
             // line 1
             display_name = this.data.display_name;
             title = this.data.title;
-            line1 = "<div style='width:100%;float:left;'>[<span style='color: #2C9A96;'>" + s + "</span>] <a href='http://reddit.com" + url + "' target='_blank'>/r/" + display_name + " - " + title + "</a><br />";
+            line1 = "<div style='width:100%;float:left;'>[<span style='color: #2C9A96;'>" + s + "</span>] <a href='https://reddit.com" + url + "' target='_blank'>/r/" + display_name + " - " + title + "</a><br />";
             // line 2
             description = this.data.public_description;
             line2 = "<span style='color: #666;'>" + description + "</span><br />";
@@ -399,11 +385,11 @@ $(function() {
       if (command[3]) {
         sort = command[3]+"/";
       }
-      $.getJSON('http://www.reddit.com/r/'+command[2]+'/'+sort+'.json?jsonp=?', function(data) {
+      $.getJSON('https://www.reddit.com/r/'+command[2]+'/'+sort+'.json?jsonp=?', function(data) {
         var redditjson = data.data.children;
         $(redditjson).each(function() {
           if (this.data != undefined) {
-            permalink = "http://reddit.com"+this.data.permalink;
+            permalink = "https://reddit.com"+this.data.permalink;
             url = this.data.url;
             content.push(url);
             posts.push(permalink);
@@ -464,7 +450,7 @@ $(function() {
         var redditjson = data.data.children;
         $(redditjson).each(function() {
           if (this.data != undefined) {
-            permalink = "http://reddit.com"+this.data.permalink;
+            permalink = "https://reddit.com"+this.data.permalink;
             url = this.data.url;
             content.push(url);
             posts.push(permalink);
@@ -525,7 +511,7 @@ $(function() {
         var redditjson = data.data.children;
         $(redditjson).each(function() {
           if (this.data != undefined) {
-            permalink = "http://reddit.com"+this.data.permalink+".json?jsonp=?";
+            permalink = "https://reddit.com"+this.data.permalink+".json?jsonp=?";
             url = this.data.url;
             content.push(url);
             posts.push(permalink);
@@ -742,11 +728,11 @@ $(function() {
       next = "";
       previous = "";
       c = 0;
-      $.getJSON('http://www.reddit.com/search/.json?q='+encodeURIComponent(searchterm)+'&jsonp=?', function(data) {
+      $.getJSON('https://www.reddit.com/search/.json?q='+encodeURIComponent(searchterm)+'&jsonp=?', function(data) {
         var redditjson = data.data.children;
         $(redditjson).each(function() {
           if (this.data != undefined) {
-            permalink = "http://reddit.com"+this.data.permalink;
+            permalink = "https://reddit.com"+this.data.permalink;
             permalink = permalink.replace('?ref=search_posts','');
             url = this.data.url;
             content.push(url);
@@ -808,7 +794,7 @@ $(function() {
         var redditjson = data.data.children;
         $(redditjson).each(function() {
           if (this.data != undefined) {
-            permalink = "http://reddit.com"+this.data.permalink;
+            permalink = "https://reddit.com"+this.data.permalink;
             permalink = permalink.replace('?ref=search_posts','');
             url = this.data.url;
             content.push(url);
@@ -870,7 +856,7 @@ $(function() {
         var redditjson = data.data.children;
         $(redditjson).each(function() {
           if (this.data != undefined) {
-            permalink = "http://reddit.com"+this.data.permalink;
+            permalink = "https://reddit.com"+this.data.permalink;
             permalink = permalink.replace('?ref=search_posts','');
             url = this.data.url;
             content.push(url);
