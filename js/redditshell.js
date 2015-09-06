@@ -55,7 +55,7 @@ $(function() {
       '"<b style="color:#fff;">reddit list subreddits [next|previous]</b>" to navigate through the subreddit list<br />' +
       '"<b style="color:#fff;">reddit view content [index]</b>" to open the content URL in a new window<br />' + 
       '"<b style="color:#fff;">reddit view comments [index]</b>" to view the comments for the post<br />' + 
-      '"<b style="color:#fff;">reddit view comments more [index]</b>" to view more comments in a chain<br />' + 
+      '"<b style="color:#fff;">reddit view comments more [index]</b>" to view more comments in the selected indexes tree<br />' + 
       '"<b style="color:#fff;">reddit search [search term]</b>" to search reddit for something specific<br />' +
       '"<b style="color:#fff;">reddit search [next|previous]</b>" to navigate through search results<br />' +
       '"<b style="color:#fff;">settings images [on|off]</b>" set inline image display on or off<br />' +
@@ -73,10 +73,16 @@ $(function() {
     // LIST FRONTPAGE
     if (cmd == "reddit list") {
       posts = [];
+      comments = [];
+      subreddits = [];
       content = [];
       next = "";
       previous = "";
+      sort = "";
       c = 0;
+      r = 0;
+      s = 0;
+      u = 0;
       $.getJSON('http://www.reddit.com/.json?jsonp=?', function(data) {
         var redditjson = data.data.children;
         $(redditjson).each(function() {
@@ -589,11 +595,17 @@ $(function() {
             created = this.data.created_utc;
             time = moment.unix(created).fromNow();
             ups = this.data.ups;
+            id = this.data.id;
             if (this.data.replies != "") {
               nested_count = this.data.replies.data.children.length;
-              line1 = "<div style='margin-top: 2%;''>" + body + "<br />";
+              line1 = "<div style='margin-top: 2%;''>[<span style='color: #2C9A96;'>" + r + "</span>] " + body + "<br />";
               line2 = "<span style='color: #666;'>posted " + time + " by " + author + "</span><br/>";
               line3 = "<span style='color: #666;'>" + ups + " upvotes with " + nested_count + " replies</span><p />";
+              comment_url = json_base+id;
+              comments.push(comment_url);
+              reply_message = line1 + line2 + line3;
+              term.echo(reply_message, {raw:true});
+              r = r + 1;
               for (var i = 0, l = this.data.replies.data.children.length; i < l; i++) {
                 if (this.data.replies.data.children[i].kind == "t1") {
                   nested_author = this.data.replies.data.children[i].data.author;
@@ -601,56 +613,40 @@ $(function() {
                   nested_created = this.data.replies.data.children[i].data.created_utc;
                   nested_time = moment.unix(nested_created).fromNow();
                   nested_ups = this.data.replies.data.children[i].data.ups;
+                  nested_count = this.data.replies.data.children[i].data.count;
+                  nested_id = this.data.replies.data.children[i].data.id;
                   if (this.data.replies.data.children[i].data.replies != "") {
                     nested_count = this.data.replies.data.children[i].data.replies.data.children.length;
-                    nest_line1 = "<div style='margin-left:5%;'>" + nested_body + "<br />";
+                    nest_line1 = "<div style='margin-left:5%;'>[<span style='color: #2C9A96;'>" + r + "</span>] " + nested_body + "<br />";
                     nest_line2 = "<span style='color: #666;'>posted " + nested_time + " by " + nested_author + "</span><br/>";
                     nest_line3 = "<span style='color: #666;'>" + nested_ups + " upvotes with " + nested_count + " replies</span><p/>";
+                    nested_url = json_base+nested_id;
+                    comments.push(nested_url);
+                    r = r + 1;
                     reply_message = nest_line1 + nest_line2 + nest_line3;
                     term.echo(reply_message, {raw:true});
                   } else {
                     nested_count = 0;
-                    nest_line1 = "<div style='margin-left:5%;'>" + nested_body + "<br />";
+                    nest_line1 = "<div style='margin-left:5%;'>[<span style='color: #2C9A96;'>" + r + "</span>] " + nested_body + "<br />";
                     nest_line2 = "<span style='color: #666;'>posted " + nested_time + " by " + nested_author + "</span><br/>";
                     nest_line3 = "<span style='color: #666;'>" + nested_ups + " upvotes with " + nested_count + " replies</span><p/>";
-                    reply_message = line1 + line2 + line3;
-                    reply_message += nest_line1 + nest_line2 + nest_line3;
-                    term.echo(reply_message, {raw:true});
-                  }
-                }
-                        
-                if (this.data.replies.data.children[i].kind == "more") {
-                  nested_count = this.data.replies.data.children[i].data.count;
-                  nested_id = this.data.replies.data.children[i].data.id;
-                  if (nested_id) {
                     nested_url = json_base+nested_id;
                     comments.push(nested_url);
-                    comments_line = "<span style='margin-left:5%;'>[<span style='color: #2C9A96;'>" + r + "</span>] view more comments ...<p />";
                     r = r + 1;
                     reply_message = nest_line1 + nest_line2 + nest_line3;
-                    reply_message += comments_line;
                     term.echo(reply_message, {raw:true});
                   }
                 }
               }
             } else {
               nested_count = 0;
-              line1 = "<div style='margin-top: 2%;'>" + body + "<br />";
+              line1 = "<div style='margin-top: 2%;'>[<span style='color: #2C9A96;'>" + r + "</span>] " + body + "<br />";
               line2 = "<span style='color: #666;'>posted " + time + " by " + author + "</span><br/>";
               line3 = "<span style='color: #666;'>" + ups + " upvotes with " + nested_count + " replies</span><p />";
-              reply_message = line1 + line2 + line3;
-              term.echo(reply_message, {raw:true});
-            }
-          }
-          if (this.kind == "more") {
-            nested_count = this.data.count;
-            nested_id = this.data.id;
-            if (nested_id) {
-              nested_url = json_base+nested_id;
-              comments.push(nested_url);
-              comments_line = "<span>[<span style='color: #2C9A96;'>" + r + "</span>] view more comments ...<p />";
+              comment_url = json_base+id;
+              comments.push(comment_url);
               r = r + 1;
-              reply_message = comments_line;
+              reply_message = line1 + line2 + line3;
               term.echo(reply_message, {raw:true});
             }
           }
@@ -660,44 +656,74 @@ $(function() {
     // VIEW MORE COMMENTS THREAD
     } else if (command[0] == "reddit" && command[1] == "view" && command[2] == "comments" && command[3] == "more" && command[4]) {
       var json_base = comments[command[4]];
-      $.getJSON(comments[command[4]]+"/.json?jsonp=?", function foo(result) {
-        $.each(result[1].data.children, function (i, reply) {
-          var reply_message = "";
-          var reply2_message = "";
-          author = reply.data.author;
-          body = reply.data.body;
-          created = reply.data.created_utc;
-          time = moment.unix(created).fromNow();
-          ups = reply.data.ups;
-          line1 = body + "<br />";
-          line2 = "<span style='margin-left:32px;color: #666;'>posted " + time + " by " + author + " with " + ups + " upvotes</span><p/>";
-          reply_message += line1 + line2;
-          if (reply.data.replies != "") {
-            console.log(reply.data.replies);
-            $.each(reply.data.replies.data.children, function (z, reply2) {
-              console.log(reply2);
-              if (reply2.kind == "more") {
-                nested_id = reply2.data.id;
-                comments.push(json_base+nested_id);
-                nest_line1 = "<span style='margin-left:64px;'>[<span style='color: #2C9A96;'>" + r + "</span>] view more comments ...<p />";
-                reply_message += nest_line1;
-              } else {
-                nested_author = reply2.data.author;
-                nested_body = reply2.data.body;
-                nested_created = reply2.data.created_utc;
-                nested_time = moment.unix(nested_created).fromNow();
-                nested_ups = reply2.data.ups;
-                nest_line1 = "<span style='margin-left:64px;'>" + nested_body + "<br />";
-                nest_line2 = "<span style='margin-left:98px;color: #666;'>posted " + nested_time + " by " + nested_author + " with " + nested_ups + " upvotes</span><p/>";
-                reply_message += nest_line1 + nest_line2;
+      $.getJSON(comments[command[4]]+"/.json?jsonp=?", function(data) {
+        var viewdata = data[1].data.children;
+        $(viewdata).each(function () {
+          if (this.kind == "t1") {
+            var reply_message = "";
+            var reply2_message = "";
+            author = this.data.author;
+            body = this.data.body;
+            created = this.data.created_utc;
+            time = moment.unix(created).fromNow();
+            ups = this.data.ups;
+            id = this.data.id;
+            if (this.data.replies != "") {
+              nested_count = this.data.replies.data.children.length;
+              line1 = "<div style='margin-top: 2%;''>[<span style='color: #2C9A96;'>" + r + "</span>] " + body + "<br />";
+              line2 = "<span style='color: #666;'>posted " + time + " by " + author + "</span><br/>";
+              line3 = "<span style='color: #666;'>" + ups + " upvotes with " + nested_count + " replies</span><p />";
+              comment_url = json_base+id;
+              comments.push(comment_url);
+              reply_message = line1 + line2 + line3;
+              term.echo(reply_message, {raw:true});
+              r = r + 1;
+              for (var i = 0, l = this.data.replies.data.children.length; i < l; i++) {
+                if (this.data.replies.data.children[i].kind == "t1") {
+                  nested_author = this.data.replies.data.children[i].data.author;
+                  nested_body = this.data.replies.data.children[i].data.body;
+                  nested_created = this.data.replies.data.children[i].data.created_utc;
+                  nested_time = moment.unix(nested_created).fromNow();
+                  nested_ups = this.data.replies.data.children[i].data.ups;
+                  nested_count = this.data.replies.data.children[i].data.count;
+                  nested_id = this.data.replies.data.children[i].data.id;
+                  if (this.data.replies.data.children[i].data.replies != "") {
+                    nested_count = this.data.replies.data.children[i].data.replies.data.children.length;
+                    nest_line1 = "<div style='margin-left:5%;'>[<span style='color: #2C9A96;'>" + r + "</span>] " + nested_body + "<br />";
+                    nest_line2 = "<span style='color: #666;'>posted " + nested_time + " by " + nested_author + "</span><br/>";
+                    nest_line3 = "<span style='color: #666;'>" + nested_ups + " upvotes with " + nested_count + " replies</span><p/>";
+                    nested_url = json_base+nested_id;
+                    comments.push(nested_url);
+                    r = r + 1;
+                    reply_message = nest_line1 + nest_line2 + nest_line3;
+                    term.echo(reply_message, {raw:true});
+                  } else {
+                    nested_count = 0;
+                    nest_line1 = "<div style='margin-left:5%;'>[<span style='color: #2C9A96;'>" + r + "</span>] " + nested_body + "<br />";
+                    nest_line2 = "<span style='color: #666;'>posted " + nested_time + " by " + nested_author + "</span><br/>";
+                    nest_line3 = "<span style='color: #666;'>" + nested_ups + " upvotes with " + nested_count + " replies</span><p/>";
+                    nested_url = json_base+nested_id;
+                    comments.push(nested_url);
+                    r = r + 1;
+                    reply_message = nest_line1 + nest_line2 + nest_line3;
+                    term.echo(reply_message, {raw:true});
+                  }
+                }
               }
-            });
-            
+            } else {
+              nested_count = 0;
+              line1 = "<div style='margin-top: 2%;'>[<span style='color: #2C9A96;'>" + r + "</span>] " + body + "<br />";
+              line2 = "<span style='color: #666;'>posted " + time + " by " + author + "</span><br/>";
+              line3 = "<span style='color: #666;'>" + ups + " upvotes with " + nested_count + " replies</span><p />";
+              comment_url = json_base+id;
+              comments.push(comment_url);
+              r = r + 1;
+              reply_message = line1 + line2 + line3;
+              term.echo(reply_message, {raw:true});
+            }
           }
-          r = r + 1;
-          term.echo(reply_message, {raw:true});
-          term.set_prompt('[guest@reddit comments]# ');
         });
+        term.set_prompt('[guest@reddit comments]# ');
       });
     // VIEW CONTENT
     } else if (posts.length !== 0 && command[0] == "reddit" && command[1] == "view" && command[2] == "content" && command[3]) {
@@ -908,20 +934,8 @@ $(function() {
     } else if (cmd == "help") {
       greetings(term);
     } else if (cmd.indexOf("rm -rf") > -1 || (cmd.indexOf(":(){: | :&}")) > -1 || (cmd.indexOf("command > /dev/sda")) > -1 || (cmd.indexOf("mkfs.ext4 /dev/sda1")) > -1 || (cmd.indexOf("dd if=/dev/random")) > -1 || (cmd.indexOf("mv ~ /dev/null")) > -1 || (cmd.indexOf("wget http")) > -1 || cmd.indexOf("sudo make me a sandwich") > -1) {
-      posts = [];
-      comments = [];
-      next = "";
-      previous = "";
-      c = 0;
-      r = 0;
       term.echo("<img src='css/newman.gif' /><p />", {raw:true});
     } else {
-      posts = [];
-      comments = [];
-      next = "";
-      previous = "";
-      c = 0;
-      r = 0;
       term.echo("command not recognized", {raw:true});
     }
   }, {

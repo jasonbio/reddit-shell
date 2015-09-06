@@ -13,7 +13,7 @@ Commands:
 5. **reddit list subreddits [next|previous]** to navigate through the subreddit list
 6. **reddit view content [index]** to open the content URL for a specific post in a new window
 7. **reddit view comments [index]** to view the comments for a specific post
-8. **reddit view comments more [index]** to view more comments in a specific comment chain
+8. **reddit view comments more [index]** to view more comments in the selected indexes tree
 9. **reddit search [search term]** to search reddit for something specific
 10. **reddit search [next|previous]** to navigate through search results
 11. **settings images [on|off]** set inline image display on or off
