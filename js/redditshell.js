@@ -5,11 +5,13 @@ $(function() {
   var content = [];
   var next = "";
   var previous = "";
+  var sort = "";
   var c = 0;
   var r = 0;
   var s = 0;
   var u = 0;
   var anim = false;
+  var showimages = false;
   function typed(finish_typing) {
     return function(term, message, delay, finish) {
       anim = true;
@@ -44,17 +46,21 @@ $(function() {
   });
 
   function greetings(term) {
-    term.echo('reddit shell: web based linux shell emulator for browsing reddit<br />' + 
-      'v0.1 by <a href="https://twitter.com/jasonbeee" target="_blank">@jasonbeee</a> - <a href="https://github.com/jasonbio/reddit-shell" target="_blank">fork this project on github</a><p />' + 
-      '- "<b style="color:#fff;">reddit list</b>" or "<b style="color:#fff;">reddit list [subreddit]</b>" to list the latest posts from the front page or specified subreddit<br />' + 
-      '- "<b style="color:#fff;">reddit list [subreddit] next</b>" or "<b style="color:#fff;">reddit list [subreddit] previous</b>" to navigate through pages (leave subreddit out if browsing the homepage)<br />' + 
-      '- "<b style="color:#fff;">reddit list subreddits</b>" to list all subreddits on reddit<br />' +
-      '- "<b style="color:#fff;">reddit list subreddits next</b>" or "<b style="color:#fff;">reddit list subreddits previous</b>" to navigate through the subreddit list<br />' +
-      '- "<b style="color:#fff;">reddit view content [index]</b>" to open the content URL in a new window<br />' + 
-      '- "<b style="color:#fff;">reddit view comments [index]</b>" to view the comments for the post<br />' + 
-      '- "<b style="color:#fff;">reddit view comments more [index]</b>" to view more comments in a chain<br />' + 
-      '- "<b style="color:#fff;">clear</b>" to clear the screen<br />' + 
-      '- "<b style="color:#fff;">help</b>" to display these instructions again<p />', {raw:true});
+    term.echo('>reddit shell: web based linux shell emulator for browsing reddit<br />' + 
+      'v0.4 by <a href="https://twitter.com/jasonbeee" target="_blank">@jasonbeee</a> - <a href="https://github.com/jasonbio/reddit-shell" target="_blank">fork this project on github</a><p />' + 
+      '"<b style="color:#fff;">reddit list</b>" or "<b style="color:#fff;">reddit list [subreddit]</b>" to list the latest posts from the front page or specified subreddit<br />' + 
+      '"<b style="color:#fff;">reddit list [subreddit] [new|rising|top|controversial]</b>" to list posts from the specified subreddit in the specified order<br />' + 
+      '"<b style="color:#fff;">reddit list [subreddit] [next|previous]</b>" or "<b style="color:#fff;">reddit list [next|previous]</b>" to navigate through page listings<br />' + 
+      '"<b style="color:#fff;">reddit list subreddits</b>" to list all subreddits on reddit<br />' +
+      '"<b style="color:#fff;">reddit list subreddits [next|previous]</b>" to navigate through the subreddit list<br />' +
+      '"<b style="color:#fff;">reddit view content [index]</b>" to open the content URL in a new window<br />' + 
+      '"<b style="color:#fff;">reddit view comments [index]</b>" to view the comments for the post<br />' + 
+      '"<b style="color:#fff;">reddit view comments more [index]</b>" to view more comments in a chain<br />' + 
+      '"<b style="color:#fff;">reddit search [search term]</b>" to search reddit for something specific<br />' +
+      '"<b style="color:#fff;">reddit search [next|previous]</b>" to navigate through search results<br />' +
+      '"<b style="color:#fff;">settings images [on|off]</b>" set inline image display on or off<br />' +
+      '"<b style="color:#fff;">clear</b>" to clear the screen<br />' + 
+      '"<b style="color:#fff;">help</b>" to display these instructions again<p />', {raw:true});
   }
 
   $('body').terminal(function(cmd, term) {
@@ -82,22 +88,31 @@ $(function() {
             // line 1
             title = this.data.title;
             domain = this.data.domain;
+            if (this.data.thumbnail && this.data.thumbnail.indexOf("http") > -1) {
+              image = this.data.thumbnail;
+            } else {
+              image = false;
+            }
             subreddit = this.data.subreddit;
             if (url) {
-              line1 = "<a href='"+url+"' target='_blank'>"+title + "</a> (" + domain + ")<br />";
+              line1 = "<div style='width:100%;float:left;'>[<span style='color: #2C9A96;'>" + c + "</span>] <a href='"+url+"' target='_blank'>"+title + "</a> (" + domain + ")<br />";
             } else {
               line1 = title + " (" + domain + ")<br />";
+            }
+
+            if (image && showimages) {
+              line1 = line1 + "<img src='" + image + "' style='float: left;margin: 10px;' /><br />";
             }
             // line 2
             created = this.data.created_utc;
             time = moment.unix(created).fromNow();
             author = this.data.author;
-            line2 = "submitted " + time + " by " + author + " to /r/" + subreddit + "<br />";
+            line2 = "<span style='color: #666;'>submitted " + time + " by " + author + " to /r/" + subreddit + "</span><br />";
             // line 3
             ups = this.data.ups;
             num_comments = this.data.num_comments;
-            line3 = ups + " upvotes with " + num_comments + " comments<p/>";
-            frontpage = '[<span style="color: #2C9A96;">' + c + '</span>] ' + line1 + '<span style="margin-left:32px;color: #666;"">' + line2 + line3 + '</span>';
+            line3 = "<span style='color: #666;'>" + ups + " upvotes with " + num_comments + " comments</span><p/>";
+            frontpage = line1 + line2 + line3 + '</div>';
             c = c + 1;
             term.echo(frontpage, {raw:true});
           }
@@ -107,13 +122,13 @@ $(function() {
         if (before != null) {
           permalink = "https://www.reddit.com/.json?count="+c+"&before="+before+"&jsonp=?";
           previous = permalink;
-          previous_line = "<span style='margin-left:64px;'>[<span style='color: #B3A600;'>previous</span>]<p />";
+          previous_line = "<span>[<span style='color: #B3A600;'>previous</span>]<p />";
           term.echo(previous_line, {raw:true});
         }
         if (after != null) {
           permalink = "https://www.reddit.com/.json?count="+c+"&after="+after+"&jsonp=?";
           next = permalink;
-          next_line = "<span style='margin-left:64px;'>[<span style='color: #B3A600;'>next</span>]<p />";
+          next_line = "<span>[<span style='color: #B3A600;'>next</span>]<p />";
           term.echo(next_line, {raw:true});
           term.set_prompt('[guest@reddit ~]# ');
         }
@@ -132,22 +147,31 @@ $(function() {
             // line 1
             title = this.data.title;
             domain = this.data.domain;
+            if (this.data.thumbnail && this.data.thumbnail.indexOf("http") > -1) {
+              image = this.data.thumbnail;
+            } else {
+              image = false;
+            }
             subreddit = this.data.subreddit;
             if (url) {
-              line1 = "<a href='"+url+"' target='_blank'>"+title + "</a> (" + domain + ")<br />";
+              line1 = "<div style='width:100%;float:left;'>[<span style='color: #2C9A96;'>" + c + "</span>] <a href='"+url+"' target='_blank'>"+title + "</a> (" + domain + ")<br />";
             } else {
               line1 = title + " (" + domain + ")<br />";
+            }
+
+            if (image && showimages) {
+              line1 = line1 + "<img src='" + image + "' style='float: left;margin: 10px;' /><br />";
             }
             // line 2
             created = this.data.created_utc;
             time = moment.unix(created).fromNow();
             author = this.data.author;
-            line2 = "submitted " + time + " by " + author + " to /r/" + subreddit + "<br />";
+            line2 = "<span style='color: #666;'>submitted " + time + " by " + author + " to /r/" + subreddit + "</span><br />";
             // line 3
             ups = this.data.ups;
             num_comments = this.data.num_comments;
-            line3 = ups + " upvotes with " + num_comments + " comments<p/>";
-            frontpage = '[<span style="color: #2C9A96;">' + c + '</span>] ' + line1 + '<span style="margin-left:32px;color: #666;"">' + line2 + line3 + '</span>';
+            line3 = "<span style='color: #666;'>" + ups + " upvotes with " + num_comments + " comments</span><p/>";
+            frontpage = line1 + line2 + line3 + '</div>';
             c = c + 1;
             term.echo(frontpage, {raw:true});
           }
@@ -157,13 +181,13 @@ $(function() {
         if (before != null) {
           permalink = "https://www.reddit.com/.json?count="+c+"&before="+before+"&jsonp=?";
           previous = permalink;
-          previous_line = "<span style='margin-left:64px;'>[<span style='color: #B3A600;'>previous</span>]<p />";
+          previous_line = "<span>[<span style='color: #B3A600;'>previous</span>]<p />";
           term.echo(previous_line, {raw:true});
         }
         if (after != null) {
           permalink = "https://www.reddit.com/.json?count="+c+"&after="+after+"&jsonp=?";
           next = permalink;
-          next_line = "<span style='margin-left:64px;'>[<span style='color: #B3A600;'>next</span>]<p />";
+          next_line = "<span>[<span style='color: #B3A600;'>next</span>]<p />";
           term.echo(next_line, {raw:true});
           term.set_prompt('[guest@reddit ~]# ');
         }
@@ -182,22 +206,30 @@ $(function() {
             // line 1
             title = this.data.title;
             domain = this.data.domain;
+            if (this.data.thumbnail && this.data.thumbnail.indexOf("http") > -1) {
+              image = this.data.thumbnail;
+            } else {
+              image = false;
+            }
             subreddit = this.data.subreddit;
             if (url) {
-              line1 = "<a href='"+url+"' target='_blank'>"+title + "</a> (" + domain + ")<br />";
+              line1 = "<div style='width:100%;float:left;'>[<span style='color: #2C9A96;'>" + c + "</span>] <a href='"+url+"' target='_blank'>"+title + "</a> (" + domain + ")<br />";
             } else {
               line1 = title + " (" + domain + ")<br />";
+            }
+
+            if (image && showimages) {
+              line1 = line1 + "<img src='" + image + "' style='float: left;margin: 10px;' /><br />";
             }
             // line 2
             created = this.data.created_utc;
             time = moment.unix(created).fromNow();
             author = this.data.author;
-            line2 = "submitted " + time + " by " + author + " to /r/" + subreddit + "<br />";
+            line2 = "<span style='color: #666;'>submitted " + time + " by " + author + " to /r/" + subreddit + "</span><br />";
             // line 3
             ups = this.data.ups;
             num_comments = this.data.num_comments;
-            line3 = ups + " upvotes with " + num_comments + " comments<p/>";
-            frontpage = '[<span style="color: #2C9A96;">' + c + '</span>] ' + line1 + '<span style="margin-left:32px;color: #666;"">' + line2 + line3 + '</span>';
+            line3 = "<span style='color: #666;'>" + ups + " upvotes with " + num_comments + " comments</span><p/>";
             c = c - 1;
             term.echo(frontpage, {raw:true});
           }
@@ -207,13 +239,13 @@ $(function() {
         if (before != null) {
           permalink = "https://www.reddit.com/.json?count="+c+"&before="+before+"&jsonp=?";
           previous = permalink;
-          previous_line = "<span style='margin-left:64px;'>[<span style='color: #B3A600;'>previous</span>]<p />";
+          previous_line = "<span>[<span style='color: #B3A600;'>previous</span>]<p />";
           term.echo(previous_line, {raw:true});
         }
         if (after != null) {
           permalink = "https://www.reddit.com/.json?count="+c+"&after="+after+"&jsonp=?";
           next = permalink;
-          next_line = "<span style='margin-left:64px;'>[<span style='color: #B3A600;'>next</span>]<p />";
+          next_line = "<span>[<span style='color: #B3A600;'>next</span>]<p />";
           term.echo(next_line, {raw:true});
           term.set_prompt('[guest@reddit ~]# ');
         }
@@ -232,16 +264,16 @@ $(function() {
             // line 1
             display_name = this.data.display_name;
             title = this.data.title;
-            line1 = "<a href='http://reddit.com" + url + "' target='_blank'>/r/" + display_name + " - " + title + "</a><br />";
+            line1 = "<div style='width:100%;float:left;'>[<span style='color: #2C9A96;'>" + s + "</span>] <a href='http://reddit.com" + url + "' target='_blank'>/r/" + display_name + " - " + title + "</a><br />";
             // line 2
             description = this.data.public_description;
-            line2 = description + "<br />";
+            line2 = "<span style='color: #666;'>" + description + "</span><br />";
             // line 3
             subscribers = this.data.subscribers;
             created = this.data.created_utc;
             time = moment.unix(created).fromNow();
-            line3 = subscribers + " subscribers since starting " + time + "<p />";
-            frontpage = '[<span style="color: #2C9A96;">' + s + '</span>] ' + line1 + '<span style="margin-left:32px;color: #666;"">' + line2 + line3 + '</span>';
+            line3 = "<span style='color: #666;'>" + subscribers + " subscribers since starting " + time + "</span><p />";
+            frontpage = line1 + line2 + line3 + '</div>';
             s = s + 1;
             term.echo(frontpage, {raw:true});
             term.set_prompt('[guest@reddit subreddits]# ');
@@ -252,14 +284,14 @@ $(function() {
         if (before != null) {
           permalink = "https://www.reddit.com/subreddits/.json?count="+s+"&before="+before+"&jsonp=?";
           previous = permalink;
-          previous_line = "<span style='margin-left:64px;'>[<span style='color: #B3A600;'>previous</span>]<p />";
+          previous_line = "<span>[<span style='color: #B3A600;'>previous</span>]<p />";
           term.echo(previous_line, {raw:true});
           term.set_prompt('[guest@reddit subreddits]# ');
         }
         if (after != null) {
           permalink = "https://www.reddit.com/subreddits/.json?count="+s+"&after="+after+"&jsonp=?";
           next = permalink;
-          next_line = "<span style='margin-left:64px;'>[<span style='color: #B3A600;'>next</span>]<p />";
+          next_line = "<span>[<span style='color: #B3A600;'>next</span>]<p />";
           term.echo(next_line, {raw:true});
           term.set_prompt('[guest@reddit subreddits]# ');
         }
@@ -275,16 +307,16 @@ $(function() {
             // line 1
             display_name = this.data.display_name;
             title = this.data.title;
-            line1 = "<a href='http://reddit.com" + url + "' target='_blank'>/r/" + display_name + " - " + title + "</a><br />";
+            line1 = "<div style='width:100%;float:left;'>[<span style='color: #2C9A96;'>" + s + "</span>] <a href='http://reddit.com" + url + "' target='_blank'>/r/" + display_name + " - " + title + "</a><br />";
             // line 2
             description = this.data.public_description;
-            line2 = description + "<br />";
+            line2 = "<span style='color: #666;'>" + description + "</span><br />";
             // line 3
             subscribers = this.data.subscribers;
             created = this.data.created_utc;
             time = moment.unix(created).fromNow();
-            line3 = subscribers + " subscribers since starting " + time + "<p />";
-            frontpage = '[<span style="color: #2C9A96;">' + s + '</span>] ' + line1 + '<span style="margin-left:32px;color: #666;"">' + line2 + line3 + '</span>';
+            line3 = "<span style='color: #666;'>" + subscribers + " subscribers since starting " + time + "</span><p />";
+            frontpage = line1 + line2 + line3 + '</div>';
             s = s + 1;
             term.echo(frontpage, {raw:true});
             term.set_prompt('[guest@reddit subreddits]# ');
@@ -295,14 +327,14 @@ $(function() {
         if (before != null) {
           permalink = "https://www.reddit.com/subreddits/.json?count="+s+"&before="+before+"&jsonp=?";
           previous = permalink;
-          previous_line = "<span style='margin-left:64px;'>[<span style='color: #B3A600;'>previous</span>]<p />";
+          previous_line = "<span>[<span style='color: #B3A600;'>previous</span>]<p />";
           term.echo(previous_line, {raw:true});
           term.set_prompt('[guest@reddit subreddits]# ');
         }
         if (after != null) {
           permalink = "https://www.reddit.com/subreddits/.json?count="+s+"&after="+after+"&jsonp=?";
           next = permalink;
-          next_line = "<span style='margin-left:64px;'>[<span style='color: #B3A600;'>next</span>]<p />";
+          next_line = "<span>[<span style='color: #B3A600;'>next</span>]<p />";
           term.echo(next_line, {raw:true});
           term.set_prompt('[guest@reddit subreddits]# ');
         }
@@ -318,16 +350,16 @@ $(function() {
             // line 1
             display_name = this.data.display_name;
             title = this.data.title;
-            line1 = "<a href='http://reddit.com" + url + "' target='_blank'>/r/" + display_name + " - " + title + "</a><br />";
+            line1 = "<div style='width:100%;float:left;'>[<span style='color: #2C9A96;'>" + s + "</span>] <a href='http://reddit.com" + url + "' target='_blank'>/r/" + display_name + " - " + title + "</a><br />";
             // line 2
             description = this.data.public_description;
-            line2 = description + "<br />";
+            line2 = "<span style='color: #666;'>" + description + "</span><br />";
             // line 3
             subscribers = this.data.subscribers;
             created = this.data.created_utc;
             time = moment.unix(created).fromNow();
-            line3 = subscribers + " subscribers since starting " + time + "<p />";
-            frontpage = '[<span style="color: #2C9A96;">' + s + '</span>] ' + line1 + '<span style="margin-left:32px;color: #666;"">' + line2 + line3 + '</span>';
+            line3 = "<span style='color: #666;'>" + subscribers + " subscribers since starting " + time + "</span><p />";
+            frontpage = line1 + line2 + line3 + '</div>';
             s = s - 1;
             term.echo(frontpage, {raw:true});
             term.set_prompt('[guest@reddit subreddits]# ');
@@ -338,26 +370,30 @@ $(function() {
         if (before != null) {
           permalink = "https://www.reddit.com/subreddits/.json?count="+s+"&before="+before+"&jsonp=?";
           previous = permalink;
-          previous_line = "<span style='margin-left:64px;'>[<span style='color: #B3A600;'>previous</span>]<p />";
+          previous_line = "<span>[<span style='color: #B3A600;'>previous</span>]<p />";
           term.echo(previous_line, {raw:true});
           term.set_prompt('[guest@reddit subreddits]# ');
         }
         if (after != null) {
           permalink = "https://www.reddit.com/subreddits/.json?count="+s+"&after="+after+"&jsonp=?";
           next = permalink;
-          next_line = "<span style='margin-left:64px;'>[<span style='color: #B3A600;'>next</span>]<p />";
+          next_line = "<span>[<span style='color: #B3A600;'>next</span>]<p />";
           term.echo(next_line, {raw:true});
           term.set_prompt('[guest@reddit subreddits]# ');
         }
       });
     // LIST SUBREDDIT
-    } else if (command[0] == "reddit" && command[1] == "list" && command[2] && !command[3]) {
+    } else if (command[0] == "reddit" && command[1] == "list" && command[2] && !command[3] || command[0] == "reddit" && command[1] == "list" && command[2] && command[3] == "new" || command[0] == "reddit" && command[1] == "list" && command[2] && command[3] == "top" || command[0] == "reddit" && command[1] == "list" && command[2] && command[3] == "controversial" || command[0] == "reddit" && command[1] == "list" && command[2] && command[3] == "rising") {
       posts = [];
       content = [];
       next = "";
       previous = "";
+      sort = "";
       c = 0;
-      $.getJSON('http://www.reddit.com/r/'+command[2]+'/.json?jsonp=?', function(data) {
+      if (command[3]) {
+        sort = command[3]+"/";
+      }
+      $.getJSON('http://www.reddit.com/r/'+command[2]+'/'+sort+'.json?jsonp=?', function(data) {
         var redditjson = data.data.children;
         $(redditjson).each(function() {
           if (this.data != undefined) {
@@ -368,21 +404,31 @@ $(function() {
             // line 1
             title = this.data.title;
             domain = this.data.domain;
+            if (this.data.thumbnail && this.data.thumbnail.indexOf("http") > -1) {
+              image = this.data.thumbnail;
+            } else {
+              image = false;
+            }
+            subreddit = this.data.subreddit;
             if (url) {
-              line1 = "<a href='"+url+"' target='_blank'>"+title + "</a> (" + domain + ")<br />";
+              line1 = "<div style='width:100%;float:left;'>[<span style='color: #2C9A96;'>" + c + "</span>] <a href='"+url+"' target='_blank'>"+title + "</a> (" + domain + ")<br />";
             } else {
               line1 = title + " (" + domain + ")<br />";
+            }
+
+            if (image && showimages) {
+              line1 = line1 + "<img src='" + image + "' style='float: left;margin: 10px;' /><br />";
             }
             // line 2
             created = this.data.created_utc;
             time = moment.unix(created).fromNow();
             author = this.data.author;
-            line2 = "submitted " + time + " by " + author + "<br />";
+            line2 = "<span style='color: #666;'>submitted " + time + " by " + author + " to /r/" + subreddit + "</span><br />";
             // line 3
             ups = this.data.ups;
             num_comments = this.data.num_comments;
-            line3 = ups + " upvotes with " + num_comments + " comments<p />";
-            frontpage = '[<span style="color: #2C9A96;">' + c + '</span>] ' + line1 + '<span style="margin-left:32px;color: #666;"">' + line2 + line3 + '</span>';
+            line3 = "<span style='color: #666;'>" + ups + " upvotes with " + num_comments + " comments</span><p/>";
+            frontpage = line1 + line2 + line3 + '</div>';
             c = c + 1;
             term.echo(frontpage, {raw:true});
             term.set_prompt('[guest@reddit '+command[2]+']# ');
@@ -391,16 +437,16 @@ $(function() {
         var after = data.data.after;
         var before = data.data.before;
         if (before != null) {
-          permalink = "https://www.reddit.com/r/"+command[2]+"/.json?count="+c+"&before="+before+"&jsonp=?";
+          permalink = "https://www.reddit.com/r/"+command[2]+"/"+sort+".json?count="+c+"&before="+before+"&jsonp=?";
           previous = permalink;
-          previous_line = "<span style='margin-left:64px;'>[<span style='color: #B3A600;'>previous</span>]<p />";
+          previous_line = "<span>[<span style='color: #B3A600;'>previous</span>]<p />";
           term.echo(previous_line, {raw:true});
           term.set_prompt('[guest@reddit '+command[2]+']# ');
         }
         if (after != null) {
-          permalink = "https://www.reddit.com/r/"+command[2]+"/.json?count="+c+"&after="+after+"&jsonp=?";
+          permalink = "https://www.reddit.com/r/"+command[2]+"/"+sort+".json?count="+c+"&after="+after+"&jsonp=?";
           next = permalink;
-          next_line = "<span style='margin-left:64px;'>[<span style='color: #B3A600;'>next</span>]<p />";
+          next_line = "<span>[<span style='color: #B3A600;'>next</span>]<p />";
           term.echo(next_line, {raw:true});
           term.set_prompt('[guest@reddit '+command[2]+']# ');
         }
@@ -419,21 +465,31 @@ $(function() {
             // line 1
             title = this.data.title;
             domain = this.data.domain;
+            if (this.data.thumbnail && this.data.thumbnail.indexOf("http") > -1) {
+              image = this.data.thumbnail;
+            } else {
+              image = false;
+            }
+            subreddit = this.data.subreddit;
             if (url) {
-              line1 = "<a href='"+url+"' target='_blank'>"+title + "</a> (" + domain + ")<br />";
+              line1 = "<div style='width:100%;float:left;'>[<span style='color: #2C9A96;'>" + c + "</span>] <a href='"+url+"' target='_blank'>"+title + "</a> (" + domain + ")<br />";
             } else {
               line1 = title + " (" + domain + ")<br />";
+            }
+
+            if (image && showimages) {
+              line1 = line1 + "<img src='" + image + "' style='float: left;margin: 10px;' /><br />";
             }
             // line 2
             created = this.data.created_utc;
             time = moment.unix(created).fromNow();
             author = this.data.author;
-            line2 = "submitted " + time + " by " + author + "<br />";
+            line2 = "<span style='color: #666;'>submitted " + time + " by " + author + " to /r/" + subreddit + "</span><br />";
             // line 3
             ups = this.data.ups;
             num_comments = this.data.num_comments;
-            line3 = ups + " upvotes with " + num_comments + " comments<p />";
-            frontpage = '[<span style="color: #2C9A96;">' + c + '</span>] ' + line1 + '<span style="margin-left:32px;color: #666;"">' + line2 + line3 + '</span>';
+            line3 = "<span style='color: #666;'>" + ups + " upvotes with " + num_comments + " comments</span><p/>";
+            frontpage = line1 + line2 + line3 + '</div>';
             c = c + 1;
             term.echo(frontpage, {raw:true});
             term.set_prompt('[guest@reddit '+command[2]+']# ');
@@ -444,14 +500,14 @@ $(function() {
         if (before != null) {
           permalink = "https://www.reddit.com/r/"+command[2]+"/.json?count="+c+"&before="+before+"&jsonp=?";
           previous = permalink;
-          previous_line = "<span style='margin-left:64px;'>[<span style='color: #B3A600;'>previous</span>]<p />";
+          previous_line = "<span>[<span style='color: #B3A600;'>previous</span>]<p />";
           term.echo(previous_line, {raw:true});
           term.set_prompt('[guest@reddit '+command[2]+']# ');
         }
         if (after != null) {
           permalink = "https://www.reddit.com/r/"+command[2]+"/.json?count="+c+"&after="+after+"&jsonp=?";
           next = permalink;
-          next_line = "<span style='margin-left:64px;'>[<span style='color: #B3A600;'>next</span>]<p />";
+          next_line = "<span>[<span style='color: #B3A600;'>next</span>]<p />";
           term.echo(next_line, {raw:true});
           term.set_prompt('[guest@reddit '+command[2]+']# ');
         }
@@ -470,21 +526,31 @@ $(function() {
             // line 1
             title = this.data.title;
             domain = this.data.domain;
+            if (this.data.thumbnail && this.data.thumbnail.indexOf("http") > -1) {
+              image = this.data.thumbnail;
+            } else {
+              image = false;
+            }
+            subreddit = this.data.subreddit;
             if (url) {
-              line1 = "<a href='"+url+"' target='_blank'>"+title + "</a> (" + domain + ")<br />";
+              line1 = "<div style='width:100%;float:left;'>[<span style='color: #2C9A96;'>" + c + "</span>] <a href='"+url+"' target='_blank'>"+title + "</a> (" + domain + ")<br />";
             } else {
               line1 = title + " (" + domain + ")<br />";
+            }
+
+            if (image && showimages) {
+              line1 = line1 + "<img src='" + image + "' style='float: left;margin: 10px;' /><br />";
             }
             // line 2
             created = this.data.created_utc;
             time = moment.unix(created).fromNow();
             author = this.data.author;
-            line2 = "submitted " + time + " by " + author + "<br />";
+            line2 = "<span>submitted " + time + " by " + author + " to /r/" + subreddit + "</span><br />";
             // line 3
             ups = this.data.ups;
             num_comments = this.data.num_comments;
-            line3 = ups + " upvotes with " + num_comments + " comments<p />";
-            frontpage = '[<span style="color: #2C9A96;">' + c + '</span>] ' + line1 + '<span style="margin-left:32px;color: #666;"">' + line2 + line3 + '</span>';
+            line3 = "<span>" + ups + " upvotes with " + num_comments + " comments</span><p/>";
+            frontpage = line1 + line2 + line3 + '</div>';
             c = c - 1;
             term.echo(frontpage, {raw:true});
             term.set_prompt('[guest@reddit '+command[2]+']# ');
@@ -514,10 +580,8 @@ $(function() {
       var json_base = posts[command[3]];
       $.getJSON(posts[command[3]]+".json?jsonp=?", function(data) {
         var viewdata = data[1].data.children;
-        console.log(viewdata);
         $(viewdata).each(function () {
           if (this.kind == "t1") {
-            console.log(this);
             var reply_message = "";
             var reply2_message = "";
             author = this.data.author;
@@ -641,9 +705,209 @@ $(function() {
       if (content_url) {
         window.open(content_url);
       }
+    // SEARCH
+    } else if (command[0] == "reddit" && command[1] == "search" && command[2] !== "next" && command[2] !== "previous") {
+      posts = [];
+      sterm = [];
+      sterm = command;
+      sterm.splice(0, 2);
+      searchterm = sterm.join(' ');
+      content = [];
+      next = "";
+      previous = "";
+      c = 0;
+      $.getJSON('http://www.reddit.com/search/.json?q='+encodeURIComponent(searchterm)+'&jsonp=?', function(data) {
+        var redditjson = data.data.children;
+        $(redditjson).each(function() {
+          if (this.data != undefined) {
+            permalink = "http://reddit.com"+this.data.permalink;
+            permalink = permalink.replace('?ref=search_posts','');
+            url = this.data.url;
+            content.push(url);
+            posts.push(permalink);
+            // line 1
+            title = this.data.title;
+            domain = this.data.domain;
+            if (this.data.thumbnail && this.data.thumbnail.indexOf("http") > -1) {
+              image = this.data.thumbnail;
+            } else {
+              image = false;
+            }
+            subreddit = this.data.subreddit;
+            if (url) {
+              line1 = "<div style='width:100%;float:left;'>[<span style='color: #2C9A96;'>" + c + "</span>] <a href='"+url+"' target='_blank'>"+title + "</a> (" + domain + ")<br />";
+            } else {
+              line1 = title + " (" + domain + ")<br />";
+            }
+
+            if (image && showimages) {
+              line1 = line1 + "<img src='" + image + "' style='float: left;margin: 10px;' /><br />";
+            }
+            // line 2
+            created = this.data.created_utc;
+            time = moment.unix(created).fromNow();
+            author = this.data.author;
+            line2 = "<span style='color: #666;'>submitted " + time + " by " + author + " to /r/" + subreddit + "</span><br />";
+            // line 3
+            ups = this.data.ups;
+            num_comments = this.data.num_comments;
+            line3 = "<span style='color: #666;'>" + ups + " upvotes with " + num_comments + " comments</span><p/>";
+            frontpage = line1 + line2 + line3 + '</div>';
+            c = c + 1;
+            term.echo(frontpage, {raw:true});
+            term.set_prompt('[guest@reddit search]# ');
+          }
+        });
+        var after = data.data.after;
+        var before = data.data.before;
+        if (before != null) {
+          permalink = "https://www.reddit.com/search/.json?q="+encodeURIComponent(searchterm)+"&count="+c+"&before="+before+"&jsonp=?";
+          previous = permalink;
+          previous_line = "<span>[<span style='color: #B3A600;'>previous</span>]<p />";
+          term.echo(previous_line, {raw:true});
+          term.set_prompt('[guest@reddit search]# ');
+        }
+        if (after != null) {
+          permalink = "https://www.reddit.com/search/.json?q="+encodeURIComponent(searchterm)+"&count="+c+"&after="+after+"&jsonp=?";
+          next = permalink;
+          next_line = "<span>[<span style='color: #B3A600;'>next</span>]<p />";
+          term.echo(next_line, {raw:true});
+          term.set_prompt('[guest@reddit search]# ');
+        }
+      });
+    // SEARCH NEXT
+    } else if (posts.length !== 0 && command[0] == "reddit" && command[1] == "search" && command[2] == "next" && !command[3]) {
+      previous = "";
+      $.getJSON(next, function(data) {
+        var redditjson = data.data.children;
+        $(redditjson).each(function() {
+          if (this.data != undefined) {
+            permalink = "http://reddit.com"+this.data.permalink;
+            permalink = permalink.replace('?ref=search_posts','');
+            url = this.data.url;
+            content.push(url);
+            posts.push(permalink);
+            // line 1
+            title = this.data.title;
+            domain = this.data.domain;
+            if (this.data.thumbnail && this.data.thumbnail.indexOf("http") > -1) {
+              image = this.data.thumbnail;
+            } else {
+              image = false;
+            }
+            subreddit = this.data.subreddit;
+            if (url) {
+              line1 = "<div style='width:100%;float:left;'>[<span style='color: #2C9A96;'>" + c + "</span>] <a href='"+url+"' target='_blank'>"+title + "</a> (" + domain + ")<br />";
+            } else {
+              line1 = title + " (" + domain + ")<br />";
+            }
+
+            if (image && showimages) {
+              line1 = line1 + "<img src='" + image + "' style='float: left;margin: 10px;' /><br />";
+            }
+            // line 2
+            created = this.data.created_utc;
+            time = moment.unix(created).fromNow();
+            author = this.data.author;
+            line2 = "<span style='color: #666;'>submitted " + time + " by " + author + " to /r/" + subreddit + "</span><br />";
+            // line 3
+            ups = this.data.ups;
+            num_comments = this.data.num_comments;
+            line3 = "<span style='color: #666;'>" + ups + " upvotes with " + num_comments + " comments</span><p/>";
+            frontpage = line1 + line2 + line3 + '</div>';
+            c = c + 1;
+            term.echo(frontpage, {raw:true});
+            term.set_prompt('[guest@reddit search]# ');
+          }
+        });
+        var after = data.data.after;
+        var before = data.data.before;
+        if (before != null) {
+          permalink = "https://www.reddit.com/search/.json?q="+encodeURIComponent(searchterm)+"&count="+c+"&before="+before+"&jsonp=?";
+          previous = permalink;
+          previous_line = "<span>[<span style='color: #B3A600;'>previous</span>]<p />";
+          term.echo(previous_line, {raw:true});
+          term.set_prompt('[guest@reddit search]# ');
+        }
+        if (after != null) {
+          permalink = "https://www.reddit.com/search/.json?q="+encodeURIComponent(searchterm)+"&count="+c+"&after="+after+"&jsonp=?";
+          next = permalink;
+          next_line = "<span>[<span style='color: #B3A600;'>next</span>]<p />";
+          term.echo(next_line, {raw:true});
+          term.set_prompt('[guest@reddit search]# ');
+        }
+      });
+    // SEARCH PREVIOUS
+    } else if (posts.length !== 0 && command[0] == "reddit" && command[1] == "search" && command[2] == "previous" && !command[3]) {
+      next = "";
+      $.getJSON(previous, function(data) {
+        var redditjson = data.data.children;
+        $(redditjson).each(function() {
+          if (this.data != undefined) {
+            permalink = "http://reddit.com"+this.data.permalink;
+            permalink = permalink.replace('?ref=search_posts','');
+            url = this.data.url;
+            content.push(url);
+            posts.push(permalink);
+            // line 1
+            title = this.data.title;
+            domain = this.data.domain;
+            if (this.data.thumbnail && this.data.thumbnail.indexOf("http") > -1) {
+              image = this.data.thumbnail;
+            } else {
+              image = false;
+            }
+            subreddit = this.data.subreddit;
+            if (url) {
+              line1 = "<div style='width:100%;float:left;'>[<span style='color: #2C9A96;'>" + c + "</span>] <a href='"+url+"' target='_blank'>"+title + "</a> (" + domain + ")<br />";
+            } else {
+              line1 = title + " (" + domain + ")<br />";
+            }
+
+            if (image && showimages) {
+              line1 = line1 + "<img src='" + image + "' style='float: left;margin: 10px;' /><br />";
+            }
+            // line 2
+            created = this.data.created_utc;
+            time = moment.unix(created).fromNow();
+            author = this.data.author;
+            line2 = "<span style='color: #666;'>submitted " + time + " by " + author + " to /r/" + subreddit + "</span><br />";
+            // line 3
+            ups = this.data.ups;
+            num_comments = this.data.num_comments;
+            line3 = "<span style='color: #666;'>" + ups + " upvotes with " + num_comments + " comments</span><p/>";
+            frontpage = line1 + line2 + line3 + '</div>';
+            c = c - 1;
+            term.echo(frontpage, {raw:true});
+            term.set_prompt('[guest@reddit search]# ');
+          }
+        });
+        var after = data.data.after;
+        var before = data.data.before;
+        if (before != null) {
+          permalink = "https://www.reddit.com/search/.json?q="+encodeURIComponent(searchterm)+"&count="+c+"&before="+before+"&jsonp=?";
+          previous = permalink;
+          previous_line = "<span>[<span style='color: #B3A600;'>previous</span>]<p />";
+          term.echo(previous_line, {raw:true});
+          term.set_prompt('[guest@reddit search]# ');
+        }
+        if (after != null) {
+          permalink = "https://www.reddit.com/search/.json?q="+encodeURIComponent(searchterm)+"&count="+c+"&after="+after+"&jsonp=?";
+          next = permalink;
+          next_line = "<span>[<span style='color: #B3A600;'>next</span>]<p />";
+          term.echo(next_line, {raw:true});
+          term.set_prompt('[guest@reddit search]# ');
+        }
+      });
+    } else if (cmd == "settings images on") {
+      showimages = true;
+      term.echo("display images <strong>on</strong>", {raw:true});
+    } else if (cmd == "settings images off") {
+      showimages = false;
+      term.echo("display images <strong>off</strong>", {raw:true});
     } else if (cmd == "help") {
       greetings(term);
-    } else if (cmd.indexOf("rm -rf") > -1 || (cmd.indexOf(":(){: | :&}")) > -1 || (cmd.indexOf("command > /dev/sda")) > -1 || (cmd.indexOf("mkfs.ext4 /dev/sda1")) > -1 || (cmd.indexOf("dd if=/dev/random")) > -1 || (cmd.indexOf("mv ~ /dev/null")) > -1 || (cmd.indexOf("wget http")) > -1) {
+    } else if (cmd.indexOf("rm -rf") > -1 || (cmd.indexOf(":(){: | :&}")) > -1 || (cmd.indexOf("command > /dev/sda")) > -1 || (cmd.indexOf("mkfs.ext4 /dev/sda1")) > -1 || (cmd.indexOf("dd if=/dev/random")) > -1 || (cmd.indexOf("mv ~ /dev/null")) > -1 || (cmd.indexOf("wget http")) > -1 || cmd.indexOf("sudo make me a sandwich") > -1) {
       posts = [];
       comments = [];
       next = "";
@@ -663,7 +927,7 @@ $(function() {
   }, {
     name: 'xxx',
     greetings: null,
-    completion: ['comments','content','view','previous','next','list','reddit'],
+    completion: ['help','clear','settings','comments','content','search','view','previous','next', 'subreddits', 'list','reddit'],
     onInit: function(term) {
       if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
         term.echo("reddit shell doesn't work on mobile devices!", {raw:true});
