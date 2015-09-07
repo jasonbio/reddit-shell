@@ -1,25 +1,80 @@
-# reddit-shell
+# reddit shell
 
-TRY IT: https://redditshell.com/
+reddit shell is a web based linux shell emulator written in JavaScript that lets you browse and interact with reddit via command line https://redditshell.com/
 
-web based linux shell emulator that allows you to browse reddit programmatically via command line
+**Features**
 
-Commands:
+* Browse public subreddits, posts, comments, and users.
+* Iterate through comment chains and post indexes.
+* Scope-based tabbed auto-completion of commands, subreddit names, and usernames
+* Search for posts, comments, and users.
+* Display inline images for image posts `# set img on`
+* Change limit on number of retrieved posts, comments `# set limit [auto|1-100]`
 
-1. **list** or **list [subreddit]** to list the latest posts from the front page or specified subreddit
-2. **list [subreddit] [new|rising|top|controversial]**  to list posts from the specified subreddit in the specified order
-3. **list [subreddit] [next|previous]** or **list [next|previous]** to navigate through page listings
-4. **list subreddits** to list the all subreddits
-5. **list subreddits [next|previous]** to navigate through the subreddit list
-6. **view content [index]** to open the content URL for a specific post in a new window
-7. **view comments [index]** to view the comments for a specific post
-8. **view comments more [index]** to view more comments in the selected indexes tree
-9. **search [search term]** to search reddit for something specific
-10. **search [next|previous]** to navigate through search results
-11. **user [username]** to get all comments and posts for the specified user
-12. **user [username] [next|previous]** to navigate through the specified users content
-13. **settings images [on|off]** set inline image display on or off
-14. **clear** to clear the screen
-15. **help** to display these instructions again
+**Future TO-DO**
 
-Credits: Base jQuery emulator plugin by: http://terminal.jcubic.pl/
+* OAuth for access to commenting/voting
+* multireddit views
+
+**Example Commands**
+
+* `# ls` - list posts from the frontpage
+* `# list funny top` - lists posts from /r/funny sorted by top rated
+* `# view comments 3` - views comments for the specified post index 
+* `# settings images on` - turns inline image display on
+
+## Commands 
+
+* **list**
+  * Aliases: **ls, cd, pwd**
+  * Options:
+    * **[next|previous]** - can only be used on result set
+    * **[subreddit] [new|rising|top|controversial]** - sort applies to subreddits only (not frontpage)
+    * **[subreddit] [next|previous]** - can only be used on result set
+ * Description: list posts from the the specified subreddit or the front page if no subreddit specified and sorts by optional new, rising, top, controversial.
+* **list subreddits**
+  * Aliases: **[ls, cd, pwd], subs** 
+  * Options:
+    * **[next|previous]** - can only be used on result set
+  * Description: list all public subreddits available on reddit
+* **view content**
+  * Options:
+    * **[index]** - can only be used on result set
+  * Description: opens the permalink of the specified post index in a new window.
+* **view comments**
+  * Options:
+    * **[index]** - can only be used on result set
+  * Description: loads the comments of the specified post index.
+* **view more comments**
+  * Options:
+    * **[index]** - can only be used on result set
+  * Description: Loads more comments from the post scope if no index is given and there are posts to load, otherwise loads the specified comment tree for the index given.
+* **search**
+  * Options:
+    * **[search term]**
+    * **[next|previous]** - can only be used on result set
+  * Description: Searches reddit for the specified search term.
+* **user**
+  * Options:
+    * **[username]**
+    * **[username] [next|previous]** - can only be used on result set
+  * Description: Loads all public comments and posts the specified user has made
+* **settings**
+  * Aliases: **set**
+  * Options:
+    * **[images] [on|off]**
+      * Aliases: **img**
+    * **[limit] [auto|1-100]**
+  * Description: Changes settings for user preference. Turning images on will show the thumbnail for all image posts. Limit decides how many results to return for posts and comments. "auto" picks the best limit for your screen resolution without having to scroll (unless viewing a nested comment tree)
+* **clear**
+  * Description: Clears the screen
+* **about**
+  * Description: Displays project info and credits
+* **help**
+  * Description: Displays instructions
+
+**Libraries**
+
+- [jQuery](https://jquery.com/)
+- [JQuery Terminal](http://terminal.jcubic.pl/)
+- [Moment.js](http://momentjs.com/)
