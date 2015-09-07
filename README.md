@@ -46,11 +46,11 @@ reddit shell is a web based linux shell emulator written in JavaScript that lets
   * Description: opens the permalink of the specified post index in a new window.
 * **view comments**
   * Options:
-    * **[index]** - can only be used on result set
+    * **[index] [confidence|top|new|hot|controversial|old|random|qa]** - can only be used on result set
   * Description: loads the comments of the specified post index.
 * **view more comments**
   * Options:
-    * **[index]** - can only be used on result set
+    * **[index] [confidence|top|new|hot|controversial|old|random|qa]** - can only be used on result set
   * Description: Loads more comments from the post scope if no index is given and there are posts to load, otherwise loads the specified comment tree for the index given.
 * **search**
   * Options:
