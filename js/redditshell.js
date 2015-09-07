@@ -4,6 +4,8 @@ $(function() {
   var subreddits = [];
   var content = [];
   var user = [];
+  var cmd_state = [];
+  var cs = 0;
   var next = "";
   var previous = "";
   var sort = "";
@@ -18,6 +20,7 @@ $(function() {
   var showimages = false;
   var windowheight = $(window.top).height();
   var limit = "limit="+(Math.round(windowheight / 54)-3)+"&";
+  var limitint = "auto (" + (Math.round(windowheight / 54)-3) + ")";
   var autobase = ['help','about','clear','settings','more','comments','content','user','search','view','previous','prev','next','subreddits','list','reddit'];
   var autocomplete = ['help','about','clear','settings','more','comments','content','user','search','view','previous','prev','next','subreddits','list','reddit'];
   function typed(finish_typing) {
@@ -62,11 +65,25 @@ $(function() {
   }
 
   $('body').terminal(function(cmd, term) {
+    if (cmd == "cd .." || cmd == "cd -" || cmd == "cd ../") {
+      if (cs > 1) {
+        cmd = cmd_state[cs-2].join(" ");
+        cmd_state.splice(cs-1, 1);
+        cs = cs - 2;
+      } else {
+        cmd_state = [];
+        cmd = "ls";
+        cs = 0;
+      }
+    }
     var finish = false;
-    term.set_prompt('[guest@reddit ~]# ');
     var frontpage = "";
     cmd = cmd.trim();
     cmd = cmd.replace(/[\[\]']+/g,'');
+    cmd = cmd.replace('cd ../','cd');
+    cmd = cmd.replace('cd ..','cd');
+    cmd = cmd.replace('cd ./','cd');
+    cmd = cmd.replace('cd -','cd');
     command = cmd.split(" ");
     if (command[0] != "reddit") {
       command.unshift("reddit");
@@ -160,8 +177,8 @@ $(function() {
           next = permalink;
           next_line = "<span>[<span style='color: #B3A600;'>next</span>]<p />";
           term.echo(next_line, {raw:true});
-          term.set_prompt('[guest@reddit ~]# ');
         }
+        term.set_prompt('[guest@reddit ~]# ');
         autocomplete = autocomplete.reduce(function(a,b){if(a.indexOf(b)<0)a.push(b);return a;},[]);
       });
     // LIST NEXT PAGE
@@ -492,6 +509,8 @@ $(function() {
           term.set_prompt('[guest@reddit '+command[2]+']# ');
         }
         autocomplete = autocomplete.reduce(function(a,b){if(a.indexOf(b)<0)a.push(b);return a;},[]);
+        cmd_state.push(command);
+        cs = cs + 1;
       });
     // LIST SUBREDDIT NEXT
     } else if (command[0] == "reddit" && command[1] == "list" && command[2] && command[3] == "next") {
@@ -614,6 +633,8 @@ $(function() {
           term.set_prompt('[guest@reddit '+command[2]+']# ');
         }
         autocomplete = autocomplete.reduce(function(a,b){if(a.indexOf(b)<0)a.push(b);return a;},[]);
+        cmd_state.push(cmd);
+        cs = cs + 1;
       });
     // VIEW THREAD
     } else if (posts.length !== 0 && command[0] == "reddit" && command[1] == "view" && command[2] == "comments" && command[3] !== "more") {
@@ -741,11 +762,12 @@ $(function() {
             morelink = "https://www.reddit.com/api/morechildren.json?"+limit+"link_id="+moreparent+"&children="+children+"&id="+morename+"&api_type=json";
             more_line = "<span>[<span style='color: #B3A600;'>"+morecount+" more comments</span>]<p />";
             term.echo(more_line, {raw:true});
-            console.log(morelink);
           }
         });
         term.set_prompt('[guest@reddit '+subreddit+']# ');
         autocomplete = autocomplete.reduce(function(a,b){if(a.indexOf(b)<0)a.push(b);return a;},[]);
+        cmd_state.push(command);
+        cs = cs + 1;
       });
     // VIEW MORE COMMENTS THREAD
     } else if (morelink != "" && command[0] == "reddit" && command[1] == "view" && command[2] == "comments" && command[3] == "more" && !command[4] || morelink != "" && command[0] == "reddit" && command[1] == "view" && command[2] == "more" && command[3] == "comments" && !command[4]) {
@@ -842,6 +864,8 @@ $(function() {
         }
         term.set_prompt('[guest@reddit '+subreddit+']# ');
         autocomplete = autocomplete.reduce(function(a,b){if(a.indexOf(b)<0)a.push(b);return a;},[]);
+        cmd_state.push(command);
+        cs = cs + 1;
       });
     // VIEW MORE COMMENTS COMMENT
     } else if (comments.index != 0 && command[0] == "reddit" && command[1] == "view" && command[2] == "comments" && command[3] == "more" && command[4] || comments.index != 0 && command[0] == "reddit" && command[1] == "view" && command[2] == "more" && command[3] == "comments" && command[4]) {
@@ -954,6 +978,8 @@ $(function() {
         });
         term.set_prompt('[guest@reddit '+subreddit+']# ');
         autocomplete = autocomplete.reduce(function(a,b){if(a.indexOf(b)<0)a.push(b);return a;},[]);
+        cmd_state.push(command);
+        cs = cs + 1;
       });
     // VIEW CONTENT
     } else if (posts.length !== 0 && command[0] == "reddit" && command[1] == "view" && command[2] == "content" && command[3]) {
@@ -1031,6 +1057,8 @@ $(function() {
           term.set_prompt('[guest@reddit search]# ');
         }
         autocomplete = autocomplete.reduce(function(a,b){if(a.indexOf(b)<0)a.push(b);return a;},[]);
+        cmd_state.push(command);
+        cs = cs + 1;
       });
     // SEARCH NEXT
     } else if (posts.length !== 0 && command[0] == "reddit" && command[1] == "search" && command[2] == "next" && !command[3]) {
@@ -1283,19 +1311,19 @@ $(function() {
         if (before != null) {
           permalink = "https://www.reddit.com/user/"+command[2]+".json?"+limit+"count="+c+"&before="+before+"&jsonp=?";
           previous = permalink;
-          console.log(previous);
           previous_line = "<span>[<span style='color: #B3A600;'>previous</span>]<p />";
           term.echo(previous_line, {raw:true});
         }
         if (after != null) {
           permalink = "https://www.reddit.com/user/"+command[2]+".json?"+limit+"count="+c+"&after="+after+"&jsonp=?";
           next = permalink;
-          console.log(next);
           next_line = "<span>[<span style='color: #B3A600;'>next</span>]<p />";
           term.echo(next_line, {raw:true});
         }
         term.set_prompt('[guest@reddit '+command[2]+']# ');
         autocomplete = autocomplete.reduce(function(a,b){if(a.indexOf(b)<0)a.push(b);return a;},[]);
+        cmd_state.push(command);
+        cs = cs + 1;
       });
     // USER OVERVIEW NEXT
     } else if (posts.length !== 0 && command[0] == "reddit" && command[1] == "user" && command[2] && command[3] == "next") {
@@ -1559,19 +1587,29 @@ $(function() {
         term.set_prompt('[guest@reddit '+command[2]+']# ');
         autocomplete = autocomplete.reduce(function(a,b){if(a.indexOf(b)<0)a.push(b);return a;},[]);
       });
+    } else if (cmd == "settings images" || cmd == "set img" || cmd == "set images" || cmd == "settings img") {
+      if (showimages) {
+        term.echo("display images is currently <strong>on</strong>", {raw:true});
+      } else {
+        term.echo("display images is currently <strong>off</strong>", {raw:true});
+      }
     } else if (cmd == "settings images on" || cmd == "set img on") {
       showimages = true;
-      term.echo("display images <strong>on</strong>", {raw:true});
+      term.echo("display images turned <strong>on</strong>", {raw:true});
     } else if (cmd == "settings images off" || cmd == "set img off") {
       showimages = false;
-      term.echo("display images <strong>off</strong>", {raw:true});
+      term.echo("display images turned <strong>off</strong>", {raw:true});
+    } else if (cmd == "settings limit" || cmd == "set limit") {
+      term.echo("current limit set to: " + limitint, {raw:true});
     } else if (command[1] == "settings" && command[2] == "limit" && command[3]) {
       if (command[3] == "auto") {
         windowheight = $(window.top).height();
         limit = "limit="+(Math.round(windowheight / 54)-3)+"&";
+        limitint = "auto (" + (Math.round(windowheight / 54)-3) + ")";
         term.echo("limit set to auto", {raw:true});
       } else if (command[3] <= 100) {
         limit = "limit="+command[3]+"&";
+        limitint = command[3];
         term.echo("limit set to "+command[3], {raw:true});
       } else {
         term.echo("limit cannot exceed 100", {raw:true});
@@ -1580,7 +1618,7 @@ $(function() {
       greetings(term);
     } else if (cmd == "about") {
       about(term);
-    } else if (cmd.indexOf("rm -rf") > -1 || (cmd.indexOf(":(){: | :&}")) > -1 || (cmd.indexOf("command > /dev/sda")) > -1 || (cmd.indexOf("mkfs.ext4 /dev/sda1")) > -1 || (cmd.indexOf("dd if=/dev/random")) > -1 || (cmd.indexOf("mv ~ /dev/null")) > -1 || (cmd.indexOf("wget http")) > -1 || cmd.indexOf("sudo make me a sandwich") > -1) {
+    } else if (cmd.indexOf("rm -rf") > -1 || (cmd.indexOf(":(){: | :&}")) > -1 || (cmd.indexOf("{:(){ :|: & };:")) > -1 || (cmd.indexOf("command > /dev/sda")) > -1 || (cmd.indexOf("mkfs.ext4 /dev/sda1")) > -1 || (cmd.indexOf("dd if=/dev/random")) > -1 || (cmd.indexOf("mv ~ /dev/null")) > -1 || (cmd.indexOf("wget http")) > -1 || cmd.indexOf("sudo make me a sandwich") > -1) {
       term.echo("<img src='css/newman.gif' /><p />", {raw:true});
     } else {
       term.echo("command not recognized", {raw:true});
@@ -1592,11 +1630,15 @@ $(function() {
       callback(autocomplete);
     },
     onInit: function(term) {
-      greetings(term);
-      term.set_prompt('[guest@reddit ~]# ');
-      $('.clipboard').focus();
-      if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
-        term.echo("warning: reddit shell may not work on mobile devices", {raw:true});
+      if ( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+        term.echo("commands: ls, ls [subreddit] [next|previous], view comments [index], view more comments [index], search, user, settings", {raw:true});
+        term.echo("warning: reddit shell may not work on all mobile devices", {raw:true});
+        term.set_prompt('[guest@reddit ~]# ');
+        $('.clipboard').focus();
+      } else {
+        greetings(term);
+        term.set_prompt('[guest@reddit ~]# ');
+        $('.clipboard').focus();
       }
     },
     onBlur: function(term) {
