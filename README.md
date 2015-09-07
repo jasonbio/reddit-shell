@@ -10,6 +10,7 @@ reddit shell is a web based linux shell emulator written in JavaScript that lets
 * Search for posts, comments, and users.
 * Display inline images for image posts `# set img on`
 * Change limit on number of retrieved posts, comments `# set limit [auto|1-100]`
+* Command format exceptions that cover most preferences
 
 **Future TO-DO**
 
@@ -19,21 +20,23 @@ reddit shell is a web based linux shell emulator written in JavaScript that lets
 **Example Commands**
 
 * `# ls` - list posts from the frontpage
-* `# list funny top` - lists posts from /r/funny sorted by top rated
-* `# view comments 3` - views comments for the specified post index 
-* `# settings images on` - turns inline image display on
+* `# ls funny top` - lists posts from /r/funny sorted by top rated
+* `# cd ..` - go back to frontpage listings
+* `# view comments 3` - views comments for the specified post index
+* `# view more comments` - load more comments for current post scope
 
 ## Commands 
 
 * **list**
-  * Aliases: **ls, cd, pwd**
+  * Aliases: **ls, cd**
   * Options:
     * **[next|previous]** - can only be used on result set
     * **[subreddit] [new|rising|top|controversial]** - sort applies to subreddits only (not frontpage)
     * **[subreddit] [next|previous]** - can only be used on result set
- * Description: list posts from the the specified subreddit or the front page if no subreddit specified and sorts by optional new, rising, top, controversial.
+    * **[..|-|~/]** - common directory nav commands - can only be used with the "cd" alias
+ * Description: list posts from the the specified subreddit or the front page if no subreddit specified and sorts by optional new, rising, top, controversial. Use the "cd" alias to forwards and backwards with the [..|-|~/] options
 * **list subreddits**
-  * Aliases: **[ls, cd, pwd], subs** 
+  * Aliases: **[ls, cd], subs** 
   * Options:
     * **[next|previous]** - can only be used on result set
   * Description: list all public subreddits available on reddit
@@ -66,6 +69,8 @@ reddit shell is a web based linux shell emulator written in JavaScript that lets
       * Aliases: **img**
     * **[limit] [auto|1-100]**
   * Description: Changes settings for user preference. Turning images on will show the thumbnail for all image posts. Limit decides how many results to return for posts and comments. "auto" picks the best limit for your screen resolution without having to scroll (unless viewing a nested comment tree)
+* **pwd**
+  * Description: Prints working directory
 * **clear**
   * Description: Clears the screen
 * **about**
