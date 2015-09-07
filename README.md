@@ -6,7 +6,7 @@ reddit shell is a web based linux shell emulator written in JavaScript that lets
 
 * Browse public subreddits, posts, comments, and users.
 * Iterate through comment chains and post indexes.
-* Scope-based tabbed auto-completion of commands, subreddit names, and usernames
+* Scope-based tabbed auto-completion of commands, subreddit names, and usernames (double tap tab key to see entire scope)
 * Search for posts, comments, and users.
 * Display inline images for image posts `# set img on`
 * Change limit on number of retrieved posts, comments `# set limit [auto|1-100]`
