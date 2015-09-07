@@ -12,6 +12,7 @@ $(function() {
   var morelink = "";
   var json_base = "";
   var parent_post = "";
+  var pwd = "/";
   var c = 0;
   var r = 0;
   var s = 0;
@@ -80,7 +81,7 @@ $(function() {
     var frontpage = "";
     cmd = cmd.trim();
     cmd = cmd.replace(/[\[\]']+/g,'');
-    cmd = cmd.replace(/cd (\/?r\/)?/g,'cd ');
+    cmd = cmd.replace(/cd (\/?r?\/)?/g,'cd ');
     cmd = cmd.replace('cd ~/','ls');
     cmd = cmd.replace('cd ../','cd');
     cmd = cmd.replace('cd ..','cd');
@@ -94,9 +95,6 @@ $(function() {
       command[1] = "list";
     }
     if (command[1] == "cd") {
-      command[1] = "list";
-    }
-    if (command[1] == "pwd") {
       command[1] = "list";
     }
     if (command[2] == "prev") {
@@ -113,6 +111,7 @@ $(function() {
     }
     // LIST FRONTPAGE
     if (command[0] == "reddit" && command[1] == "list" && !command[2]) {
+      pwd = "/";
       posts = [];
       comments = [];
       subreddits = [];
@@ -305,6 +304,7 @@ $(function() {
       });
     // LIST SUBREDDITS
     } else if (command[0] == "reddit" && command[1] == "list" && command[2] == "subreddits" && !command[3]) {
+      pwd = "/subreddits";
       autocomplete = autobase;
       subreddits = [];
       next = "";
@@ -471,6 +471,7 @@ $(function() {
               image = false;
             }
             subreddit = this.data.subreddit;
+            pwd = "/r/"+subreddit;
             if (url) {
               line1 = "<div style='width:100%;float:left;'>[<span style='color: #2C9A96;'>" + c + "</span>] <a href='"+url+"' target='_blank'>"+title + "</a> (" + domain + ")<br />";
             } else {
@@ -658,6 +659,7 @@ $(function() {
             title = this.data.title;
             domain = this.data.domain;
             subreddit = this.data.subreddit;
+            pwd = "/r/"+subreddit+"/comments";
             url = this.data.url;
             if (this.data.thumbnail && this.data.thumbnail.indexOf("http") > -1) {
               image = this.data.thumbnail;
@@ -790,6 +792,7 @@ $(function() {
             created = this.data.created_utc;
             time = moment.unix(created).fromNow();
             subreddit = this.data.subreddit;
+            pwd = "/r/"+subreddit+"/comments";
             ups = this.data.ups;
             id = this.data.id;
             link_id = this.data.link_id;
@@ -885,6 +888,7 @@ $(function() {
             title = this.data.title;
             domain = this.data.domain;
             subreddit = this.data.subreddit;
+            pwd = "/r/"+subreddit+"/comments";
             url = this.data.url;
             if (this.data.thumbnail && this.data.thumbnail.indexOf("http") > -1) {
               image = this.data.thumbnail;
@@ -1012,6 +1016,7 @@ $(function() {
             posts.push(permalink);
             title = this.data.title;
             domain = this.data.domain;
+            pwd = "/search";
             if (this.data.thumbnail && this.data.thumbnail.indexOf("http") > -1) {
               image = this.data.thumbnail;
             } else {
@@ -1199,6 +1204,7 @@ $(function() {
       r = 0;
       c = 0;
       $.getJSON('https://www.reddit.com/user/'+command[2]+'.json?'+limit+'jsonp=?', function(data) {
+        pwd = "/user/"+command[2];
         var redditjson = data.data.children;
         $(redditjson).each(function() {
           if (this.kind == "t3") {
@@ -1589,6 +1595,8 @@ $(function() {
         term.set_prompt('[guest@reddit '+command[2]+']# ');
         autocomplete = autocomplete.reduce(function(a,b){if(a.indexOf(b)<0)a.push(b);return a;},[]);
       });
+    } else if (cmd == "pwd") {
+      term.echo(pwd, {raw:true});
     } else if (cmd == "settings images" || cmd == "set img" || cmd == "set images" || cmd == "settings img") {
       if (showimages) {
         term.echo("display images is currently <strong>on</strong>", {raw:true});
