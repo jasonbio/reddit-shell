@@ -80,6 +80,8 @@ $(function() {
     var frontpage = "";
     cmd = cmd.trim();
     cmd = cmd.replace(/[\[\]']+/g,'');
+    cmd = cmd.replace(/cd (\/?r\/)?/g,'cd ');
+    cmd = cmd.replace('cd ~/','ls');
     cmd = cmd.replace('cd ../','cd');
     cmd = cmd.replace('cd ..','cd');
     cmd = cmd.replace('cd ./','cd');
