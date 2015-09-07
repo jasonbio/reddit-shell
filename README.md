@@ -76,6 +76,7 @@ reddit shell is a web based linux shell emulator written in JavaScript that lets
 * **about**
   * Description: Displays project info and credits
 * **help**
+  * Aliases: **cat readme**
   * Description: Displays more detailed instructions
 
 **Libraries**
