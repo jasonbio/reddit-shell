@@ -1,8 +1,11 @@
 $(function() {
+  var token = false;
+  var auth_user = "guest";
   var posts = [];
   var comments = [];
   var subreddits = [];
   var content = [];
+  var fullnames = [];
   var user = [];
   var cmd_state = [];
   var cs = 0;
@@ -14,6 +17,7 @@ $(function() {
   var morelink = "";
   var json_base = "";
   var parent_post = "";
+  var parent_name = "";
   var pwd = "/";
   var success = false;
   var c = 0;
@@ -25,8 +29,8 @@ $(function() {
   var windowheight = $(window.top).height();
   var limit = "limit="+(Math.round(windowheight / 54)-3)+"&";
   var limitint = "auto (" + (Math.round(windowheight / 54)-3) + ")";
-  var autobase = ['help','about','clear','settings','more','comments','content','user','search','view','previous','prev','next','subreddits','list','reddit'];
-  var autocomplete = ['help','about','clear','settings','more','comments','content','user','search','view','previous','prev','next','subreddits','list','reddit'];
+  var autobase = ['help','about','clear','settings','login','more','comments','content','user','search','view','previous','prev','next','subreddits','list','reddit'];
+  var autocomplete = ['help','about','clear','settings','login','more','comments','content','user','search','view','previous','prev','next','subreddits','list','reddit'];
   var converter = new showdown.Converter();
 
   function typed(finish_typing) {
@@ -62,15 +66,15 @@ $(function() {
   });
 
   function greetings(term) {
-    term.echo("<div style='width:100%;float: left;text-align: left;' id='greeting'><div style=' font-weight: bold;width:100%;white-space:nowrap;float:left;line-height: 7px;font-size: 7px;color: #2FD4CE;padding-left:5px;' id='ascii'>_________<span style='color:transparent;'>__</span>_______<span style='color:transparent;'>___</span>________<span style='color:transparent;'>__</span>________<span style='color:transparent;'>__</span>___<span style='color:transparent;'>__</span>_________<span style='color:transparent;'>________</span>________<span style='color:transparent;'>__</span>___<span style='color:transparent;'>__</span>___<span style='color:transparent;'>__</span>_______<span style='color:transparent;'>___</span>___<span style='color:transparent;'>_______</span>___<span style='color:transparent;'>__________</span><br /><span style='color:transparent;'><span style='color:#fff;' id='asciitext'>|\\_______\\|\\______\\_|\\_______\\|\\_______\\|\\__\\|\\_________\\</span></span><span style='color:transparent;'>_____</span><span style='color:#fff;' id='asciitext'>|\\_______\\|\\__\\|\\__\\|\\______\\_|\\__\\<span style='color:transparent;'>_____</span>|\\__\\</span><span style='color:transparent;'>_________</span><br /><span style='color:transparent;'><span style='color:#fff;' id='asciitext'>\\_\\__\\|\\__\\_\\_____/|\\_\\__\\_|\\_\\_\\__\\_|\\_\\_\\__\\|____\\__\\_|</span></span><span style='color:transparent;'>_____</span><span style='color:#fff;' id='asciitext'>\\_\\__\\___|\\_\\__\\\\\\__\\_\\_____/|\\_\\__\\<span style='color:transparent;'>____</span>\\_\\__\\</span><span style='color:transparent;'>________</span><br /><span style='color:transparent;'>_</span><span style='color:#fff;' id='asciitext'>\\_\\_______\\_\\__\\_|/_\\_\\__\\_\\\\_\\_\\__\\_\\\\_\\_\\__\\</span></span><span style='color:transparent;'>___</span><span style='color:#fff;' id='asciitext'>\\_\\__\\</span><span style='color:transparent;'>_______</span><span style='color:#fff;' id='asciitext'>\\_\\_______\\_\\_______\\_\\__\\_|/_\\_\\__\\<span style='color:transparent'>____</span>\\_\\__\\</span><span style='color:transparent;'>_______</span><br /><span style='color:transparent;'>__<span style='color:#fff;' id='asciitext'>\\_\\__\\\\__\\\\_\\__\\_|\\_\\_\\__\\_\\\\_\\_\\__\\_\\\\_\\_\\__\\</span></span><span style='color:transparent;'>___</span><span style='color:#fff;' id='asciitext'>\\_\\__\\</span><span style='color:transparent;'>_______</span><span style='color:#fff;' id='asciitext'>\\|____|\\__\\_\\__\\_\\__\\_\\__\\_|\\_\\_\\__\\____\\_\\__\\</span><span style='color:#fff;' id='asciitext'>_____</span><br /><span style='color:transparent;'>___<span style='color:#fff;' id='asciitext'>\\_\\__\\\\__\\\\_\\_______\\_\\_______\\_\\_______\\_\\__\\</span></span><span style='color:transparent;'>___</span><span style='color:#fff;' id='asciitext'>\\_\\__\\</span><span style='color:transparent;'></span><span style='color:transparent;'>_______</span><span style='color:#fff;' id='asciitext'>_____<span style='color:#fff;' id='asciitext'>\\_\\__\\_\\__\\_\\__\\_\\_______\\_\\_______\\_\\_______\\</span></span><br /><span style='color:transparent;'>____<span style='color:#fff;' id='asciitext'>\\|__|\\|__|\\|_______|\\|_______|\\|_______|\\|__|</span></span><span style='color:transparent;'>____</span><span style='color:#fff;' id='asciitext'>\\|__|</span><span style='color:transparent;'>_______</span><span style='color:#fff;' id='asciitext'>|\\_________\\|__|\\|__|\\|_______|\\|_______|\\|_______|</span><br /><span style='color:transparent;'>_________________________________________________________________</span><span style='color:#fff;' id='asciitext'>\\|_________|</span><span style='color:transparent;'>_______________________________________</span><br /><span style='color:transparent;'>____________________________________________________________________________________________________________________</span></div><p/>reddit shell: web based shell emulator for browsing reddit <br />via command line - by <a href='https://twitter.com/jasonbeee' target='_blank'>@jasonbeee</a> - <a href='https://github.com/jasonbio/reddit-shell' target='_blank'>fork this project on GitHub</a><p /><strong>list [next|previous]</strong> list posts from the front page, and navigate results<br /><strong>list [subreddit] [next|previous]</strong> list posts from the specified subreddit and navigate results<br /><strong>list subreddits [next|previous]</strong> list all subreddits on reddit and navigate results<br /><strong>view content [index]</strong> open the post content URL in a new window<br /> <strong>view comments [index]</strong> view the comment tree for the specified post index<br /><strong>view more comments</strong> load more base comments from the post<br /><strong>view more comments [index]</strong> view comment tree for the specified comment index<br /> <strong>search [search term]</strong> search reddit for something specific<br /><strong>user [username] [next|previous]</strong> get all comments and posts for the specified user and navigate results<br /><strong>settings images [on|off]</strong> set inline image display on or off<br /><strong>settings limit [auto|1-100]</strong> set the limit on number of posts/comments returned<br /><strong>help</strong> display more detailed instructions<p />sort subreddit listings <strong>[new|rising|top|controversial]</strong><br />sort comment views <Strong>[confidence|top|new|hot|controversial|old|random|qa]</strong><p /></div>", {raw:true});
+    term.echo("<div style='width:100%;float: left;text-align: left;' id='greeting'><div style=' font-weight: bold;width:100%;white-space:nowrap;float:left;line-height: 7px;font-size: 7px;color: #2FD4CE;padding-left:5px;' id='ascii'>_________<span style='color:transparent;'>__</span>_______<span style='color:transparent;'>___</span>________<span style='color:transparent;'>__</span>________<span style='color:transparent;'>__</span>___<span style='color:transparent;'>__</span>_________<span style='color:transparent;'>________</span>________<span style='color:transparent;'>__</span>___<span style='color:transparent;'>__</span>___<span style='color:transparent;'>__</span>_______<span style='color:transparent;'>___</span>___<span style='color:transparent;'>_______</span>___<span style='color:transparent;'>__________</span><br /><span style='color:transparent;'><span style='color:#fff;' id='asciitext'>|\\_______\\|\\______\\_|\\_______\\|\\_______\\|\\__\\|\\_________\\</span></span><span style='color:transparent;'>_____</span><span style='color:#fff;' id='asciitext'>|\\_______\\|\\__\\|\\__\\|\\______\\_|\\__\\<span style='color:transparent;'>_____</span>|\\__\\</span><span style='color:transparent;'>_________</span><br /><span style='color:transparent;'><span style='color:#fff;' id='asciitext'>\\_\\__\\|\\__\\_\\_____/|\\_\\__\\_|\\_\\_\\__\\_|\\_\\_\\__\\|____\\__\\_|</span></span><span style='color:transparent;'>_____</span><span style='color:#fff;' id='asciitext'>\\_\\__\\___|\\_\\__\\\\\\__\\_\\_____/|\\_\\__\\<span style='color:transparent;'>____</span>\\_\\__\\</span><span style='color:transparent;'>________</span><br /><span style='color:transparent;'>_</span><span style='color:#fff;' id='asciitext'>\\_\\_______\\_\\__\\_|/_\\_\\__\\_\\\\_\\_\\__\\_\\\\_\\_\\__\\</span></span><span style='color:transparent;'>___</span><span style='color:#fff;' id='asciitext'>\\_\\__\\</span><span style='color:transparent;'>_______</span><span style='color:#fff;' id='asciitext'>\\_\\_______\\_\\_______\\_\\__\\_|/_\\_\\__\\<span style='color:transparent'>____</span>\\_\\__\\</span><span style='color:transparent;'>_______</span><br /><span style='color:transparent;'>__<span style='color:#fff;' id='asciitext'>\\_\\__\\\\__\\\\_\\__\\_|\\_\\_\\__\\_\\\\_\\_\\__\\_\\\\_\\_\\__\\</span></span><span style='color:transparent;'>___</span><span style='color:#fff;' id='asciitext'>\\_\\__\\</span><span style='color:transparent;'>_______</span><span style='color:#fff;' id='asciitext'>\\|____|\\__\\_\\__\\_\\__\\_\\__\\_|\\_\\_\\__\\____\\_\\__\\</span><span style='color:#fff;' id='asciitext'>_____</span><br /><span style='color:transparent;'>___<span style='color:#fff;' id='asciitext'>\\_\\__\\\\__\\\\_\\_______\\_\\_______\\_\\_______\\_\\__\\</span></span><span style='color:transparent;'>___</span><span style='color:#fff;' id='asciitext'>\\_\\__\\</span><span style='color:transparent;'></span><span style='color:transparent;'>_______</span><span style='color:#fff;' id='asciitext'>_____<span style='color:#fff;' id='asciitext'>\\_\\__\\_\\__\\_\\__\\_\\_______\\_\\_______\\_\\_______\\</span></span><br /><span style='color:transparent;'>____<span style='color:#fff;' id='asciitext'>\\|__|\\|__|\\|_______|\\|_______|\\|_______|\\|__|</span></span><span style='color:transparent;'>____</span><span style='color:#fff;' id='asciitext'>\\|__|</span><span style='color:transparent;'>_______</span><span style='color:#fff;' id='asciitext'>|\\_________\\|__|\\|__|\\|_______|\\|_______|\\|_______|</span><br /><span style='color:transparent;'>_________________________________________________________________</span><span style='color:#fff;' id='asciitext'>\\|_________|</span><span style='color:transparent;'>_______________________________________</span><br /><span style='color:transparent;'>____________________________________________________________________________________________________________________</span></div><p/>reddit shell: web based shell emulator for browsing reddit <br />via command line - by <a href='http://jasonb.io/' target='_blank'>jason botello</a> - <a href='https://github.com/jasonbio/reddit-shell' target='_blank'>fork this project on GitHub</a><p /><strong>list [next|previous]</strong> list posts from the front page and navigate results<br /><strong>list [subreddit] [next|previous]</strong> list posts from the specified subreddit and navigate results<br /><strong>list subreddits [next|previous]</strong> list all subreddits on reddit and navigate results<br /><strong>view content [index]</strong> open the post content URL in a new window<br /> <strong>view comments [index]</strong> view the comment tree for the specified post index<br /><strong>view more comments</strong> load more base comments from the post<br /><strong>view more comments [index]</strong> view comment tree for the specified comment index<br /> <strong>search [search term]</strong> search reddit for something specific<br /><strong>user [username] [next|previous]</strong> get all comments and posts for the specified user and navigate results<br /><strong>login</strong> redirect to reddit.com to authenticate<br /><strong>upvote [index]</strong> upvote the specified post or comment index<br /><strong>downvote [index]</strong> downvote the specified post or comment index<br /><strong>post comment [text]</strong> post a comment to the current post<br /><strong>post reply [index] [text]</strong> post a reply to the specified comment index<br /><strong>logout</strong> de-authenticates the current user<br /><strong>settings images [on|off]</strong> set inline image display on or off<br /><strong>settings limit [auto|1-100]</strong> set the limit on number of posts/comments returned<br /><strong>help, about, clear</strong> display detailed instructions, show credits, clear screen output<p />sort subreddit listings <strong>[new|rising|top|controversial]</strong><br />sort comment views <Strong>[confidence|top|new|hot|controversial|old|random|qa]</strong><p /></div>", {raw:true});
   }
 
   function about(term) {
-    term.echo("<div style='width:100%;float: left;text-align: left;margin-top: 10px;padding-bottom: 10px;' id='greeting'><div style=' font-weight: bold;width:100%;white-space:nowrap;float:left;line-height: 7px;font-size: 7px;color: #2FD4CE;padding-left:5px;' id='ascii'>_________<span style='color:transparent;'>__</span>_______<span style='color:transparent;'>___</span>________<span style='color:transparent;'>__</span>________<span style='color:transparent;'>__</span>___<span style='color:transparent;'>__</span>_________<span style='color:transparent;'>________</span>________<span style='color:transparent;'>__</span>___<span style='color:transparent;'>__</span>___<span style='color:transparent;'>__</span>_______<span style='color:transparent;'>___</span>___<span style='color:transparent;'>_______</span>___<span style='color:transparent;'>__________</span><br /><span style='color:transparent;'><span style='color:#fff;' id='asciitext'>|\\_______\\|\\______\\_|\\_______\\|\\_______\\|\\__\\|\\_________\\</span></span><span style='color:transparent;'>_____</span><span style='color:#fff;' id='asciitext'>|\\_______\\|\\__\\|\\__\\|\\______\\_|\\__\\<span style='color:transparent;'>_____</span>|\\__\\</span><span style='color:transparent;'>_________</span><br /><span style='color:transparent;'><span style='color:#fff;' id='asciitext'>\\_\\__\\|\\__\\_\\_____/|\\_\\__\\_|\\_\\_\\__\\_|\\_\\_\\__\\|____\\__\\_|</span></span><span style='color:transparent;'>_____</span><span style='color:#fff;' id='asciitext'>\\_\\__\\___|\\_\\__\\\\\\__\\_\\_____/|\\_\\__\\<span style='color:transparent;'>____</span>\\_\\__\\</span><span style='color:transparent;'>________</span><br /><span style='color:transparent;'>_</span><span style='color:#fff;' id='asciitext'>\\_\\_______\\_\\__\\_|/_\\_\\__\\_\\\\_\\_\\__\\_\\\\_\\_\\__\\</span></span><span style='color:transparent;'>___</span><span style='color:#fff;' id='asciitext'>\\_\\__\\</span><span style='color:transparent;'>_______</span><span style='color:#fff;' id='asciitext'>\\_\\_______\\_\\_______\\_\\__\\_|/_\\_\\__\\<span style='color:transparent'>____</span>\\_\\__\\</span><span style='color:transparent;'>_______</span><br /><span style='color:transparent;'>__<span style='color:#fff;' id='asciitext'>\\_\\__\\\\__\\\\_\\__\\_|\\_\\_\\__\\_\\\\_\\_\\__\\_\\\\_\\_\\__\\</span></span><span style='color:transparent;'>___</span><span style='color:#fff;' id='asciitext'>\\_\\__\\</span><span style='color:transparent;'>_______</span><span style='color:#fff;' id='asciitext'>\\|____|\\__\\_\\__\\_\\__\\_\\__\\_|\\_\\_\\__\\____\\_\\__\\</span><span style='color:#fff;' id='asciitext'>_____</span><br /><span style='color:transparent;'>___<span style='color:#fff;' id='asciitext'>\\_\\__\\\\__\\\\_\\_______\\_\\_______\\_\\_______\\_\\__\\</span></span><span style='color:transparent;'>___</span><span style='color:#fff;' id='asciitext'>\\_\\__\\</span><span style='color:transparent;'></span><span style='color:transparent;'>_______</span><span style='color:#fff;' id='asciitext'>_____<span style='color:#fff;' id='asciitext'>\\_\\__\\_\\__\\_\\__\\_\\_______\\_\\_______\\_\\_______\\</span></span><br /><span style='color:transparent;'>____<span style='color:#fff;' id='asciitext'>\\|__|\\|__|\\|_______|\\|_______|\\|_______|\\|__|</span></span><span style='color:transparent;'>____</span><span style='color:#fff;' id='asciitext'>\\|__|</span><span style='color:transparent;'>_______</span><span style='color:#fff;' id='asciitext'>|\\_________\\|__|\\|__|\\|_______|\\|_______|\\|_______|</span><br /><span style='color:transparent;'>_________________________________________________________________</span><span style='color:#fff;' id='asciitext'>\\|_________|</span><span style='color:transparent;'>_______________________________________</span><br /><span style='color:transparent;'>____________________________________________________________________________________________________________________</span></div><p/>reddit shell is a web based linux shell emulator written in JavaScript that lets you browse and interact with reddit via command line<br /><a href='https://redditshell.com'>https://redditshell.com/</a><p />reddit shell is developed and maintained by <a href='http://jasonb.io/' target='_blank'>jason botello</a> and was first published on 9/5/2015<br />You can help contribute to the project on <a href='https://github.com/jasonbio/reddit-shell' target='_blank'>GitHub</a><p />reddit shell makes use of the following jQuery plugins:<br />- <a href='http://terminal.jcubic.pl/' target='_blank'>JQuery Terminal</a><br />- <a href='http://momentjs.com/' target='_blank'>Moment.js</a></div>", {raw:true});
+    term.echo("<div style='width:100%;float: left;text-align: left;margin-top: 10px;padding-bottom: 10px;' id='greeting'><div style=' font-weight: bold;width:100%;white-space:nowrap;float:left;line-height: 7px;font-size: 7px;color: #2FD4CE;padding-left:5px;' id='ascii'>_________<span style='color:transparent;'>__</span>_______<span style='color:transparent;'>___</span>________<span style='color:transparent;'>__</span>________<span style='color:transparent;'>__</span>___<span style='color:transparent;'>__</span>_________<span style='color:transparent;'>________</span>________<span style='color:transparent;'>__</span>___<span style='color:transparent;'>__</span>___<span style='color:transparent;'>__</span>_______<span style='color:transparent;'>___</span>___<span style='color:transparent;'>_______</span>___<span style='color:transparent;'>__________</span><br /><span style='color:transparent;'><span style='color:#fff;' id='asciitext'>|\\_______\\|\\______\\_|\\_______\\|\\_______\\|\\__\\|\\_________\\</span></span><span style='color:transparent;'>_____</span><span style='color:#fff;' id='asciitext'>|\\_______\\|\\__\\|\\__\\|\\______\\_|\\__\\<span style='color:transparent;'>_____</span>|\\__\\</span><span style='color:transparent;'>_________</span><br /><span style='color:transparent;'><span style='color:#fff;' id='asciitext'>\\_\\__\\|\\__\\_\\_____/|\\_\\__\\_|\\_\\_\\__\\_|\\_\\_\\__\\|____\\__\\_|</span></span><span style='color:transparent;'>_____</span><span style='color:#fff;' id='asciitext'>\\_\\__\\___|\\_\\__\\\\\\__\\_\\_____/|\\_\\__\\<span style='color:transparent;'>____</span>\\_\\__\\</span><span style='color:transparent;'>________</span><br /><span style='color:transparent;'>_</span><span style='color:#fff;' id='asciitext'>\\_\\_______\\_\\__\\_|/_\\_\\__\\_\\\\_\\_\\__\\_\\\\_\\_\\__\\</span></span><span style='color:transparent;'>___</span><span style='color:#fff;' id='asciitext'>\\_\\__\\</span><span style='color:transparent;'>_______</span><span style='color:#fff;' id='asciitext'>\\_\\_______\\_\\_______\\_\\__\\_|/_\\_\\__\\<span style='color:transparent'>____</span>\\_\\__\\</span><span style='color:transparent;'>_______</span><br /><span style='color:transparent;'>__<span style='color:#fff;' id='asciitext'>\\_\\__\\\\__\\\\_\\__\\_|\\_\\_\\__\\_\\\\_\\_\\__\\_\\\\_\\_\\__\\</span></span><span style='color:transparent;'>___</span><span style='color:#fff;' id='asciitext'>\\_\\__\\</span><span style='color:transparent;'>_______</span><span style='color:#fff;' id='asciitext'>\\|____|\\__\\_\\__\\_\\__\\_\\__\\_|\\_\\_\\__\\____\\_\\__\\</span><span style='color:#fff;' id='asciitext'>_____</span><br /><span style='color:transparent;'>___<span style='color:#fff;' id='asciitext'>\\_\\__\\\\__\\\\_\\_______\\_\\_______\\_\\_______\\_\\__\\</span></span><span style='color:transparent;'>___</span><span style='color:#fff;' id='asciitext'>\\_\\__\\</span><span style='color:transparent;'></span><span style='color:transparent;'>_______</span><span style='color:#fff;' id='asciitext'>_____<span style='color:#fff;' id='asciitext'>\\_\\__\\_\\__\\_\\__\\_\\_______\\_\\_______\\_\\_______\\</span></span><br /><span style='color:transparent;'>____<span style='color:#fff;' id='asciitext'>\\|__|\\|__|\\|_______|\\|_______|\\|_______|\\|__|</span></span><span style='color:transparent;'>____</span><span style='color:#fff;' id='asciitext'>\\|__|</span><span style='color:transparent;'>_______</span><span style='color:#fff;' id='asciitext'>|\\_________\\|__|\\|__|\\|_______|\\|_______|\\|_______|</span><br /><span style='color:transparent;'>_________________________________________________________________</span><span style='color:#fff;' id='asciitext'>\\|_________|</span><span style='color:transparent;'>_______________________________________</span><br /><span style='color:transparent;'>____________________________________________________________________________________________________________________</span></div><p/>reddit shell is a web based linux shell emulator written in JavaScript <br />that lets you browse and interact with reddit via command line<p />reddit shell is developed and maintained by <a href='http://jasonb.io/' target='_blank'>jason botello</a> and was first <br />published on 9/5/2015. You can help contribute to the project on <a href='https://github.com/jasonbio/reddit-shell' target='_blank'>GitHub</a><p />reddit shell makes use of the following JS libraries:<br />- <a href='http://terminal.jcubic.pl/' target='_blank'>JQuery Terminal</a><br />- <a href='https://github.com/showdownjs/showdown' target='_blank'>Showdown</a><br />- <a href='http://momentjs.com/' target='_blank'>Moment.js</a><br />- <a href='https://github.com/showdownjs/showdown' target='_blank'>Showdown</a></div>", {raw:true});
   }
 
   function readme(term) {
-    term.echo('<article class="markdown-body entry-content" itemprop="mainContentOfPage"><h1><a id="user-content-reddit-shell" class="anchor" href="#reddit-shell" aria-hidden="true"><span class="octicon octicon-link"></span></a>reddit shell</h1><p>reddit shell is a web based linux shell emulator written in JavaScript that lets you browse and interact with reddit via command line <a href="https://redditshell.com/">https://redditshell.com/</a></p><p><strong>Features</strong></p><ul><li>Browse public subreddits, posts, comments, and users.</li><li>Iterate through comment chains and post indexes.</li><li>Scope-based tabbed auto-completion of commands, subreddit names, and usernames (double tab for list view)</li><li>Search for posts, comments, and users.</li><li>Display inline images for image posts <code># set img on</code></li><li>Change limit on number of retrieved posts, comments <code># set limit [auto|1-100]</code></li><li>Command format exceptions that cover most preferences</li></ul><p><strong>Future TO-DO</strong></p><ul><li>OAuth for access to commenting/voting</li><li>multireddit views</li></ul><p><strong>Example Commands</strong></p><ul><li><code># ls</code> - list posts from the frontpage</li><li><code># ls funny top</code> - lists posts from /r/funny sorted by top rated</li><li><code># cd ..</code> - go back to frontpage listings</li><li><code># view comments 3</code> - views comments for the specified post index</li><li><code># view more comments</code> - load more comments for current post scope</li></ul><h2><a id="user-content-commands" class="anchor" href="#commands" aria-hidden="true"><span class="octicon octicon-link"></span></a>Commands</h2><ul><li><strong>list</strong><ul><li>Aliases: <strong>ls, cd</strong></li><li>Options:<ul><li><strong>[next|previous]</strong> - can only be used on result set</li><li><strong>[subreddit] [new|rising|top|controversial]</strong> - sort applies to subreddits only (not frontpage)</li><li><strong>[subreddit] [next|previous]</strong> - can only be used on result set</li><li><strong>[..|-|~/]</strong> - common directory nav commands - can only be used with the "cd" alias</li></ul></li><li>Description: list posts from the the specified subreddit or the front page if no subreddit specified and sorts by optional new, rising, top, controversial. Use the "cd" alias to forwards and backwards with the [..|-|~/] options</li></ul></li><li><strong>list subreddits</strong><ul><li>Aliases: <strong>[ls, cd], subs</strong> </li><li>Options:<ul><li><strong>[next|previous]</strong> - can only be used on result set</li></ul></li><li>Description: list all public subreddits available on reddit</li></ul></li><li><strong>view content</strong><ul><li>Options:<ul><li><strong>[index]</strong> - can only be used on result set</li></ul></li><li>Description: opens the permalink of the specified post index in a new window.</li></ul></li><li><strong>view comments</strong><ul><li>Options:<ul><li><strong>[index]</strong> - can only be used on result set</li></ul></li><li>Description: loads the comments of the specified post index.</li></ul></li><li><strong>view more comments</strong><ul><li>Options:<ul><li><strong>[index]</strong> - can only be used on result set</li></ul></li><li>Description: Loads more comments from the post scope if no index is given and there are posts to load, otherwise loads the specified comment tree for the index given.</li></ul></li><li><strong>search</strong><ul><li>Options:<ul><li><strong>[search term]</strong></li><li><strong>[next|previous]</strong> - can only be used on result set</li></ul></li><li>Description: Searches reddit for the specified search term.</li></ul></li><li><strong>user</strong><ul><li>Options:<ul><li><strong>[username]</strong></li><li><strong>[username] [next|previous]</strong> - can only be used on result set</li></ul></li><li>Description: Loads all public comments and posts the specified user has made</li></ul></li><li><strong>settings</strong><ul><li>Aliases: <strong>set</strong></li><li>Options:<ul><li><strong>[images] [on|off]</strong><ul><li>Aliases: <strong>img</strong></li></ul></li><li><strong>[limit] [auto|1-100]</strong></li></ul></li><li>Description: Changes settings for user preference. Turning images on will show the thumbnail for all image posts. Limit decides how many results to return for posts and comments. "auto" picks the best limit for your screen resolution without having to scroll (unless viewing a nested comment tree)</li></ul></li><li><strong>pwd</strong><ul><li>Description: Prints working directory</li></ul></li><li><strong>clear</strong><ul><li>Description: Clears the screen</li></ul></li><li><strong>about</strong><ul><li>Description: Displays project info and credits</li></ul></li><li><strong>help</strong><ul><li>Aliases: <strong>cat readme</strong></li><li>Description: Displays more detailed instructions</li></ul></li></ul><p><strong>Libraries</strong></p><ul><li><a href="https://jquery.com/">jQuery</a></li><li><a href="http://terminal.jcubic.pl/">JQuery Terminal</a></li><li><a href="http://momentjs.com/">Moment.js</a></li></ul></article>', {raw:true});
+    term.echo('<article class="markdown-body entry-content" itemprop="mainContentOfPage"><h1><a id="user-content-reddit-shell" class="anchor" href="#reddit-shell" aria-hidden="true"><span class="octicon octicon-link"></span></a>reddit shell</h1><p>reddit shell is a web based linux shell emulator written in JavaScript that lets you browse and interact with reddit via command line <a href="https://redditshell.com/">https://redditshell.com/</a></p><p><strong>Features</strong></p><ul><li>Browse public subreddits, posts, comments, and users.</li><li>Iterate through comment chains and post indexes.</li><li>Scope-based tabbed auto-completion of commands, subreddit names, and usernames (double tab for list view)</li><li>Search for posts, comments, and users.</li><li>Login authentication via OAuth 2</li><li>Upvote/downvote posts and comments</li><li>Comment/reply posts and comments</li><li>Display inline images for image posts <code># set img on</code></li><li>Change limit on number of retrieved posts, comments <code># set limit [auto|1-100]</code></li><li>Command format exceptions that cover most preferences</li></ul><p><strong>Future TO-DO</strong></p><ul><li>more logged in user actions</li><li>multireddit views</li></ul><p><strong>Example Commands</strong></p><ul><li><code># ls</code> - list posts from the frontpage</li><li><code># ls funny top</code> - lists posts from /r/funny sorted by top rated</li><li><code># cd ..</code> - go back to frontpage listings</li><li><code># view comments 3</code> - views comments for the specified post index</li><li><code># view more comments</code> - load more comments for current post scope</li></ul><h2><a id="user-content-commands" class="anchor" href="#commands" aria-hidden="true"><span class="octicon octicon-link"></span></a>Commands</h2><ul><li><strong>list</strong><ul><li>Aliases: <strong>ls, cd</strong></li><li>Options:<ul><li><strong>[next|previous]</strong> - can only be used on result set</li><li><strong>[subreddit] [new|rising|top|controversial]</strong> - sort applies to subreddits only (not frontpage)</li><li><strong>[subreddit] [next|previous]</strong> - can only be used on result set</li><li><strong>[..|-|~/]</strong> - common directory nav commands - can only be used with the "cd" alias</li></ul></li><li>Description: list posts from the the specified subreddit or the front page if no subreddit specified and sorts by optional new, rising, top, controversial. Use the "cd" alias to forwards and backwards with the [..|-|~/] options</li></ul></li><li><strong>list subreddits</strong><ul><li>Aliases: <strong>[ls, cd], subs</strong> </li><li>Options:<ul><li><strong>[next|previous]</strong> - can only be used on result set</li></ul></li><li>Description: list all public subreddits available on reddit</li></ul></li><li><strong>view content</strong><ul><li>Options:<ul><li><strong>[index]</strong> - can only be used on result set</li></ul></li><li>Description: opens the permalink of the specified post index in a new window.</li></ul></li><li><strong>view comments</strong><ul><li>Options:<ul><li><strong>[index] [confidence|top|new|hot|controversial|old|random|qa]</strong> - can only be used on result set</li></ul></li><li>Description: loads the comments of the specified post index.</li></ul></li><li><strong>view more comments</strong><ul><li>Options:<ul><li><strong>[index] [confidence|top|new|hot|controversial|old|random|qa]</strong> - can only be used on result set</li></ul></li><li>Description: Loads more comments from the post scope if no index is given and there are posts to load, otherwise loads the specified comment tree for the index given.</li></ul></li><li><strong>search</strong><ul><li>Options:<ul><li><strong>[search term]</strong></li><li><strong>[next|previous]</strong> - can only be used on result set</li></ul></li><li>Description: Searches reddit for the specified search term.</li></ul></li><li><strong>user</strong><ul><li>Options:<ul><li><strong>[username]</strong></li><li><strong>[username] [next|previous]</strong> - can only be used on result set</li></ul></li><li>Description: Loads all public comments and posts the specified user has made</li></ul></li><li><strong>login</strong><ul><li>Description: redirects your browser to reddit.com and requests permission for reddit shell to load and use user data</li></ul></li><li><strong>upvote</strong><ul><li>Options:<ul><li><strong>[index]</strong></li></ul></li><li>Description: Upvotes the specified post or comment index</li></ul></li><li><strong>downvote</strong><ul><li>Options:<ul><li><strong>[index]</strong></li></ul></li><li>Description: Downvotes the specified post or comment index</li></ul></li><li><strong>post comment</strong><ul><li>Options:<ul><li><strong>[text]</strong> - can only be used on view comments result set</li></ul></li><li>Description: Post a comment to the current post in scope</li></ul></li><li><strong>post reply</strong><ul><li>Options:<ul><li><strong>[index] [text]</strong> - can only be used on view comments or view more comments result set</li></ul></li><li>Description: Post a reply to the specified comment index</li></ul></li><li><strong>logout</strong><ul><li>Description: De-authenticates the currently logged in user </li></ul></li><li><strong>settings</strong><ul><li>Aliases: <strong>set</strong></li><li>Options:<ul><li><strong>[images] [on|off]</strong><ul><li>Aliases: <strong>img</strong></li></ul></li><li><strong>[limit] [auto|1-100]</strong></li></ul></li><li>Description: Changes settings for user preference. Turning images on will show the thumbnail for all image posts. Limit decides how many results to return for posts and comments. "auto" picks the best limit for your screen resolution without having to scroll (unless viewing a nested comment tree)</li></ul></li><li><strong>pwd</strong><ul><li>Description: Prints working directory</li></ul></li><li><strong>clear</strong><ul><li>Description: Clears the screen</li></ul></li><li><strong>about</strong><ul><li>Description: Displays project info and credits</li></ul></li><li><strong>help</strong><ul><li>Aliases: <strong>cat readme</strong></li><li>Description: Displays more detailed instructions</li></ul></li></ul><p><strong>Libraries</strong></p><ul><li><a href="https://jquery.com/">jQuery</a></li><li><a href="https://github.com/showdownjs/showdown">Showdown</a></li><li><a href="http://terminal.jcubic.pl/">JQuery Terminal</a></li><li><a href="http://momentjs.com/">Moment.js</a></li></ul></article>', {raw:true});
   }
 
   $('body').terminal(function(cmd, term) {
@@ -130,12 +134,14 @@ $(function() {
         comments = [];
         subreddits = [];
         content = [];
+        fullnames = [];
         next = "";
         previous = "";
         sort = "";
         morelink = "";
         json_base = "";
         parent_post = "";
+        parent_name = "";
         c = 0;
         r = 0;
         s = 0;
@@ -147,6 +153,8 @@ $(function() {
             url = this.data.url;
             content.push(url);
             posts.push(permalink);
+            fullname = this.data.name;
+            fullnames.push(fullname);
             title = this.data.title;
             domain = this.data.domain;
             if (this.data.thumbnail && this.data.thumbnail.indexOf("http") > -1) {
@@ -194,7 +202,7 @@ $(function() {
         }
         autocomplete = autocomplete.reduce(function(a,b){if(a.indexOf(b)<0)a.push(b);return a;},[]);
         ls_state = command.join(" ");
-        term.set_prompt('guest@reddit:~$ ');
+        term.set_prompt(auth_user+'@reddit:~$ ');
         term.resume();
       });
       setTimeout(function(){if (!success){term.resume();term.echo("<span style='color: #FF6868;'>error fetching data from reddit</span>", {raw:true});}}, 10000);
@@ -212,6 +220,8 @@ $(function() {
             url = this.data.url;
             content.push(url);
             posts.push(permalink);
+            fullname = this.data.name;
+            fullnames.push(fullname);
             title = this.data.title;
             domain = this.data.domain;
             if (this.data.thumbnail && this.data.thumbnail.indexOf("http") > -1) {
@@ -258,7 +268,7 @@ $(function() {
           term.echo(next_line, {raw:true});
         }
         autocomplete = autocomplete.reduce(function(a,b){if(a.indexOf(b)<0)a.push(b);return a;},[]);
-        term.set_prompt('guest@reddit:~$ ');
+        term.set_prompt(auth_user+'@reddit:~$ ');
         term.resume();
         ls_state = command.join(" ");
       });
@@ -277,6 +287,8 @@ $(function() {
             url = this.data.url;
             content.push(url);
             posts.push(permalink);
+            fullname = this.data.name;
+            fullnames.push(fullname);
             title = this.data.title;
             domain = this.data.domain;
             if (this.data.thumbnail && this.data.thumbnail.indexOf("http") > -1) {
@@ -323,7 +335,7 @@ $(function() {
           term.echo(next_line, {raw:true});
         }
         autocomplete = autocomplete.reduce(function(a,b){if(a.indexOf(b)<0)a.push(b);return a;},[]);
-        term.set_prompt('guest@reddit:~$ ');
+        term.set_prompt(auth_user+'@reddit:~$ ');
         term.resume();
         ls_state = command.join(" ");
       });
@@ -373,7 +385,7 @@ $(function() {
           term.echo(next_line, {raw:true});
         }
         autocomplete = autocomplete.reduce(function(a,b){if(a.indexOf(b)<0)a.push(b);return a;},[]);
-        term.set_prompt('guest@reddit:~/subreddits$ ');
+        term.set_prompt(auth_user+'@reddit:~/subreddits$ ');
         term.resume();
         ls_state = command.join(" ");
       });
@@ -402,7 +414,6 @@ $(function() {
             frontpage = line1 + line2 + line3 + '</div>';
             s = s + 1;
             term.echo(frontpage, {raw:true});
-            term.set_prompt('[guest@reddit subreddits]# ');
           }
         });
         var after = data.data.after;
@@ -412,7 +423,6 @@ $(function() {
           previous = permalink;
           previous_line = "<span><span id='index'>[<span style='color: #B3A600;'>previous</span>]</span><p />";
           term.echo(previous_line, {raw:true});
-          term.set_prompt('[guest@reddit subreddits]# ');
         }
         if (after != null) {
           permalink = "https://www.reddit.com/subreddits/.json?"+limit+"count="+s+"&after="+after+"&jsonp=?";
@@ -421,7 +431,7 @@ $(function() {
           term.echo(next_line, {raw:true});
         }
         autocomplete = autocomplete.reduce(function(a,b){if(a.indexOf(b)<0)a.push(b);return a;},[]);
-        term.set_prompt('guest@reddit:~/subreddits$ ');
+        term.set_prompt(auth_user+'@reddit:~/subreddits$ ');
         term.resume();
         ls_state = command.join(" ");
       });
@@ -467,7 +477,7 @@ $(function() {
           term.echo(next_line, {raw:true});
         }
         autocomplete = autocomplete.reduce(function(a,b){if(a.indexOf(b)<0)a.push(b);return a;},[]);
-        term.set_prompt('guest@reddit:~/subreddits$ ');
+        term.set_prompt(auth_user+'@reddit:~/subreddits$ ');
         term.resume();
         ls_state = command.join(" ");
       });
@@ -485,11 +495,13 @@ $(function() {
         comments = [];
         subreddits = [];
         content = [];
+        fullnames = [];
         next = "";
         previous = "";
         morelink = "";
         json_base = "";
         parent_post = "";
+        parent_name = "";
         c = 0;
         r = 0;
         s = 0;
@@ -502,6 +514,8 @@ $(function() {
             url = this.data.url;
             content.push(url);
             posts.push(permalink);
+            fullname = this.data.name;
+            fullnames.push(fullname);
             title = this.data.title;
             domain = this.data.domain;
             if (this.data.thumbnail && this.data.thumbnail.indexOf("http") > -1) {
@@ -540,7 +554,6 @@ $(function() {
           previous = permalink;
           previous_line = "<span><span id='index'>[<span style='color: #B3A600;'>previous</span>]</span><p />";
           term.echo(previous_line, {raw:true});
-          term.set_prompt('[guest@reddit '+command[2]+']# ');
         }
         if (after != null) {
           permalink = "https://www.reddit.com/r/"+command[2]+"/"+sort+".json?"+limit+"count="+c+"&after="+after+"&jsonp=?";
@@ -552,7 +565,7 @@ $(function() {
         cmd_state.push(command);
         cs = cs + 1;
         ls_state = command.join(" ");
-        term.set_prompt('guest@reddit:~/r/'+subreddit+'$ ');
+        term.set_prompt(auth_user+'@reddit:~/r/'+subreddit+'$ ');
         term.resume();
       });
       setTimeout(function(){if (!success){term.resume();term.echo("<span style='color: #FF6868;'>error fetching data from reddit</span>", {raw:true});}}, 10000);
@@ -570,6 +583,8 @@ $(function() {
             url = this.data.url;
             content.push(url);
             posts.push(permalink);
+            fullname = this.data.name;
+            fullnames.push(fullname);
             title = this.data.title;
             domain = this.data.domain;
             if (this.data.thumbnail && this.data.thumbnail.indexOf("http") > -1) {
@@ -616,7 +631,7 @@ $(function() {
         }
         autocomplete = autocomplete.reduce(function(a,b){if(a.indexOf(b)<0)a.push(b);return a;},[]);
         ls_state = command.join(" ");
-        term.set_prompt('guest@reddit:~/r/'+subreddit+'$ ');
+        term.set_prompt(auth_user+'@reddit:~/r/'+subreddit+'$ ');
         term.resume();
       });
       setTimeout(function(){if (!success){term.resume();term.echo("<span style='color: #FF6868;'>error fetching data from reddit</span>", {raw:true});}}, 10000);
@@ -634,6 +649,8 @@ $(function() {
             url = this.data.url;
             content.push(url);
             posts.push(permalink);
+            fullname = this.data.name;
+            fullnames.push(fullname);
             title = this.data.title;
             domain = this.data.domain;
             if (this.data.thumbnail && this.data.thumbnail.indexOf("http") > -1) {
@@ -682,7 +699,7 @@ $(function() {
         cmd_state.push(cmd);
         cs = cs + 1;
         ls_state = command.join(" ");
-        term.set_prompt('guest@reddit:~/r/'+subreddit+'$ ');
+        term.set_prompt(auth_user+'@reddit:~/r/'+subreddit+'$ ');
         term.resume();
       });
       setTimeout(function(){if (!success){term.resume();term.echo("<span style='color: #FF6868;'>error fetching data from reddit</span>", {raw:true});}}, 10000);
@@ -697,6 +714,8 @@ $(function() {
       json_base = posts[command[3]];
       $.getJSON(posts[command[3]]+".json?"+limit+sort+"jsonp=?", function(data) {
         comments = [];
+        fullnames = [];
+        parent_name = "";
         r = 0;
         morelink = "";
         autocomplete = autobase;
@@ -710,6 +729,7 @@ $(function() {
             time = moment.unix(created).fromNow();
             ups = this.data.ups;
             id = this.data.id;
+            parent_name = this.data.name;
             title = this.data.title;
             domain = this.data.domain;
             subreddit = this.data.subreddit;
@@ -748,6 +768,8 @@ $(function() {
             var reply2_message = "";
             author = this.data.author;
             autocomplete.push(author);
+            fullname = this.data.name;
+            fullnames.push(fullname);
             body = converter.makeHtml(this.data.body);
             created = this.data.created_utc;
             time = moment.unix(created).fromNow();
@@ -773,6 +795,8 @@ $(function() {
                   nested_ups = this.data.replies.data.children[i].data.ups;
                   nested_count = this.data.replies.data.children[i].data.count;
                   nested_id = this.data.replies.data.children[i].data.id;
+                  nested_fullname = this.data.replies.data.children[i].data.id.name;
+                  fullnames.push(nested_fullname);
                   if (this.data.replies.data.children[i].data.replies != "") {
                     nested_count = this.data.replies.data.children[i].data.replies.data.children.length;
                     nest_line1 = "<div style='margin-left:5%;'><span id='index'>[<span style='color: #2C9A96;'>" + r + "</span>]</span> <span id='text-body'>" + nested_body + "</span><br />";
@@ -826,8 +850,7 @@ $(function() {
         cmd_state.push(command);
         cs = cs + 1;
         ls_state = command.join(" ");
-        term.set_prompt('guest@reddit:~$ ');
-        term.set_prompt('guest@reddit:~/r/'+subreddit+'/comments$ ');
+        term.set_prompt(auth_user+'@reddit:~/r/'+subreddit+'/comments$ ');
         term.resume();
       });
       setTimeout(function(){if (!success){term.resume();term.echo("<span style='color: #FF6868;'>error fetching data from reddit</span>", {raw:true});}}, 10000);
@@ -848,6 +871,8 @@ $(function() {
             var reply2_message = "";
             author = this.data.author;
             autocomplete.push(author);
+            fullname = this.data.name;
+            fullnames.push(fullname);
             body = converter.makeHtml(this.data.body);
             created = this.data.created_utc;
             time = moment.unix(created).fromNow();
@@ -929,7 +954,7 @@ $(function() {
         }
         autocomplete = autocomplete.reduce(function(a,b){if(a.indexOf(b)<0)a.push(b);return a;},[]);
         ls_state = command.join(" ");
-        term.set_prompt('guest@reddit:~/r/'+subreddit+'/comments$ ');
+        term.set_prompt(auth_user+'@reddit:~/r/'+subreddit+'/comments$ ');
         term.resume();
       });
       setTimeout(function(){if (!success){term.resume();term.echo("<span style='color: #FF6868;'>error fetching data from reddit</span>", {raw:true});}}, 10000);
@@ -990,6 +1015,8 @@ $(function() {
             var reply2_message = "";
             author = this.data.author;
             autocomplete.push(author);
+            fullname = this.data.name;
+            fullnames.push(fullname);
             body = converter.makeHtml(this.data.body);
             created = this.data.created_utc;
             time = moment.unix(created).fromNow();
@@ -1014,6 +1041,8 @@ $(function() {
                   nested_ups = this.data.replies.data.children[i].data.ups;
                   nested_count = this.data.replies.data.children[i].data.count;
                   nested_id = this.data.replies.data.children[i].data.id;
+                  nested_fullname = this.data.replies.data.children[i].data.id.name;
+                  fullnames.push(nested_fullname);
                   if (this.data.replies.data.children[i].data.replies != "") {
                     nested_count = this.data.replies.data.children[i].data.replies.data.children.length;
                     nest_line1 = "<div style='margin-left:5%;'><span id='index'>[<span style='color: #2C9A96;'>" + r + "</span>]</span> <span id='text-body'>" + nested_body + "</span><br />";
@@ -1054,7 +1083,7 @@ $(function() {
         cmd_state.push(command);
         cs = cs + 1;
         ls_state = command.join(" ");
-        term.set_prompt('guest@reddit:~/r/'+subreddit+'/comments$ ');
+        term.set_prompt(auth_user+'@reddit:~/r/'+subreddit+'/comments$ ');
         term.resume();
       });
       setTimeout(function(){if (!success){term.resume();term.echo("<span style='color: #FF6868;'>error fetching data from reddit</span>", {raw:true});}}, 10000);
@@ -1075,6 +1104,7 @@ $(function() {
       $.getJSON('https://www.reddit.com/search/.json?q='+encodeURIComponent(searchterm)+'&'+limit+'jsonp=?', function(data) {
         success = true;
         content = [];
+        fullnames = [];
         next = "";
         previous = "";
         c = 0;
@@ -1088,6 +1118,8 @@ $(function() {
             url = this.data.url;
             content.push(url);
             posts.push(permalink);
+            fullname = this.data.name;
+            fullnames.push(fullname);
             title = this.data.title;
             domain = this.data.domain;
             pwd = "/search";
@@ -1139,7 +1171,7 @@ $(function() {
         ls_state_array = ls_state.split(' ');
         cmd_state.push(ls_state_array);
         cs = cs + 1;
-        term.set_prompt('guest@reddit:~/search$ ');
+        term.set_prompt(auth_user+'@reddit:~/search$ ');
         term.resume();
       });
       setTimeout(function(){if (!success){term.resume();term.echo("<span style='color: #FF6868;'>error fetching data from reddit</span>", {raw:true});}}, 10000);
@@ -1158,6 +1190,8 @@ $(function() {
             url = this.data.url;
             content.push(url);
             posts.push(permalink);
+            fullname = this.data.name;
+            fullnames.push(fullname);
             title = this.data.title;
             domain = this.data.domain;
             if (this.data.thumbnail && this.data.thumbnail.indexOf("http") > -1) {
@@ -1196,7 +1230,6 @@ $(function() {
           previous = permalink;
           previous_line = "<span><span id='index'>[<span style='color: #B3A600;'>previous</span>]</span><p />";
           term.echo(previous_line, {raw:true});
-          term.set_prompt('[guest@reddit search]# ');
         }
         if (after != null) {
           permalink = "https://www.reddit.com/search/.json?q="+encodeURIComponent(searchterm)+"&"+limit+"count="+c+"&after="+after+"&jsonp=?";
@@ -1205,7 +1238,7 @@ $(function() {
           term.echo(next_line, {raw:true});
         }
         autocomplete = autocomplete.reduce(function(a,b){if(a.indexOf(b)<0)a.push(b);return a;},[]);
-        term.set_prompt('guest@reddit:~/search$ ');
+        term.set_prompt(auth_user+'@reddit:~/search$ ');
         term.resume();
       });
       setTimeout(function(){if (!success){term.resume();term.echo("<span style='color: #FF6868;'>error fetching data from reddit</span>", {raw:true});}}, 10000);
@@ -1224,6 +1257,8 @@ $(function() {
             url = this.data.url;
             content.push(url);
             posts.push(permalink);
+            fullname = this.data.name;
+            fullnames.push(fullname);
             title = this.data.title;
             domain = this.data.domain;
             if (this.data.thumbnail && this.data.thumbnail.indexOf("http") > -1) {
@@ -1271,7 +1306,7 @@ $(function() {
         }
         autocomplete = autocomplete.reduce(function(a,b){if(a.indexOf(b)<0)a.push(b);return a;},[]);
         ls_state = command.join(" ");
-        term.set_prompt('guest@reddit:~/search$ ');
+        term.set_prompt(auth_user+'@reddit:~/search$ ');
         term.resume();
       });
       setTimeout(function(){if (!success){term.resume();term.echo("<span style='color: #FF6868;'>error fetching data from reddit</span>", {raw:true});}}, 10000);
@@ -1284,6 +1319,7 @@ $(function() {
         comments = [];
         posts = [];
         content = [];
+        fullnames = [];
         next = "";
         previous = "";
         r = 0;
@@ -1296,6 +1332,8 @@ $(function() {
             url = this.data.url;
             content.push(url);
             posts.push(permalink);
+            fullname = this.data.name;
+            fullnames.push(fullname);
             title = this.data.title;
             domain = this.data.domain;
             if (this.data.thumbnail && this.data.thumbnail.indexOf("http") > -1) {
@@ -1416,7 +1454,7 @@ $(function() {
         cmd_state.push(command);
         cs = cs + 1;
         ls_state = command.join(" ");
-        term.set_prompt('guest@reddit:~/user/'+author+'$ ');
+        term.set_prompt(auth_user+'@reddit:~/user/'+author+'$ ');
         term.resume();
       });
       setTimeout(function(){if (!success){term.resume();term.echo("<span style='color: #FF6868;'>error fetching data from reddit</span>", {raw:true});}}, 10000);
@@ -1434,6 +1472,8 @@ $(function() {
             url = this.data.url;
             content.push(url);
             posts.push(permalink);
+            fullname = this.data.name;
+            fullnames.push(fullname);
             title = this.data.title;
             domain = this.data.domain;
             if (this.data.thumbnail && this.data.thumbnail.indexOf("http") > -1) {
@@ -1552,7 +1592,7 @@ $(function() {
         }
         autocomplete = autocomplete.reduce(function(a,b){if(a.indexOf(b)<0)a.push(b);return a;},[]);
         ls_state = command.join(" ");
-        term.set_prompt('guest@reddit:~/user/'+author+'$ ');
+        term.set_prompt(auth_user+'@reddit:~/user/'+author+'$ ');
         term.resume();
       });
       setTimeout(function(){if (!success){term.resume();term.echo("<span style='color: #FF6868;'>error fetching data from reddit</span>", {raw:true});}}, 10000);
@@ -1570,6 +1610,8 @@ $(function() {
             url = this.data.url;
             content.push(url);
             posts.push(permalink);
+            fullname = this.data.name;
+            fullnames.push(fullname);
             title = this.data.title;
             domain = this.data.domain;
             if (this.data.thumbnail && this.data.thumbnail.indexOf("http") > -1) {
@@ -1688,10 +1730,170 @@ $(function() {
         }
         autocomplete = autocomplete.reduce(function(a,b){if(a.indexOf(b)<0)a.push(b);return a;},[]);
         ls_state = command.join(" ");
-        term.set_prompt('guest@reddit:~/user/'+author+'$ ');
+        term.set_prompt(auth_user+'@reddit:~/user/'+author+'$ ');
         term.resume();
       });
       setTimeout(function(){if (!success){term.resume();term.echo("<span style='color: #FF6868;'>error fetching data from reddit</span>", {raw:true});}}, 10000);
+    // UPVOTE
+    } else if (token !== false && fullnames.length !== 0 && command[0] == "reddit" && command[1] == "upvote" && command[2] && !command[3]) {
+      success = false;
+      $.ajax({ 
+        url: 'https://oauth.reddit.com/api/vote.json',
+        type: 'POST',
+        dataType: 'json',
+        data: { 
+          dir: '1', 
+          id: fullnames[command[2]],
+          uh: ''
+        },
+        beforeSend: function(xhr) { 
+          xhr.setRequestHeader("Authorization", "bearer " + token);
+        },
+        success: function(data) {
+          success = true;
+          term.echo("successfully upvoted post <strong>"+command[2]+"</strong>", {raw:true});
+          term.resume();
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+          success = false;
+          term.echo("<span style='color: #FF6868;'>error - you may need to re-authorize reddit shell by typing login</span>", {raw:true});
+          term.resume();
+        }
+      });
+    // DOWNVOTE
+    } else if (token !== false && fullnames.length !== 0 && command[0] == "reddit" && command[1] == "downvote" && command[2] && !command[3]) {
+      success = false;
+      $.ajax({ 
+        url: 'https://oauth.reddit.com/api/vote.json',
+        type: 'POST',
+        dataType: 'json',
+        data: { 
+          dir: '-1', 
+          id: fullnames[command[2]],
+          uh: ''
+        },
+        beforeSend: function(xhr) { 
+          xhr.setRequestHeader("Authorization", "bearer " + token);
+        },
+        success: function(data) {
+          term.echo("successfully downvoted post <strong>"+command[2]+"</strong>", {raw:true});
+          success = true;
+          term.resume();
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+          success = false;
+          term.echo("<span style='color: #FF6868;'>error - you may need to re-authorize reddit shell by typing login</span>", {raw:true});
+          term.resume();
+        }
+      });
+    // POST COMMENT - THREAD
+    } else if (token !== false && parent_name !== "" && command[0] == "reddit" && command[1] == "post" && command[2] == "comment" && command[3]) {
+      ctext = [];
+      ctext = command;
+      ctext.splice(0, 3);
+      ctext = ctext.join(' ');
+      $.ajax({ 
+        url: 'https://oauth.reddit.com/api/comment.json',
+        type: 'POST',
+        dataType: 'json',
+        data: { 
+          api_type: 'json',
+          thing_id: parent_name,
+          text: ctext,
+          uh: ''
+        },
+        beforeSend: function(xhr) { 
+          xhr.setRequestHeader("Authorization", "bearer " + token);
+        },
+        success: function(data) {
+          success = true;
+          commentresult = data.json.data.things;
+          term.echo(parent_post, {raw:true});
+          $(commentresult).each(function () {
+            if (this.kind == "t1") {
+              author = this.data.author;
+              fullname = this.data.name;
+              body = converter.makeHtml(this.data.body);
+              created = this.data.created_utc;
+              time = moment.unix(created).fromNow();
+              subreddit = this.data.subreddit;
+              pwd = "/r/"+subreddit+"/comments";
+              ups = this.data.ups;
+              id = this.data.id;
+              line1 = "<div style='width:100%;margin-left:5%;'><span id='text-body'>" + body + "</span><br />";
+              line2 = "<span style='color: #666;'>posted " + time + " by " + author + " to /r/" + subreddit + "</span><br/>";
+              line3 = "<span style='color: #666;'>" + ups + " upvotes</span><p />";
+              comment_url = json_base+id;
+              comments.push(comment_url);
+              reply_message = line1 + line2 + line3;
+              term.echo(reply_message, {raw:true});
+              term.set_prompt(auth_user+'@reddit:~/r/'+subreddit+'/comments$ ');
+            }
+          });
+          term.resume(); 
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+          success = false;
+          term.echo("<span style='color: #FF6868;'>error - you may need to re-authorize reddit shell by typing login</span>", {raw:true});
+          term.resume();
+        }
+      });
+    // POST REPLY - COMMENT
+    } else if (token !== false && fullnames.length !== 0 && command[0] == "reddit" && command[1] == "post" && command[2] == "reply" && command[3] && command[4]) {
+      scope_id = fullnames[command[3]];
+      ctext = [];
+      ctext = command;
+      ctext.splice(0, 4);
+      ctext = ctext.join(' ');
+      $.ajax({ 
+        url: 'https://oauth.reddit.com/api/comment.json',
+        type: 'POST',
+        dataType: 'json',
+        data: { 
+          api_type: 'json',
+          thing_id: scope_id,
+          text: ctext,
+          uh: ''
+        },
+        beforeSend: function(xhr) { 
+          xhr.setRequestHeader("Authorization", "bearer " + token);
+        },
+        success: function(data) {
+          success = true;
+          commentresult = data.json.data.things;
+          $(commentresult).each(function () {
+            if (this.kind == "t1") {
+              author = this.data.author;
+              fullname = this.data.name;
+              body = converter.makeHtml(this.data.body);
+              created = this.data.created_utc;
+              time = moment.unix(created).fromNow();
+              subreddit = this.data.subreddit;
+              pwd = "/r/"+subreddit+"/comments";
+              ups = this.data.ups;
+              id = this.data.id;
+              line1 = "<div style='width:100%;margin-top:1%;'><span id='text-body'>" + body + "</span><br />";
+              line2 = "<span style='color: #666;'>posted " + time + " by " + author + " to /r/" + subreddit + "</span><br/>";
+              line3 = "<span style='color: #666;'>" + ups + " upvotes</span><p />";
+              comment_url = json_base+id;
+              comments.push(comment_url);
+              reply_message = line1 + line2 + line3;
+              term.echo(reply_message, {raw:true});
+              term.set_prompt(auth_user+'@reddit:~/r/'+subreddit+'/comments$ ');
+            }
+          });
+          term.resume(); 
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+          success = false;
+          term.echo("<span style='color: #FF6868;'>error - you may need to re-authorize reddit shell by typing login</span>", {raw:true});
+          term.resume();
+        }
+      });
+    } else if (command[1] == "login") {
+      window.location.replace("https://redditshell.com/auth");
+    } else if (command[1] == "logout" && token) {
+      window.location.replace("https://redditshell.com/");
     } else if (cmd == "pwd") {
       term.echo(pwd, {raw:true});
       term.resume();
@@ -1735,7 +1937,6 @@ $(function() {
       }
     } else if (cmd == "about") {
       about(term);
-      term.set_prompt('guest@reddit:~$ ');
       term.resume();
     } else if (cmd.indexOf("rm -rf") > -1 || (cmd.indexOf(":(){: | :&}")) > -1 || (cmd.indexOf("{:(){ :|: & };:")) > -1 || (cmd.indexOf("command > /dev/sda")) > -1 || (cmd.indexOf("mkfs.ext4 /dev/sda1")) > -1 || (cmd.indexOf("dd if=/dev/random")) > -1 || (cmd.indexOf("mv ~ /dev/null")) > -1 || (cmd.indexOf("wget http")) > -1 || cmd.indexOf("sudo make me a sandwich") > -1) {
       term.echo("<img src='css/newman.gif' /><p />", {raw:true});
@@ -1751,17 +1952,52 @@ $(function() {
       callback(autocomplete);
     },
     onInit: function(term) {
-      if ( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
-        term.echo("commands: ls, ls [subreddit] [next|previous], view comments [index], view more comments [index], search, user, settings", {raw:true});
-        term.echo("warning: reddit shell may not work on all mobile devices", {raw:true});
-        term.set_prompt('guest@reddit:~$ ');
-        term.resume();
-        $('.clipboard').focus();
+      if (location.search.split('token=')[1]) {
+        token = location.search.split('token=')[1];
+        $.ajax({ 
+          url: 'https://oauth.reddit.com/api/v1/me.json',
+          dataType: 'json', 
+          beforeSend: function(xhr) { 
+            xhr.setRequestHeader("Authorization", "bearer " + token);
+          },
+          success: function(data) {
+            auth_user = data.name;
+            link_karma = data.link_karma;
+            comment_karma = data.comment_karma;
+            created = data.created_utc;
+            time = moment.unix(created).fromNow();
+            if ( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+              term.echo("commands: ls, ls [subreddit] [next|previous], view comments [index], view more comments [index], search, user, settings", {raw:true});
+              term.echo("warning: reddit shell may not work on all mobile devices", {raw:true});
+              term.set_prompt(auth_user+'@reddit:~$ ');
+              term.echo("authenticated user: <strong>"+auth_user+"</strong>, link karma: <strong>"+link_karma+"</strong>, comment karma: <strong>"+comment_karma+"</strong>, account created: <strong>"+time+"</strong>", {raw:true});
+              term.resume();
+              $('.clipboard').focus();
+            } else {
+              greetings(term);
+              term.set_prompt(auth_user+'@reddit:~$ ');
+              term.echo("authenticated user: <strong>"+auth_user+"</strong>, link karma: <strong>"+link_karma+"</strong>, comment karma: <strong>"+comment_karma+"</strong>, account created: <strong>"+time+"</strong>", {raw:true});
+              term.resume();
+              $('.clipboard').focus();
+            }
+          },
+          error: function(jqXHR, textStatus, errorThrown) {
+            term.echo("<span style='color: #FF6868;'>error - you may need to re-authorize reddit shell by typing login</span>", {raw:true});
+          }
+        });
       } else {
-        greetings(term);
-        term.set_prompt('guest@reddit:~$ ');
-        term.resume();
-        $('.clipboard').focus();
+        if ( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+          term.echo("commands: ls, ls [subreddit] [next|previous], view comments [index], view more comments [index], search, user, settings", {raw:true});
+          term.echo("warning: reddit shell may not work on all mobile devices", {raw:true});
+          term.set_prompt(auth_user+'@reddit:~$ ');
+          term.resume();
+          $('.clipboard').focus();
+        } else {
+          greetings(term);
+          term.set_prompt(auth_user+'@reddit:~$ ');
+          term.resume();
+          $('.clipboard').focus();
+        }
       }
     },
     onBlur: function(term) {
