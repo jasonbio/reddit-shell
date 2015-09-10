@@ -8,13 +8,16 @@ reddit shell is a web based linux shell emulator written in JavaScript that lets
 * Iterate through comment chains and post indexes.
 * Scope-based tabbed auto-completion of commands, subreddit names, and usernames (double tab for list view)
 * Search for posts, comments, and users.
+* Login authentication via OAuth 2
+* Upvote/downvote posts and comments
+* Comment/reply posts and comments
 * Display inline images for image posts `# set img on`
 * Change limit on number of retrieved posts, comments `# set limit [auto|1-100]`
 * Command format exceptions that cover most preferences
 
 **Future TO-DO**
 
-* OAuth for access to commenting/voting
+* more logged in user actions
 * multireddit views
 
 **Example Commands**
@@ -62,6 +65,26 @@ reddit shell is a web based linux shell emulator written in JavaScript that lets
     * **[username]**
     * **[username] [next|previous]** - can only be used on result set
   * Description: Loads all public comments and posts the specified user has made
+* **login**
+  * Description: redirects your browser to reddit.com and requests permission for reddit shell to load and use user data
+* **upvote**
+  * Options:
+    * **[index]**
+  * Description: Upvotes the specified post or comment index
+* **downvote**
+  * Options:
+    * **[index]**
+  * Description: Downvotes the specified post or comment index
+* **post comment**
+  * Options:
+    * **[text]** - can only be used on view comments result set
+  * Description: Post a comment to the current post in scope
+* **post reply**
+  * Options:
+    * **[index] [text]** - can only be used on view comments or view more comments result set
+  * Description: Post a reply to the specified comment index
+* **logout**
+  * Description: De-authenticates the currently logged in user 
 * **settings**
   * Aliases: **set**
   * Options:
@@ -82,5 +105,6 @@ reddit shell is a web based linux shell emulator written in JavaScript that lets
 **Libraries**
 
 - [jQuery](https://jquery.com/)
+- [Showdown](https://github.com/showdownjs/showdown)
 - [JQuery Terminal](http://terminal.jcubic.pl/)
 - [Moment.js](http://momentjs.com/)
