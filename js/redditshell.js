@@ -66,11 +66,11 @@ $(function() {
   });
 
   function greetings(term) {
-    term.echo("<div style='width:100%;float: left;text-align: left;' id='greeting'><div style=' font-weight: bold;width:100%;white-space:nowrap;float:left;line-height: 7px;font-size: 7px;color: #2FD4CE;padding-left:5px;' id='ascii'>_________<span style='color:transparent;'>__</span>_______<span style='color:transparent;'>___</span>________<span style='color:transparent;'>__</span>________<span style='color:transparent;'>__</span>___<span style='color:transparent;'>__</span>_________<span style='color:transparent;'>________</span>________<span style='color:transparent;'>__</span>___<span style='color:transparent;'>__</span>___<span style='color:transparent;'>__</span>_______<span style='color:transparent;'>___</span>___<span style='color:transparent;'>_______</span>___<span style='color:transparent;'>__________</span><br /><span style='color:transparent;'><span style='color:#fff;' id='asciitext'>|\\_______\\|\\______\\_|\\_______\\|\\_______\\|\\__\\|\\_________\\</span></span><span style='color:transparent;'>_____</span><span style='color:#fff;' id='asciitext'>|\\_______\\|\\__\\|\\__\\|\\______\\_|\\__\\<span style='color:transparent;'>_____</span>|\\__\\</span><span style='color:transparent;'>_________</span><br /><span style='color:transparent;'><span style='color:#fff;' id='asciitext'>\\_\\__\\|\\__\\_\\_____/|\\_\\__\\_|\\_\\_\\__\\_|\\_\\_\\__\\|____\\__\\_|</span></span><span style='color:transparent;'>_____</span><span style='color:#fff;' id='asciitext'>\\_\\__\\___|\\_\\__\\\\\\__\\_\\_____/|\\_\\__\\<span style='color:transparent;'>____</span>\\_\\__\\</span><span style='color:transparent;'>________</span><br /><span style='color:transparent;'>_</span><span style='color:#fff;' id='asciitext'>\\_\\_______\\_\\__\\_|/_\\_\\__\\_\\\\_\\_\\__\\_\\\\_\\_\\__\\</span></span><span style='color:transparent;'>___</span><span style='color:#fff;' id='asciitext'>\\_\\__\\</span><span style='color:transparent;'>_______</span><span style='color:#fff;' id='asciitext'>\\_\\_______\\_\\_______\\_\\__\\_|/_\\_\\__\\<span style='color:transparent'>____</span>\\_\\__\\</span><span style='color:transparent;'>_______</span><br /><span style='color:transparent;'>__<span style='color:#fff;' id='asciitext'>\\_\\__\\\\__\\\\_\\__\\_|\\_\\_\\__\\_\\\\_\\_\\__\\_\\\\_\\_\\__\\</span></span><span style='color:transparent;'>___</span><span style='color:#fff;' id='asciitext'>\\_\\__\\</span><span style='color:transparent;'>_______</span><span style='color:#fff;' id='asciitext'>\\|____|\\__\\_\\__\\_\\__\\_\\__\\_|\\_\\_\\__\\____\\_\\__\\</span><span style='color:#fff;' id='asciitext'>_____</span><br /><span style='color:transparent;'>___<span style='color:#fff;' id='asciitext'>\\_\\__\\\\__\\\\_\\_______\\_\\_______\\_\\_______\\_\\__\\</span></span><span style='color:transparent;'>___</span><span style='color:#fff;' id='asciitext'>\\_\\__\\</span><span style='color:transparent;'></span><span style='color:transparent;'>_______</span><span style='color:#fff;' id='asciitext'>_____<span style='color:#fff;' id='asciitext'>\\_\\__\\_\\__\\_\\__\\_\\_______\\_\\_______\\_\\_______\\</span></span><br /><span style='color:transparent;'>____<span style='color:#fff;' id='asciitext'>\\|__|\\|__|\\|_______|\\|_______|\\|_______|\\|__|</span></span><span style='color:transparent;'>____</span><span style='color:#fff;' id='asciitext'>\\|__|</span><span style='color:transparent;'>_______</span><span style='color:#fff;' id='asciitext'>|\\_________\\|__|\\|__|\\|_______|\\|_______|\\|_______|</span><br /><span style='color:transparent;'>_________________________________________________________________</span><span style='color:#fff;' id='asciitext'>\\|_________|</span><span style='color:transparent;'>_______________________________________</span><br /><span style='color:transparent;'>____________________________________________________________________________________________________________________</span></div><p/>reddit shell: web based shell emulator for browsing reddit <br />via command line - by <a href='http://jasonb.io/' target='_blank'>jason botello</a> - <a href='https://github.com/jasonbio/reddit-shell' target='_blank'>fork this project on GitHub</a><p /><strong>list [next|previous]</strong> list posts from the front page and navigate results<br /><strong>list [subreddit] [next|previous]</strong> list posts from the specified subreddit and navigate results<br /><strong>list subreddits [next|previous]</strong> list all subreddits on reddit and navigate results<br /><strong>view content [index]</strong> open the post content URL in a new window<br /> <strong>view comments [index]</strong> view the comment tree for the specified post index<br /><strong>view more comments</strong> load more base comments from the post<br /><strong>view more comments [index]</strong> view comment tree for the specified comment index<br /> <strong>search [search term]</strong> search reddit for something specific<br /><strong>user [username] [next|previous]</strong> get all comments and posts for the specified user and navigate results<br /><strong>login</strong> redirect to reddit.com to authenticate<br /><strong>upvote [index]</strong> upvote the specified post or comment index<br /><strong>downvote [index]</strong> downvote the specified post or comment index<br /><strong>post comment [text]</strong> post a comment to the current post<br /><strong>post reply [index] [text]</strong> post a reply to the specified comment index<br /><strong>logout</strong> de-authenticates the current user<br /><strong>settings images [on|off]</strong> set inline image display on or off<br /><strong>settings limit [auto|1-100]</strong> set the limit on number of posts/comments returned<br /><strong>help, about, clear</strong> display detailed instructions, show credits, clear screen output<p />sort subreddit listings <strong>[new|rising|top|controversial]</strong><br />sort comment views <Strong>[confidence|top|new|hot|controversial|old|random|qa]</strong><p /></div>", {raw:true});
+    term.echo("<div id='greeting'><div id='ascii'>_________<span class='trans'>__</span>_______<span class='trans'>___</span>________<span class='trans'>__</span>________<span class='trans'>__</span>___<span class='trans'>__</span>_________<span class='trans'>________</span>________<span class='trans'>__</span>___<span class='trans'>__</span>___<span class='trans'>__</span>_______<span class='trans'>___</span>___<span class='trans'>_______</span>___<span class='trans'>__________</span><br /><span class='trans'><span id='asciitext'>|\\_______\\|\\______\\_|\\_______\\|\\_______\\|\\__\\|\\_________\\</span></span><span class='trans'>_____</span><span id='asciitext'>|\\_______\\|\\__\\|\\__\\|\\______\\_|\\__\\<span class='trans'>_____</span>|\\__\\</span><span class='trans'>_________</span><br /><span class='trans'><span id='asciitext'>\\_\\__\\|\\__\\_\\_____/|\\_\\__\\_|\\_\\_\\__\\_|\\_\\_\\__\\|____\\__\\_|</span></span><span class='trans'>_____</span><span id='asciitext'>\\_\\__\\___|\\_\\__\\\\\\__\\_\\_____/|\\_\\__\\<span class='trans'>____</span>\\_\\__\\</span><span class='trans'>________</span><br /><span class='trans'>_</span><span id='asciitext'>\\_\\_______\\_\\__\\_|/_\\_\\__\\_\\\\_\\_\\__\\_\\\\_\\_\\__\\</span></span><span class='trans'>___</span><span id='asciitext'>\\_\\__\\</span><span class='trans'>_______</span><span id='asciitext'>\\_\\_______\\_\\_______\\_\\__\\_|/_\\_\\__\\<span class='trans'>____</span>\\_\\__\\</span><span class='trans'>_______</span><br /><span class='trans'>__<span id='asciitext'>\\_\\__\\\\__\\\\_\\__\\_|\\_\\_\\__\\_\\\\_\\_\\__\\_\\\\_\\_\\__\\</span></span><span class='trans'>___</span><span id='asciitext'>\\_\\__\\</span><span class='trans'>_______</span><span id='asciitext'>\\|____|\\__\\_\\__\\_\\__\\_\\__\\_|\\_\\_\\__\\____\\_\\__\\</span><span id='asciitext'>_____</span><br /><span class='trans'>___<span id='asciitext'>\\_\\__\\\\__\\\\_\\_______\\_\\_______\\_\\_______\\_\\__\\</span></span><span class='trans'>___</span><span id='asciitext'>\\_\\__\\</span><span class='trans'></span><span class='trans'>_______</span><span id='asciitext'>_____<span id='asciitext'>\\_\\__\\_\\__\\_\\__\\_\\_______\\_\\_______\\_\\_______\\</span></span><br /><span class='trans'>____<span id='asciitext'>\\|__|\\|__|\\|_______|\\|_______|\\|_______|\\|__|</span></span><span class='trans'>____</span><span id='asciitext'>\\|__|</span><span class='trans'>_______</span><span id='asciitext'>|\\_________\\|__|\\|__|\\|_______|\\|_______|\\|_______|</span><br /><span class='trans'>_________________________________________________________________</span><span id='asciitext'>\\|_________|</span><span class='trans'>_______________________________________</span><br /><span class='trans'>____________________________________________________________________________________________________________________</span></div><p/>reddit shell: web based shell emulator for browsing reddit <br />via command line - by <a href='http://jasonb.io/' target='_blank'>jason botello</a> - <a href='https://github.com/jasonbio/reddit-shell' target='_blank'>fork this project on GitHub</a><p /><strong>list [next|previous]</strong> list posts from the front page and navigate results<br /><strong>list [subreddit] [next|previous]</strong> list posts from the specified subreddit and navigate results<br /><strong>list subreddits [next|previous]</strong> list all subreddits on reddit and navigate results<br /><strong>view content [index]</strong> open the post content URL in a new window<br /> <strong>view comments [index]</strong> view the comment tree for the specified post index<br /><strong>view more comments</strong> load more base comments from the post<br /><strong>view more comments [index]</strong> view comment tree for the specified comment index<br /> <strong>search [search term]</strong> search reddit for something specific<br /><strong>user [username] [next|previous]</strong> get all comments and posts for the specified user and navigate results<br /><strong>login</strong> redirect to reddit.com to authenticate<br /><strong>upvote [index]</strong> upvote the specified post or comment index<br /><strong>downvote [index]</strong> downvote the specified post or comment index<br /><strong>post comment [text]</strong> post a comment to the current post<br /><strong>post reply [index] [text]</strong> post a reply to the specified comment index<br /><strong>logout</strong> de-authenticates the current user<br /><strong>settings images [on|off]</strong> set inline image display on or off<br /><strong>settings limit [auto|1-100]</strong> set the limit on number of posts/comments returned<br /><strong>help, about, clear</strong> display detailed instructions, show credits, clear screen output<p />sort subreddit listings <strong>[new|rising|top|controversial]</strong><br />sort comment views <Strong>[confidence|top|new|hot|controversial|old|random|qa]</strong><p /></div>", {raw:true});
   }
 
   function about(term) {
-    term.echo("<div style='width:100%;float: left;text-align: left;margin-top: 10px;padding-bottom: 10px;' id='greeting'><div style=' font-weight: bold;width:100%;white-space:nowrap;float:left;line-height: 7px;font-size: 7px;color: #2FD4CE;padding-left:5px;' id='ascii'>_________<span style='color:transparent;'>__</span>_______<span style='color:transparent;'>___</span>________<span style='color:transparent;'>__</span>________<span style='color:transparent;'>__</span>___<span style='color:transparent;'>__</span>_________<span style='color:transparent;'>________</span>________<span style='color:transparent;'>__</span>___<span style='color:transparent;'>__</span>___<span style='color:transparent;'>__</span>_______<span style='color:transparent;'>___</span>___<span style='color:transparent;'>_______</span>___<span style='color:transparent;'>__________</span><br /><span style='color:transparent;'><span style='color:#fff;' id='asciitext'>|\\_______\\|\\______\\_|\\_______\\|\\_______\\|\\__\\|\\_________\\</span></span><span style='color:transparent;'>_____</span><span style='color:#fff;' id='asciitext'>|\\_______\\|\\__\\|\\__\\|\\______\\_|\\__\\<span style='color:transparent;'>_____</span>|\\__\\</span><span style='color:transparent;'>_________</span><br /><span style='color:transparent;'><span style='color:#fff;' id='asciitext'>\\_\\__\\|\\__\\_\\_____/|\\_\\__\\_|\\_\\_\\__\\_|\\_\\_\\__\\|____\\__\\_|</span></span><span style='color:transparent;'>_____</span><span style='color:#fff;' id='asciitext'>\\_\\__\\___|\\_\\__\\\\\\__\\_\\_____/|\\_\\__\\<span style='color:transparent;'>____</span>\\_\\__\\</span><span style='color:transparent;'>________</span><br /><span style='color:transparent;'>_</span><span style='color:#fff;' id='asciitext'>\\_\\_______\\_\\__\\_|/_\\_\\__\\_\\\\_\\_\\__\\_\\\\_\\_\\__\\</span></span><span style='color:transparent;'>___</span><span style='color:#fff;' id='asciitext'>\\_\\__\\</span><span style='color:transparent;'>_______</span><span style='color:#fff;' id='asciitext'>\\_\\_______\\_\\_______\\_\\__\\_|/_\\_\\__\\<span style='color:transparent'>____</span>\\_\\__\\</span><span style='color:transparent;'>_______</span><br /><span style='color:transparent;'>__<span style='color:#fff;' id='asciitext'>\\_\\__\\\\__\\\\_\\__\\_|\\_\\_\\__\\_\\\\_\\_\\__\\_\\\\_\\_\\__\\</span></span><span style='color:transparent;'>___</span><span style='color:#fff;' id='asciitext'>\\_\\__\\</span><span style='color:transparent;'>_______</span><span style='color:#fff;' id='asciitext'>\\|____|\\__\\_\\__\\_\\__\\_\\__\\_|\\_\\_\\__\\____\\_\\__\\</span><span style='color:#fff;' id='asciitext'>_____</span><br /><span style='color:transparent;'>___<span style='color:#fff;' id='asciitext'>\\_\\__\\\\__\\\\_\\_______\\_\\_______\\_\\_______\\_\\__\\</span></span><span style='color:transparent;'>___</span><span style='color:#fff;' id='asciitext'>\\_\\__\\</span><span style='color:transparent;'></span><span style='color:transparent;'>_______</span><span style='color:#fff;' id='asciitext'>_____<span style='color:#fff;' id='asciitext'>\\_\\__\\_\\__\\_\\__\\_\\_______\\_\\_______\\_\\_______\\</span></span><br /><span style='color:transparent;'>____<span style='color:#fff;' id='asciitext'>\\|__|\\|__|\\|_______|\\|_______|\\|_______|\\|__|</span></span><span style='color:transparent;'>____</span><span style='color:#fff;' id='asciitext'>\\|__|</span><span style='color:transparent;'>_______</span><span style='color:#fff;' id='asciitext'>|\\_________\\|__|\\|__|\\|_______|\\|_______|\\|_______|</span><br /><span style='color:transparent;'>_________________________________________________________________</span><span style='color:#fff;' id='asciitext'>\\|_________|</span><span style='color:transparent;'>_______________________________________</span><br /><span style='color:transparent;'>____________________________________________________________________________________________________________________</span></div><p/>reddit shell is a web based linux shell emulator written in JavaScript <br />that lets you browse and interact with reddit via command line<p />reddit shell is developed and maintained by <a href='http://jasonb.io/' target='_blank'>jason botello</a> and was first <br />published on 9/5/2015. You can help contribute to the project on <a href='https://github.com/jasonbio/reddit-shell' target='_blank'>GitHub</a><p />reddit shell makes use of the following JS libraries:<br />- <a href='http://terminal.jcubic.pl/' target='_blank'>JQuery Terminal</a><br />- <a href='https://github.com/showdownjs/showdown' target='_blank'>Showdown</a><br />- <a href='http://momentjs.com/' target='_blank'>Moment.js</a><br />- <a href='https://github.com/showdownjs/showdown' target='_blank'>Showdown</a></div>", {raw:true});
+    term.echo("<div style='width:100%;float: left;text-align: left;margin-top: 10px;padding-bottom: 10px;' id='greeting'><div style=' font-weight: bold;width:100%;white-space:nowrap;float:left;line-height: 7px;font-size: 7px;color: #2FD4CE;padding-left:5px;' id='ascii'>_________<span class='trans'>__</span>_______<span class='trans'>___</span>________<span class='trans'>__</span>________<span class='trans'>__</span>___<span class='trans'>__</span>_________<span class='trans'>________</span>________<span class='trans'>__</span>___<span class='trans'>__</span>___<span class='trans'>__</span>_______<span class='trans'>___</span>___<span class='trans'>_______</span>___<span class='trans'>__________</span><br /><span class='trans'><span id='asciitext'>|\\_______\\|\\______\\_|\\_______\\|\\_______\\|\\__\\|\\_________\\</span></span><span class='trans'>_____</span><span id='asciitext'>|\\_______\\|\\__\\|\\__\\|\\______\\_|\\__\\<span class='trans'>_____</span>|\\__\\</span><span class='trans'>_________</span><br /><span class='trans'><span id='asciitext'>\\_\\__\\|\\__\\_\\_____/|\\_\\__\\_|\\_\\_\\__\\_|\\_\\_\\__\\|____\\__\\_|</span></span><span class='trans'>_____</span><span id='asciitext'>\\_\\__\\___|\\_\\__\\\\\\__\\_\\_____/|\\_\\__\\<span class='trans'>____</span>\\_\\__\\</span><span class='trans'>________</span><br /><span class='trans'>_</span><span id='asciitext'>\\_\\_______\\_\\__\\_|/_\\_\\__\\_\\\\_\\_\\__\\_\\\\_\\_\\__\\</span></span><span class='trans'>___</span><span id='asciitext'>\\_\\__\\</span><span class='trans'>_______</span><span id='asciitext'>\\_\\_______\\_\\_______\\_\\__\\_|/_\\_\\__\\<span class='trans'>____</span>\\_\\__\\</span><span class='trans'>_______</span><br /><span class='trans'>__<span id='asciitext'>\\_\\__\\\\__\\\\_\\__\\_|\\_\\_\\__\\_\\\\_\\_\\__\\_\\\\_\\_\\__\\</span></span><span class='trans'>___</span><span id='asciitext'>\\_\\__\\</span><span class='trans'>_______</span><span id='asciitext'>\\|____|\\__\\_\\__\\_\\__\\_\\__\\_|\\_\\_\\__\\____\\_\\__\\</span><span id='asciitext'>_____</span><br /><span class='trans'>___<span id='asciitext'>\\_\\__\\\\__\\\\_\\_______\\_\\_______\\_\\_______\\_\\__\\</span></span><span class='trans'>___</span><span id='asciitext'>\\_\\__\\</span><span class='trans'></span><span class='trans'>_______</span><span id='asciitext'>_____<span id='asciitext'>\\_\\__\\_\\__\\_\\__\\_\\_______\\_\\_______\\_\\_______\\</span></span><br /><span class='trans'>____<span id='asciitext'>\\|__|\\|__|\\|_______|\\|_______|\\|_______|\\|__|</span></span><span class='trans'>____</span><span id='asciitext'>\\|__|</span><span class='trans'>_______</span><span id='asciitext'>|\\_________\\|__|\\|__|\\|_______|\\|_______|\\|_______|</span><br /><span class='trans'>_________________________________________________________________</span><span id='asciitext'>\\|_________|</span><span class='trans'>_______________________________________</span><br /><span class='trans'>____________________________________________________________________________________________________________________</span></div><p/>reddit shell is a web based linux shell emulator written in JavaScript <br />that lets you browse and interact with reddit via command line<p />reddit shell is developed and maintained by <a href='http://jasonb.io/' target='_blank'>jason botello</a> and was first <br />published on 9/5/2015. You can help contribute to the project on <a href='https://github.com/jasonbio/reddit-shell' target='_blank'>GitHub</a><p />reddit shell makes use of the following JS libraries:<br />- <a href='http://terminal.jcubic.pl/' target='_blank'>JQuery Terminal</a><br />- <a href='https://github.com/showdownjs/showdown' target='_blank'>Showdown</a><br />- <a href='http://momentjs.com/' target='_blank'>Moment.js</a><br />- <a href='https://github.com/showdownjs/showdown' target='_blank'>Showdown</a></div>", {raw:true});
   }
 
   function readme(term) {
@@ -165,22 +165,22 @@ $(function() {
             subreddit = this.data.subreddit;
             autocomplete.push(subreddit);
             if (url) {
-              line1 = "<div style='width:100%;float:left;'><span id='index'>[<span style='color: #2C9A96;'>" + c + "</span>]</span> <a href='"+url+"' target='_blank'>"+title + "</a> (" + domain + ")<br />";
+              line1 = "<div class='post-wrapper'><span id='index'>[<span class='post-color'>" + c + "</span>]</span> <a href='"+url+"' target='_blank'>"+title + "</a> (" + domain + ")<br />";
             } else {
               line1 = title + " (" + domain + ")<br />";
             }
 
             if (image && showimages) {
-              line1 = line1 + "<img src='" + image + "' style='float: left;margin: 10px;' /><br />";
+              line1 = line1 + "<img src='" + image + "' class='post-img' /><br />";
             }
             created = this.data.created_utc;
             time = moment.unix(created).fromNow();
             author = this.data.author;
             autocomplete.push(author);
-            line2 = "<span style='color: #666;'>submitted " + time + " by " + author + " to /r/" + subreddit + "</span><br />";
+            line2 = "<span class='line2'>submitted " + time + " by " + author + " to /r/" + subreddit + "</span><br />";
             ups = this.data.ups;
             num_comments = this.data.num_comments;
-            line3 = "<span style='color: #666;'>" + ups + " upvotes with " + num_comments + " comments</span><p/>";
+            line3 = "<span class='line3'>" + ups + " upvotes with " + num_comments + " comments</span><p/>";
             frontpage = line1 + line2 + line3 + '</div>';
             c = c + 1;
             term.echo(frontpage, {raw:true});
@@ -191,13 +191,13 @@ $(function() {
         if (before != null) {
           permalink = "https://www.reddit.com/.json?"+limit+"count="+c+"&before="+before+"&jsonp=?";
           previous = permalink;
-          previous_line = "<span><span id='index'>[<span style='color: #B3A600;'>previous</span>]</span><p />";
+          previous_line = "<span><span id='index'>[<span class='nav-color'>previous</span>]</span><p />";
           term.echo(previous_line, {raw:true});
         }
         if (after != null) {
           permalink = "https://www.reddit.com/.json?"+limit+"count="+c+"&after="+after+"&jsonp=?";
           next = permalink;
-          next_line = "<span><span id='index'>[<span style='color: #B3A600;'>next</span>]</span><p />";
+          next_line = "<span><span id='index'>[<span class='nav-color'>next</span>]</span><p />";
           term.echo(next_line, {raw:true});
         }
         autocomplete = autocomplete.reduce(function(a,b){if(a.indexOf(b)<0)a.push(b);return a;},[]);
@@ -205,7 +205,7 @@ $(function() {
         term.set_prompt(auth_user+'@reddit:~$ ');
         term.resume();
       });
-      setTimeout(function(){if (!success){term.resume();term.echo("<span style='color: #FF6868;'>error fetching data from reddit</span>", {raw:true});}}, 10000);
+      setTimeout(function(){if (!success){term.resume();term.echo("<span class='err'>error fetching data from reddit</span>", {raw:true});}}, 10000);
     // LIST NEXT PAGE
     } else if (command[0] == "reddit" && command[1] == "list" && command[2] == "next" && !command[3]) {
       success = false;
@@ -232,22 +232,22 @@ $(function() {
             subreddit = this.data.subreddit;
             autocomplete.push(subreddit);
             if (url) {
-              line1 = "<div style='width:100%;float:left;'><span id='index'>[<span style='color: #2C9A96;'>" + c + "</span>]</span> <a href='"+url+"' target='_blank'>"+title + "</a> (" + domain + ")<br />";
+              line1 = "<div class='post-wrapper'><span id='index'>[<span class='post-color'>" + c + "</span>]</span> <a href='"+url+"' target='_blank'>"+title + "</a> (" + domain + ")<br />";
             } else {
               line1 = title + " (" + domain + ")<br />";
             }
 
             if (image && showimages) {
-              line1 = line1 + "<img src='" + image + "' style='float: left;margin: 10px;' /><br />";
+              line1 = line1 + "<img src='" + image + "' class='post-img' /><br />";
             }
             created = this.data.created_utc;
             time = moment.unix(created).fromNow();
             author = this.data.author;
             autocomplete.push(author);
-            line2 = "<span style='color: #666;'>submitted " + time + " by " + author + " to /r/" + subreddit + "</span><br />";
+            line2 = "<span class='line2'>submitted " + time + " by " + author + " to /r/" + subreddit + "</span><br />";
             ups = this.data.ups;
             num_comments = this.data.num_comments;
-            line3 = "<span style='color: #666;'>" + ups + " upvotes with " + num_comments + " comments</span><p/>";
+            line3 = "<span class='line3'>" + ups + " upvotes with " + num_comments + " comments</span><p/>";
             frontpage = line1 + line2 + line3 + '</div>';
             c = c + 1;
             term.echo(frontpage, {raw:true});
@@ -258,13 +258,13 @@ $(function() {
         if (before != null) {
           permalink = "https://www.reddit.com/.json?"+limit+"count="+c+"&before="+before+"&jsonp=?";
           previous = permalink;
-          previous_line = "<span><span id='index'>[<span style='color: #B3A600;'>previous</span>]</span><p />";
+          previous_line = "<span><span id='index'>[<span class='nav-color'>previous</span>]</span><p />";
           term.echo(previous_line, {raw:true});
         }
         if (after != null) {
           permalink = "https://www.reddit.com/.json?"+limit+"count="+c+"&after="+after+"&jsonp=?";
           next = permalink;
-          next_line = "<span><span id='index'>[<span style='color: #B3A600;'>next</span>]</span><p />";
+          next_line = "<span><span id='index'>[<span class='nav-color'>next</span>]</span><p />";
           term.echo(next_line, {raw:true});
         }
         autocomplete = autocomplete.reduce(function(a,b){if(a.indexOf(b)<0)a.push(b);return a;},[]);
@@ -272,7 +272,7 @@ $(function() {
         term.resume();
         ls_state = command.join(" ");
       });
-      setTimeout(function(){if (!success){term.resume();term.echo("<span style='color: #FF6868;'>error fetching data from reddit</span>", {raw:true});}}, 10000);
+      setTimeout(function(){if (!success){term.resume();term.echo("<span class='err'>error fetching data from reddit</span>", {raw:true});}}, 10000);
     // LIST PREVIOUS PAGE
     } else if (command[0] == "reddit" && command[1] == "list" && command[2] == "previous" && !command[3]) {
       success = false;
@@ -299,22 +299,22 @@ $(function() {
             subreddit = this.data.subreddit;
             autocomplete.push(subreddit);
             if (url) {
-              line1 = "<div style='width:100%;float:left;'><span id='index'>[<span style='color: #2C9A96;'>" + c + "</span>]</span> <a href='"+url+"' target='_blank'>"+title + "</a> (" + domain + ")<br />";
+              line1 = "<div class='post-wrapper'><span id='index'>[<span class='post-color'>" + c + "</span>]</span> <a href='"+url+"' target='_blank'>"+title + "</a> (" + domain + ")<br />";
             } else {
               line1 = title + " (" + domain + ")<br />";
             }
 
             if (image && showimages) {
-              line1 = line1 + "<img src='" + image + "' style='float: left;margin: 10px;' /><br />";
+              line1 = line1 + "<img src='" + image + "' class='post-img' /><br />";
             }
             created = this.data.created_utc;
             time = moment.unix(created).fromNow();
             author = this.data.author;
             autocomplete.push(author);
-            line2 = "<span style='color: #666;'>submitted " + time + " by " + author + " to /r/" + subreddit + "</span><br />";
+            line2 = "<span class='line2'>submitted " + time + " by " + author + " to /r/" + subreddit + "</span><br />";
             ups = this.data.ups;
             num_comments = this.data.num_comments;
-            line3 = "<span style='color: #666;'>" + ups + " upvotes with " + num_comments + " comments</span><p/>";
+            line3 = "<span class='line3'>" + ups + " upvotes with " + num_comments + " comments</span><p/>";
             frontpage = line1 + line2 + line3 + '</div>';
             c = c - 1;
             term.echo(frontpage, {raw:true});
@@ -325,13 +325,13 @@ $(function() {
         if (before != null) {
           permalink = "https://www.reddit.com/.json?"+limit+"count="+c+"&before="+before+"&jsonp=?";
           previous = permalink;
-          previous_line = "<span><span id='index'>[<span style='color: #B3A600;'>previous</span>]</span><p />";
+          previous_line = "<span><span id='index'>[<span class='nav-color'>previous</span>]</span><p />";
           term.echo(previous_line, {raw:true});
         }
         if (after != null) {
           permalink = "https://www.reddit.com/.json?"+limit+"count="+c+"&after="+after+"&jsonp=?";
           next = permalink;
-          next_line = "<span><span id='index'>[<span style='color: #B3A600;'>next</span>]</span><p />";
+          next_line = "<span><span id='index'>[<span class='nav-color'>next</span>]</span><p />";
           term.echo(next_line, {raw:true});
         }
         autocomplete = autocomplete.reduce(function(a,b){if(a.indexOf(b)<0)a.push(b);return a;},[]);
@@ -339,7 +339,7 @@ $(function() {
         term.resume();
         ls_state = command.join(" ");
       });
-      setTimeout(function(){if (!success){term.resume();term.echo("<span style='color: #FF6868;'>error fetching data from reddit</span>", {raw:true});}}, 10000);
+      setTimeout(function(){if (!success){term.resume();term.echo("<span class='err'>error fetching data from reddit</span>", {raw:true});}}, 10000);
     // LIST SUBREDDITS
     } else if (command[0] == "reddit" && command[1] == "list" && command[2] == "subreddits" && !command[3]) {
       success = false;
@@ -358,13 +358,13 @@ $(function() {
             display_name = this.data.display_name;
             autocomplete.push(display_name);
             title = this.data.title;
-            line1 = "<div style='width:100%;float:left;'><span id='index'>[<span style='color: #2C9A96;'>" + s + "</span>]</span> <a href='https://reddit.com" + url + "' target='_blank'>/r/" + display_name + " - " + title + "</a><br />";
+            line1 = "<div class='post-wrapper'><span id='index'>[<span class='post-color'>" + s + "</span>]</span> <a href='https://reddit.com" + url + "' target='_blank'>/r/" + display_name + " - " + title + "</a><br />";
             description = this.data.public_description;
-            line2 = "<span style='color: #666;'>" + description + "</span><br />";
+            line2 = "<span class='line'>" + description + "</span><br />";
             subscribers = this.data.subscribers;
             created = this.data.created_utc;
             time = moment.unix(created).fromNow();
-            line3 = "<span style='color: #666;'>" + subscribers + " subscribers since starting " + time + "</span><p />";
+            line3 = "<span class='line'>" + subscribers + " subscribers since starting " + time + "</span><p />";
             frontpage = line1 + line2 + line3 + '</div>';
             s = s + 1;
             term.echo(frontpage, {raw:true});
@@ -375,13 +375,13 @@ $(function() {
         if (before != null) {
           permalink = "https://www.reddit.com/subreddits/.json?"+limit+"count="+s+"&before="+before+"&jsonp=?";
           previous = permalink;
-          previous_line = "<span><span id='index'>[<span style='color: #B3A600;'>previous</span>]</span><p />";
+          previous_line = "<span><span id='index'>[<span class='nav-color'>previous</span>]</span><p />";
           term.echo(previous_line, {raw:true});
         }
         if (after != null) {
           permalink = "https://www.reddit.com/subreddits/.json?"+limit+"count="+s+"&after="+after+"&jsonp=?";
           next = permalink;
-          next_line = "<span><span id='index'>[<span style='color: #B3A600;'>next</span>]</span><p />";
+          next_line = "<span><span id='index'>[<span class='nav-color'>next</span>]</span><p />";
           term.echo(next_line, {raw:true});
         }
         autocomplete = autocomplete.reduce(function(a,b){if(a.indexOf(b)<0)a.push(b);return a;},[]);
@@ -389,7 +389,7 @@ $(function() {
         term.resume();
         ls_state = command.join(" ");
       });
-      setTimeout(function(){if (!success){term.resume();term.echo("<span style='color: #FF6868;'>error fetching data from reddit</span>", {raw:true});}}, 10000);
+      setTimeout(function(){if (!success){term.resume();term.echo("<span class='err'>error fetching data from reddit</span>", {raw:true});}}, 10000);
     // LIST SUBREDDITS NEXT
    } else if (command[0] == "reddit" && command[1] == "list" && command[2] == "subreddits" && command[3] == "next") {
       success = false;
@@ -404,13 +404,13 @@ $(function() {
             display_name = this.data.display_name;
             autocomplete.push(display_name);
             title = this.data.title;
-            line1 = "<div style='width:100%;float:left;'><span id='index'>[<span style='color: #2C9A96;'>" + s + "</span>]</span> <a href='https://reddit.com" + url + "' target='_blank'>/r/" + display_name + " - " + title + "</a><br />";
+            line1 = "<div class='post-wrapper'><span id='index'>[<span class='post-color'>" + s + "</span>]</span> <a href='https://reddit.com" + url + "' target='_blank'>/r/" + display_name + " - " + title + "</a><br />";
             description = this.data.public_description;
-            line2 = "<span style='color: #666;'>" + description + "</span><br />";
+            line2 = "<span class='line'>" + description + "</span><br />";
             subscribers = this.data.subscribers;
             created = this.data.created_utc;
             time = moment.unix(created).fromNow();
-            line3 = "<span style='color: #666;'>" + subscribers + " subscribers since starting " + time + "</span><p />";
+            line3 = "<span class='line'>" + subscribers + " subscribers since starting " + time + "</span><p />";
             frontpage = line1 + line2 + line3 + '</div>';
             s = s + 1;
             term.echo(frontpage, {raw:true});
@@ -421,13 +421,13 @@ $(function() {
         if (before != null) {
           permalink = "https://www.reddit.com/subreddits/.json?"+limit+"count="+s+"&before="+before+"&jsonp=?";
           previous = permalink;
-          previous_line = "<span><span id='index'>[<span style='color: #B3A600;'>previous</span>]</span><p />";
+          previous_line = "<span><span id='index'>[<span class='nav-color'>previous</span>]</span><p />";
           term.echo(previous_line, {raw:true});
         }
         if (after != null) {
           permalink = "https://www.reddit.com/subreddits/.json?"+limit+"count="+s+"&after="+after+"&jsonp=?";
           next = permalink;
-          next_line = "<span><span id='index'>[<span style='color: #B3A600;'>next</span>]</span><p />";
+          next_line = "<span><span id='index'>[<span class='nav-color'>next</span>]</span><p />";
           term.echo(next_line, {raw:true});
         }
         autocomplete = autocomplete.reduce(function(a,b){if(a.indexOf(b)<0)a.push(b);return a;},[]);
@@ -435,7 +435,7 @@ $(function() {
         term.resume();
         ls_state = command.join(" ");
       });
-      setTimeout(function(){if (!success){term.resume();term.echo("<span style='color: #FF6868;'>error fetching data from reddit</span>", {raw:true});}}, 10000);
+      setTimeout(function(){if (!success){term.resume();term.echo("<span class='err'>error fetching data from reddit</span>", {raw:true});}}, 10000);
     // LIST SUBREDDITS PREVIOUS
    } else if (command[0] == "reddit" && command[1] == "list" && command[2] == "subreddits" && command[3] == "previous") {
     success = false;
@@ -450,13 +450,13 @@ $(function() {
             display_name = this.data.display_name;
             autocomplete.push(display_name);
             title = this.data.title;
-            line1 = "<div style='width:100%;float:left;'><span id='index'>[<span style='color: #2C9A96;'>" + s + "</span>]</span> <a href='https://reddit.com" + url + "' target='_blank'>/r/" + display_name + " - " + title + "</a><br />";
+            line1 = "<div class='post-wrapper'><span id='index'>[<span class='post-color'>" + s + "</span>]</span> <a href='https://reddit.com" + url + "' target='_blank'>/r/" + display_name + " - " + title + "</a><br />";
             description = this.data.public_description;
-            line2 = "<span style='color: #666;'>" + description + "</span><br />";
+            line2 = "<span class='line'>" + description + "</span><br />";
             subscribers = this.data.subscribers;
             created = this.data.created_utc;
             time = moment.unix(created).fromNow();
-            line3 = "<span style='color: #666;'>" + subscribers + " subscribers since starting " + time + "</span><p />";
+            line3 = "<span class='line'>" + subscribers + " subscribers since starting " + time + "</span><p />";
             frontpage = line1 + line2 + line3 + '</div>';
             s = s - 1;
             term.echo(frontpage, {raw:true});
@@ -467,13 +467,13 @@ $(function() {
         if (before != null) {
           permalink = "https://www.reddit.com/subreddits/.json?"+limit+"count="+s+"&before="+before+"&jsonp=?";
           previous = permalink;
-          previous_line = "<span><span id='index'>[<span style='color: #B3A600;'>previous</span>]</span><p />";
+          previous_line = "<span><span id='index'>[<span class='nav-color'>previous</span>]</span><p />";
           term.echo(previous_line, {raw:true});
         }
         if (after != null) {
           permalink = "https://www.reddit.com/subreddits/.json?"+limit+"count="+s+"&after="+after+"&jsonp=?";
           next = permalink;
-          next_line = "<span><span id='index'>[<span style='color: #B3A600;'>next</span>]</span><p />";
+          next_line = "<span><span id='index'>[<span class='nav-color'>next</span>]</span><p />";
           term.echo(next_line, {raw:true});
         }
         autocomplete = autocomplete.reduce(function(a,b){if(a.indexOf(b)<0)a.push(b);return a;},[]);
@@ -481,7 +481,7 @@ $(function() {
         term.resume();
         ls_state = command.join(" ");
       });
-      setTimeout(function(){if (!success){term.resume();term.echo("<span style='color: #FF6868;'>error fetching data from reddit</span>", {raw:true});}}, 10000);
+      setTimeout(function(){if (!success){term.resume();term.echo("<span class='err'>error fetching data from reddit</span>", {raw:true});}}, 10000);
     // LIST SUBREDDIT
     } else if (command[0] == "reddit" && command[1] == "list" && command[2] && command[2] != "next" && command[2] != "previous" && !command[3] || command[0] == "reddit" && command[1] == "list" && command[2] && command[2] != "next" && command[2] != "previous" && command[3] == "new" || command[0] == "reddit" && command[1] == "list" && command[2] && command[2] != "next" && command[2] != "previous" && command[3] == "top" || command[0] == "reddit" && command[1] == "list" && command[2] && command[2] != "next" && command[2] != "previous" && command[3] == "controversial" || command[0] == "reddit" && command[1] == "list" && command[2] && command[2] != "next" && command[2] != "previous" && command[3] == "rising") {
       sort = "";
@@ -526,7 +526,7 @@ $(function() {
             subreddit = this.data.subreddit;
             pwd = "/r/"+subreddit;
             if (url) {
-              line1 = "<div style='width:100%;float:left;'><span id='index'>[<span style='color: #2C9A96;'>" + c + "</span>]</span> <a href='"+url+"' target='_blank'>"+title + "</a> (" + domain + ")<br />";
+              line1 = "<div class='post-wrapper'><span id='index'>[<span class='post-color'>" + c + "</span>]</span> <a href='"+url+"' target='_blank'>"+title + "</a> (" + domain + ")<br />";
             } else {
               line1 = title + " (" + domain + ")<br />";
             }
@@ -538,10 +538,10 @@ $(function() {
             time = moment.unix(created).fromNow();
             author = this.data.author;
             autocomplete.push(author);
-            line2 = "<span style='color: #666;'>submitted " + time + " by " + author + " to /r/" + subreddit + "</span><br />";
+            line2 = "<span class='line'>submitted " + time + " by " + author + " to /r/" + subreddit + "</span><br />";
             ups = this.data.ups;
             num_comments = this.data.num_comments;
-            line3 = "<span style='color: #666;'>" + ups + " upvotes with " + num_comments + " comments</span><p/>";
+            line3 = "<span class='line'>" + ups + " upvotes with " + num_comments + " comments</span><p/>";
             frontpage = line1 + line2 + line3 + '</div>';
             c = c + 1;
             term.echo(frontpage, {raw:true});
@@ -552,13 +552,13 @@ $(function() {
         if (before != null) {
           permalink = "https://www.reddit.com/r/"+command[2]+"/"+sort+".json?"+limit+"count="+c+"&before="+before+"&jsonp=?";
           previous = permalink;
-          previous_line = "<span><span id='index'>[<span style='color: #B3A600;'>previous</span>]</span><p />";
+          previous_line = "<span><span id='index'>[<span class='nav-color'>previous</span>]</span><p />";
           term.echo(previous_line, {raw:true});
         }
         if (after != null) {
           permalink = "https://www.reddit.com/r/"+command[2]+"/"+sort+".json?"+limit+"count="+c+"&after="+after+"&jsonp=?";
           next = permalink;
-          next_line = "<span><span id='index'>[<span style='color: #B3A600;'>next</span>]</span><p />";
+          next_line = "<span><span id='index'>[<span class='nav-color'>next</span>]</span><p />";
           term.echo(next_line, {raw:true});
         }
         autocomplete = autocomplete.reduce(function(a,b){if(a.indexOf(b)<0)a.push(b);return a;},[]);
@@ -568,7 +568,7 @@ $(function() {
         term.set_prompt(auth_user+'@reddit:~/r/'+subreddit+'$ ');
         term.resume();
       });
-      setTimeout(function(){if (!success){term.resume();term.echo("<span style='color: #FF6868;'>error fetching data from reddit</span>", {raw:true});}}, 10000);
+      setTimeout(function(){if (!success){term.resume();term.echo("<span class='err'>error fetching data from reddit</span>", {raw:true});}}, 10000);
     // LIST SUBREDDIT NEXT
     } else if (command[0] == "reddit" && command[1] == "list" && command[2] && command[3] == "next") {
       success = false;
@@ -594,7 +594,7 @@ $(function() {
             }
             subreddit = this.data.subreddit;
             if (url) {
-              line1 = "<div style='width:100%;float:left;'><span id='index'>[<span style='color: #2C9A96;'>" + c + "</span>]</span> <a href='"+url+"' target='_blank'>"+title + "</a> (" + domain + ")<br />";
+              line1 = "<div class='post-wrapper'><span id='index'>[<span class='post-color'>" + c + "</span>]</span> <a href='"+url+"' target='_blank'>"+title + "</a> (" + domain + ")<br />";
             } else {
               line1 = title + " (" + domain + ")<br />";
             }
@@ -606,10 +606,10 @@ $(function() {
             time = moment.unix(created).fromNow();
             author = this.data.author;
             autocomplete.push(author);
-            line2 = "<span style='color: #666;'>submitted " + time + " by " + author + " to /r/" + subreddit + "</span><br />";
+            line2 = "<span class='line'>submitted " + time + " by " + author + " to /r/" + subreddit + "</span><br />";
             ups = this.data.ups;
             num_comments = this.data.num_comments;
-            line3 = "<span style='color: #666;'>" + ups + " upvotes with " + num_comments + " comments</span><p/>";
+            line3 = "<span class='line'>" + ups + " upvotes with " + num_comments + " comments</span><p/>";
             frontpage = line1 + line2 + line3 + '</div>';
             c = c + 1;
             term.echo(frontpage, {raw:true});
@@ -620,13 +620,13 @@ $(function() {
         if (before != null) {
           permalink = "https://www.reddit.com/r/"+command[2]+"/.json?"+limit+"count="+c+"&before="+before+"&jsonp=?";
           previous = permalink;
-          previous_line = "<span><span id='index'>[<span style='color: #B3A600;'>previous</span>]</span><p />";
+          previous_line = "<span><span id='index'>[<span class='nav-color'>previous</span>]</span><p />";
           term.echo(previous_line, {raw:true});
         }
         if (after != null) {
           permalink = "https://www.reddit.com/r/"+command[2]+"/.json?"+limit+"count="+c+"&after="+after+"&jsonp=?";
           next = permalink;
-          next_line = "<span><span id='index'>[<span style='color: #B3A600;'>next</span>]</span><p />";
+          next_line = "<span><span id='index'>[<span class='nav-color'>next</span>]</span><p />";
           term.echo(next_line, {raw:true});
         }
         autocomplete = autocomplete.reduce(function(a,b){if(a.indexOf(b)<0)a.push(b);return a;},[]);
@@ -634,7 +634,7 @@ $(function() {
         term.set_prompt(auth_user+'@reddit:~/r/'+subreddit+'$ ');
         term.resume();
       });
-      setTimeout(function(){if (!success){term.resume();term.echo("<span style='color: #FF6868;'>error fetching data from reddit</span>", {raw:true});}}, 10000);
+      setTimeout(function(){if (!success){term.resume();term.echo("<span class='err'>error fetching data from reddit</span>", {raw:true});}}, 10000);
     // LIST SUBREDDIT PREVIOUS
     } else if (command[0] == "reddit" && command[1] == "list" && command[2] && command[3] == "previous") {
       success = false;
@@ -660,7 +660,7 @@ $(function() {
             }
             subreddit = this.data.subreddit;
             if (url) {
-              line1 = "<div style='width:100%;float:left;'><span id='index'>[<span style='color: #2C9A96;'>" + c + "</span>]</span> <a href='"+url+"' target='_blank'>"+title + "</a> (" + domain + ")<br />";
+              line1 = "<div class='post-wrapper'><span id='index'>[<span class='post-color'>" + c + "</span>]</span> <a href='"+url+"' target='_blank'>"+title + "</a> (" + domain + ")<br />";
             } else {
               line1 = title + " (" + domain + ")<br />";
             }
@@ -672,10 +672,10 @@ $(function() {
             time = moment.unix(created).fromNow();
             author = this.data.author;
             autocomplete.push(author);
-            line2 = "<span style='color: #666;'>submitted " + time + " by " + author + " to /r/" + subreddit + "</span><br />";
+            line2 = "<span class='line'>submitted " + time + " by " + author + " to /r/" + subreddit + "</span><br />";
             ups = this.data.ups;
             num_comments = this.data.num_comments;
-            line3 = "<span style='color: #666;'>" + ups + " upvotes with " + num_comments + " comments</span><p/>";
+            line3 = "<span class='line'>" + ups + " upvotes with " + num_comments + " comments</span><p/>";
             frontpage = line1 + line2 + line3 + '</div>';
             c = c - 1;
             term.echo(frontpage, {raw:true});
@@ -686,13 +686,13 @@ $(function() {
         if (before != null) {
           permalink = "https://www.reddit.com/r/"+command[2]+"/.json?"+limit+"count="+c+"&before="+before+"&jsonp=?";
           previous = permalink;
-          previous_line = "<span><span id='index'>[<span style='color: #B3A600;'>previous</span>]</span><p />";
+          previous_line = "<span><span id='index'>[<span class='nav-color'>previous</span>]</span><p />";
           term.echo(previous_line, {raw:true});
         }
         if (after != null) {
           permalink = "https://www.reddit.com/r/"+command[2]+"/.json?"+limit+"count="+c+"&after="+after+"&jsonp=?";
           next = permalink;
-          next_line = "<span><span id='index'>[<span style='color: #B3A600;'>next</span>]</span><p />";
+          next_line = "<span><span id='index'>[<span class='nav-color'>next</span>]</span><p />";
           term.echo(next_line, {raw:true});
         }
         autocomplete = autocomplete.reduce(function(a,b){if(a.indexOf(b)<0)a.push(b);return a;},[]);
@@ -702,7 +702,7 @@ $(function() {
         term.set_prompt(auth_user+'@reddit:~/r/'+subreddit+'$ ');
         term.resume();
       });
-      setTimeout(function(){if (!success){term.resume();term.echo("<span style='color: #FF6868;'>error fetching data from reddit</span>", {raw:true});}}, 10000);
+      setTimeout(function(){if (!success){term.resume();term.echo("<span class='err'>error fetching data from reddit</span>", {raw:true});}}, 10000);
     // VIEW THREAD
     } else if (posts.length !== 0 && command[0] == "reddit" && command[1] == "view" && command[2] == "comments" && command[3] !== "more") {
       if (command[4]) {
@@ -742,15 +742,15 @@ $(function() {
             }
             subreddit = this.data.subreddit;
             if (url) {
-              line1 = "<div style=' width: 100%;float: left;background-color: rgba(8, 171, 159, 0.14);padding: 10px;padding-bottom: 0px;margin-top: 10px;margin-bottom: 10px;'><a href='"+url+"' target='_blank'>"+title + "</a> (" + domain + ")<br />";
+              line1 = "<div class='parent-post'><a href='"+url+"' target='_blank'>"+title + "</a> (" + domain + ")<br />";
             } else {
               line1 = title + " (" + domain + ")<br />";
             }
             if (image && showimages) {
-              line1 = line1 + "<img src='" + image + "' style='float: left;margin: 10px;' /><br />";
+              line1 = line1 + "<img src='" + image + "' class='post-img' /><br />";
             }
             if (this.data.selftext) {
-              line1 = line1 + "<span style='color:#fff;padding: 10px;' id='text-body'>" + converter.makeHtml(this.data.selftext) + "</span><br />";
+              line1 = line1 + "<span class='parent-line' id='text-body'>" + converter.makeHtml(this.data.selftext) + "</span><br />";
             }
             line2 = "<span>submitted " + time + " by " + author + " to /r/" + subreddit + "</span><br />";
             ups = this.data.ups;
@@ -778,9 +778,9 @@ $(function() {
             id = this.data.id;
             if (this.data.replies != "") {
               nested_count = this.data.replies.data.children.length;
-              line1 = "<div style='width:100%'><span id='index'>[<span style='color: #2C9A96;'>" + r + "</span>]</span> <span id='text-body'>" + body + "</span><br />";
-              line2 = "<span style='color: #666;'>posted " + time + " by " + author + " to /r/" + subreddit + "</span><br/>";
-              line3 = "<span style='color: #666;'>" + ups + " upvotes with " + nested_count + " replies</span><p />";
+              line1 = "<div class='comment-wrapper'><span id='index'>[<span class='post-color'>" + r + "</span>]</span> <span id='text-body'>" + body + "</span><br />";
+              line2 = "<span class='line'>posted " + time + " by " + author + " to /r/" + subreddit + "</span><br/>";
+              line3 = "<span class='line'>" + ups + " upvotes with " + nested_count + " replies</span><p />";
               comment_url = json_base+id;
               comments.push(comment_url);
               reply_message = line1 + line2 + line3;
@@ -799,9 +799,9 @@ $(function() {
                   fullnames.push(nested_fullname);
                   if (this.data.replies.data.children[i].data.replies != "") {
                     nested_count = this.data.replies.data.children[i].data.replies.data.children.length;
-                    nest_line1 = "<div style='margin-left:5%;'><span id='index'>[<span style='color: #2C9A96;'>" + r + "</span>]</span> <span id='text-body'>" + nested_body + "</span><br />";
-                    nest_line2 = "<span style='color: #666;'>posted " + nested_time + " by " + nested_author + "</span><br/>";
-                    nest_line3 = "<span style='color: #666;'>" + nested_ups + " upvotes with " + nested_count + " replies</span><p/>";
+                    nest_line1 = "<div class='nested-wrapper'><span id='index'>[<span class='post-color'>" + r + "</span>]</span> <span id='text-body'>" + nested_body + "</span><br />";
+                    nest_line2 = "<span class='line'>posted " + nested_time + " by " + nested_author + "</span><br/>";
+                    nest_line3 = "<span class='line'>" + nested_ups + " upvotes with " + nested_count + " replies</span><p/>";
                     nested_url = json_base+nested_id;
                     comments.push(nested_url);
                     r = r + 1;
@@ -809,9 +809,9 @@ $(function() {
                     term.echo(reply_message, {raw:true});
                   } else {
                     nested_count = 0;
-                    nest_line1 = "<div style='margin-left:5%;'><span id='index'>[<span style='color: #2C9A96;'>" + r + "</span>]</span> <span id='text-body'>" + nested_body + "</span><br />";
-                    nest_line2 = "<span style='color: #666;'>posted " + nested_time + " by " + nested_author + "</span><br/>";
-                    nest_line3 = "<span style='color: #666;'>" + nested_ups + " upvotes with " + nested_count + " replies</span><p/>";
+                    nest_line1 = "<div class='nested-wrapper'><span id='index'>[<span class='post-color'>" + r + "</span>]</span> <span id='text-body'>" + nested_body + "</span><br />";
+                    nest_line2 = "<span class='line'>posted " + nested_time + " by " + nested_author + "</span><br/>";
+                    nest_line3 = "<span class='line'>" + nested_ups + " upvotes with " + nested_count + " replies</span><p/>";
                     nested_url = json_base+nested_id;
                     comments.push(nested_url);
                     r = r + 1;
@@ -822,9 +822,9 @@ $(function() {
               }
             } else {
               nested_count = 0;
-              line1 = "<div style='width:100%'><span id='index'>[<span style='color: #2C9A96;'>" + r + "</span>]</span> <span id='text-body'>" + body + "</span><br />";
-              line2 = "<span style='color: #666;'>posted " + time + " by " + author + " to /r/" + subreddit + "</span><br/>";
-              line3 = "<span style='color: #666;'>" + ups + " upvotes with " + nested_count + " replies</span><p />";
+              line1 = "<div class='comment-wrapper'><span id='index'>[<span class='post-color'>" + r + "</span>]</span> <span id='text-body'>" + body + "</span><br />";
+              line2 = "<span class='line'>posted " + time + " by " + author + " to /r/" + subreddit + "</span><br/>";
+              line3 = "<span class='line'>" + ups + " upvotes with " + nested_count + " replies</span><p />";
               comment_url = json_base+id;
               comments.push(comment_url);
               r = r + 1;
@@ -842,7 +842,7 @@ $(function() {
             }
             children = children.replace(/(^,)|(,$)/g, "");
             morelink = "https://www.reddit.com/api/morechildren.json?"+limit+sort+"link_id="+moreparent+"&children="+children+"&id="+morename+"&api_type=json";
-            more_line = "<span><span id='index'>[<span style='color: #B3A600;'>"+morecount+" more comments</span>]</span><p />";
+            more_line = "<span><span id='index'>[<span class='nav-color'>"+morecount+" more comments</span>]</span><p />";
             term.echo(more_line, {raw:true});
           }
         });
@@ -853,7 +853,7 @@ $(function() {
         term.set_prompt(auth_user+'@reddit:~/r/'+subreddit+'/comments$ ');
         term.resume();
       });
-      setTimeout(function(){if (!success){term.resume();term.echo("<span style='color: #FF6868;'>error fetching data from reddit</span>", {raw:true});}}, 10000);
+      setTimeout(function(){if (!success){term.resume();term.echo("<span class='err'>error fetching data from reddit</span>", {raw:true});}}, 10000);
     // VIEW MORE COMMENTS THREAD
     } else if (morelink != "" && command[0] == "reddit" && command[1] == "view" && command[2] == "comments" && command[3] == "more" && !command[4] || morelink != "" && command[0] == "reddit" && command[1] == "view" && command[2] == "more" && command[3] == "comments" && !command[4]) {
       success = false;
@@ -884,9 +884,9 @@ $(function() {
             link_id = link_id.replace('t3_','');
             if (this.data.replies != "") {
               nested_count = this.data.replies.data.children.length;
-              line1 = "<div style='width:100%'><span id='index'>[<span style='color: #2C9A96;'>" + r + "</span>]</span> <span id='text-body'>" + body + "</span><br />";
-              line2 = "<span style='color: #666;'>posted " + time + " by " + author + " to /r/" + subreddit + "</span><br/>";
-              line3 = "<span style='color: #666;'>" + ups + " upvotes</span><p />";
+              line1 = "<div class='comment-wrapper'><span id='index'>[<span class='post-color'>" + r + "</span>]</span> <span id='text-body'>" + body + "</span><br />";
+              line2 = "<span class='line'>posted " + time + " by " + author + " to /r/" + subreddit + "</span><br/>";
+              line3 = "<span class='line'>" + ups + " upvotes</span><p />";
               comment_url = json_base+id;
               comments.push(comment_url);
               reply_message = line1 + line2 + line3;
@@ -903,9 +903,9 @@ $(function() {
                   nested_id = this.data.replies.data.children[i].data.id;
                   if (this.data.replies.data.children[i].data.replies != "") {
                     nested_count = this.data.replies.data.children[i].data.replies.data.children.length;
-                    nest_line1 = "<div style='margin-left:5%;'><span id='index'>[<span style='color: #2C9A96;'>" + r + "</span>]</span> <span id='text-body'>" + nested_body + "</span><br />";
-                    nest_line2 = "<span style='color: #666;'>posted " + nested_time + " by " + nested_author + "</span><br/>";
-                    nest_line3 = "<span style='color: #666;'>" + nested_ups + " upvotes with " + nested_count + " replies</span><p/>";
+                    nest_line1 = "<div class='nested-wrapper'><span id='index'>[<span class='post-color'>" + r + "</span>]</span> <span id='text-body'>" + nested_body + "</span><br />";
+                    nest_line2 = "<span class='line'>posted " + nested_time + " by " + nested_author + "</span><br/>";
+                    nest_line3 = "<span class='line'>" + nested_ups + " upvotes with " + nested_count + " replies</span><p/>";
                     nested_url = json_base+nested_id;
                     comments.push(nested_url);
                     r = r + 1;
@@ -913,9 +913,9 @@ $(function() {
                     term.echo(reply_message, {raw:true});
                   } else {
                     nested_count = 0;
-                    nest_line1 = "<div style='margin-left:5%;'><span id='index'>[<span style='color: #2C9A96;'>" + r + "</span>]</span> <span id='text-body'>" + nested_body + "</span><br />";
-                    nest_line2 = "<span style='color: #666;'>posted " + nested_time + " by " + nested_author + "</span><br/>";
-                    nest_line3 = "<span style='color: #666;'>" + nested_ups + " upvotes with " + nested_count + " replies</span><p/>";
+                    nest_line1 = "<div class='nested-wrapper'><span id='index'>[<span class='post-color'>" + r + "</span>]</span> <span id='text-body'>" + nested_body + "</span><br />";
+                    nest_line2 = "<span class='line'>posted " + nested_time + " by " + nested_author + "</span><br/>";
+                    nest_line3 = "<span class='line'>" + nested_ups + " upvotes with " + nested_count + " replies</span><p/>";
                     nested_url = json_base+nested_id;
                     comments.push(nested_url);
                     r = r + 1;
@@ -926,9 +926,9 @@ $(function() {
               }
             } else {
               nested_count = 0;
-              line1 = "<div style='width:100%'><span id='index'>[<span style='color: #2C9A96;'>" + r + "</span>]</span> <span id='text-body'>" + body + "</span><br />";
-              line2 = "<span style='color: #666;'>posted " + time + " by " + author + " to /r/" + subreddit + "</span><br/>";
-              line3 = "<span style='color: #666;'>" + ups + " upvotes with " + nested_count + " replies</span><p />";
+              line1 = "<div class='comment-wrapper'><span id='index'>[<span class='post-color'>" + r + "</span>]</span> <span id='text-body'>" + body + "</span><br />";
+              line2 = "<span class='line'>posted " + time + " by " + author + " to /r/" + subreddit + "</span><br/>";
+              line3 = "<span class='line'>" + ups + " upvotes with " + nested_count + " replies</span><p />";
               comment_url = json_base+id;
               comments.push(comment_url);
               r = r + 1;
@@ -946,7 +946,7 @@ $(function() {
             }
             children = children.replace(/(^,)|(,$)/g, "");
             morelink = "https://www.reddit.com/api/morechildren.json?"+limit+sort+"link_id=t3_"+link_id+"&children="+children+"&id="+morename+"&api_type=json";
-            more_line = "<span><span id='index'>[<span style='color: #B3A600;'>"+morecount+" more comments</span>]</span><p />";
+            more_line = "<span><span id='index'>[<span class='nav-color'>"+morecount+" more comments</span>]</span><p />";
           }
         });
         if (morelink != "") {
@@ -957,7 +957,7 @@ $(function() {
         term.set_prompt(auth_user+'@reddit:~/r/'+subreddit+'/comments$ ');
         term.resume();
       });
-      setTimeout(function(){if (!success){term.resume();term.echo("<span style='color: #FF6868;'>error fetching data from reddit</span>", {raw:true});}}, 10000);
+      setTimeout(function(){if (!success){term.resume();term.echo("<span class='err'>error fetching data from reddit</span>", {raw:true});}}, 10000);
     // VIEW MORE COMMENTS COMMENT
     } else if (comments.index != 0 && command[0] == "reddit" && command[1] == "view" && command[2] == "comments" && command[3] == "more" && command[4] || comments.index != 0 && command[0] == "reddit" && command[1] == "view" && command[2] == "more" && command[3] == "comments" && command[4]) {
       success = false;
@@ -990,15 +990,15 @@ $(function() {
             }
             subreddit = this.data.subreddit;
             if (url) {
-              line1 = "<div style=' width: 100%;float: left;background-color: rgba(8, 171, 159, 0.14);padding: 10px;padding-bottom: 0px;margin-top: 10px;margin-bottom: 10px;'><a href='"+url+"' target='_blank'>"+title + "</a> (" + domain + ")<br />";
+              line1 = "<div class='parent-post'><a href='"+url+"' target='_blank'>"+title + "</a> (" + domain + ")<br />";
             } else {
               line1 = title + " (" + domain + ")<br />";
             }
             if (image && showimages) {
-              line1 = line1 + "<img src='" + image + "' style='float: left;margin: 10px;' /><br />";
+              line1 = line1 + "<img src='" + image + "' class='post-img' /><br />";
             }
             if (this.data.selftext) {
-              line1 = line1 + "<span style='color:#fff;padding: 10px;'>" + converter.makeHtml(this.data.selftext) + "</span><br />";
+              line1 = line1 + "<span class='parent-line'>" + converter.makeHtml(this.data.selftext) + "</span><br />";
             }
             line2 = "<span>submitted " + time + " by " + author + " to /r/" + subreddit + "</span><br />";
             ups = this.data.ups;
@@ -1024,9 +1024,9 @@ $(function() {
             id = this.data.id;
             if (this.data.replies != "") {
               nested_count = this.data.replies.data.children.length;
-              line1 = "<div style='width:100%'><span id='index'>[<span style='color: #2C9A96;'>" + r + "</span>]</span> <span id='text-body'>" + body + "</span><br />";
-              line2 = "<span style='color: #666;'>posted " + time + " by " + author + " to /r/" + subreddit + "</span><br/>";
-              line3 = "<span style='color: #666;'>" + ups + " upvotes with " + nested_count + " replies</span><p />";
+              line1 = "<div class='comment-wrapper'><span id='index'>[<span class='post-color'>" + r + "</span>]</span> <span id='text-body'>" + body + "</span><br />";
+              line2 = "<span class='line'>posted " + time + " by " + author + " to /r/" + subreddit + "</span><br/>";
+              line3 = "<span class='line'>" + ups + " upvotes with " + nested_count + " replies</span><p />";
               comment_url = json_base+id;
               comments.push(comment_url);
               reply_message = line1 + line2 + line3;
@@ -1045,9 +1045,9 @@ $(function() {
                   fullnames.push(nested_fullname);
                   if (this.data.replies.data.children[i].data.replies != "") {
                     nested_count = this.data.replies.data.children[i].data.replies.data.children.length;
-                    nest_line1 = "<div style='margin-left:5%;'><span id='index'>[<span style='color: #2C9A96;'>" + r + "</span>]</span> <span id='text-body'>" + nested_body + "</span><br />";
-                    nest_line2 = "<span style='color: #666;'>posted " + nested_time + " by " + nested_author + "</span><br/>";
-                    nest_line3 = "<span style='color: #666;'>" + nested_ups + " upvotes with " + nested_count + " replies</span><p/>";
+                    nest_line1 = "<div class='nested-wrapper'><span id='index'>[<span class='post-color'>" + r + "</span>]</span> <span id='text-body'>" + nested_body + "</span><br />";
+                    nest_line2 = "<span class='line'>posted " + nested_time + " by " + nested_author + "</span><br/>";
+                    nest_line3 = "<span class='line'>" + nested_ups + " upvotes with " + nested_count + " replies</span><p/>";
                     nested_url = json_base+nested_id;
                     comments.push(nested_url);
                     r = r + 1;
@@ -1055,9 +1055,9 @@ $(function() {
                     term.echo(reply_message, {raw:true});
                   } else {
                     nested_count = 0;
-                    nest_line1 = "<div style='margin-left:5%;'><span id='index'>[<span style='color: #2C9A96;'>" + r + "</span>]</span> <span id='text-body'>" + nested_body + "</span><br />";
-                    nest_line2 = "<span style='color: #666;'>posted " + nested_time + " by " + nested_author + "</span><br/>";
-                    nest_line3 = "<span style='color: #666;'>" + nested_ups + " upvotes with " + nested_count + " replies</span><p/>";
+                    nest_line1 = "<div class='nested-wrapper'><span id='index'>[<span class='post-color'>" + r + "</span>]</span> <span id='text-body'>" + nested_body + "</span><br />";
+                    nest_line2 = "<span class='line'>posted " + nested_time + " by " + nested_author + "</span><br/>";
+                    nest_line3 = "<span class='line'>" + nested_ups + " upvotes with " + nested_count + " replies</span><p/>";
                     nested_url = json_base+nested_id;
                     comments.push(nested_url);
                     r = r + 1;
@@ -1068,9 +1068,9 @@ $(function() {
               }
             } else {
               nested_count = 0;
-              line1 = "<div style='width:100%'><span id='index'>[<span style='color: #2C9A96;'>" + r + "</span>]</span> <span id='text-body'>" + body + "</span><br />";
-              line2 = "<span style='color: #666;'>posted " + time + " by " + author + " to /r/" + subreddit + "</span><br/>";
-              line3 = "<span style='color: #666;'>" + ups + " upvotes with " + nested_count + " replies</span><p />";
+              line1 = "<div class='comment-wrapper'><span id='index'>[<span class='post-color'>" + r + "</span>]</span> <span id='text-body'>" + body + "</span><br />";
+              line2 = "<span class='line'>posted " + time + " by " + author + " to /r/" + subreddit + "</span><br/>";
+              line3 = "<span class='line'>" + ups + " upvotes with " + nested_count + " replies</span><p />";
               comment_url = json_base+id;
               comments.push(comment_url);
               r = r + 1;
@@ -1086,7 +1086,7 @@ $(function() {
         term.set_prompt(auth_user+'@reddit:~/r/'+subreddit+'/comments$ ');
         term.resume();
       });
-      setTimeout(function(){if (!success){term.resume();term.echo("<span style='color: #FF6868;'>error fetching data from reddit</span>", {raw:true});}}, 10000);
+      setTimeout(function(){if (!success){term.resume();term.echo("<span class='err'>error fetching data from reddit</span>", {raw:true});}}, 10000);
     // VIEW CONTENT
     } else if (posts.length !== 0 && command[0] == "reddit" && command[1] == "view" && command[2] == "content" && command[3]) {
       var content_url = content[command[3]];
@@ -1131,7 +1131,7 @@ $(function() {
             subreddit = this.data.subreddit;
             autocomplete.push(subreddit);
             if (url) {
-              line1 = "<div style='width:100%;float:left;'><span id='index'>[<span style='color: #2C9A96;'>" + c + "</span>]</span> <a href='"+url+"' target='_blank'>"+title + "</a> (" + domain + ")<br />";
+              line1 = "<div class='post-wrapper'><span id='index'>[<span class='post-color'>" + c + "</span>]</span> <a href='"+url+"' target='_blank'>"+title + "</a> (" + domain + ")<br />";
             } else {
               line1 = title + " (" + domain + ")<br />";
             }
@@ -1143,10 +1143,10 @@ $(function() {
             time = moment.unix(created).fromNow();
             author = this.data.author;
             autocomplete.push(author);
-            line2 = "<span style='color: #666;'>submitted " + time + " by " + author + " to /r/" + subreddit + "</span><br />";
+            line2 = "<span class='line'>submitted " + time + " by " + author + " to /r/" + subreddit + "</span><br />";
             ups = this.data.ups;
             num_comments = this.data.num_comments;
-            line3 = "<span style='color: #666;'>" + ups + " upvotes with " + num_comments + " comments</span><p/>";
+            line3 = "<span class='line'>" + ups + " upvotes with " + num_comments + " comments</span><p/>";
             frontpage = line1 + line2 + line3 + '</div>';
             c = c + 1;
             term.echo(frontpage, {raw:true});
@@ -1157,13 +1157,13 @@ $(function() {
         if (before != null) {
           permalink = "https://www.reddit.com/search/.json?q="+encodeURIComponent(searchterm)+"&"+limit+"count="+c+"&before="+before+"&jsonp=?";
           previous = permalink;
-          previous_line = "<span><span id='index'>[<span style='color: #B3A600;'>previous</span>]</span><p />";
+          previous_line = "<span><span id='index'>[<span class='nav-color'>previous</span>]</span><p />";
           term.echo(previous_line, {raw:true});
         }
         if (after != null) {
           permalink = "https://www.reddit.com/search/.json?q="+encodeURIComponent(searchterm)+"&"+limit+"count="+c+"&after="+after+"&jsonp=?";
           next = permalink;
-          next_line = "<span><span id='index'>[<span style='color: #B3A600;'>next</span>]</span><p />";
+          next_line = "<span><span id='index'>[<span class='nav-color'>next</span>]</span><p />";
           term.echo(next_line, {raw:true});
         }
         autocomplete = autocomplete.reduce(function(a,b){if(a.indexOf(b)<0)a.push(b);return a;},[]);
@@ -1174,7 +1174,7 @@ $(function() {
         term.set_prompt(auth_user+'@reddit:~/search$ ');
         term.resume();
       });
-      setTimeout(function(){if (!success){term.resume();term.echo("<span style='color: #FF6868;'>error fetching data from reddit</span>", {raw:true});}}, 10000);
+      setTimeout(function(){if (!success){term.resume();term.echo("<span class='err'>error fetching data from reddit</span>", {raw:true});}}, 10000);
     // SEARCH NEXT
     } else if (posts.length !== 0 && command[0] == "reddit" && command[1] == "search" && command[2] == "next" && !command[3]) {
       success = false;
@@ -1202,7 +1202,7 @@ $(function() {
             subreddit = this.data.subreddit;
             autocomplete.push(subreddit);
             if (url) {
-              line1 = "<div style='width:100%;float:left;'><span id='index'>[<span style='color: #2C9A96;'>" + c + "</span>]</span> <a href='"+url+"' target='_blank'>"+title + "</a> (" + domain + ")<br />";
+              line1 = "<div class='post-wrapper'><span id='index'>[<span class='post-color'>" + c + "</span>]</span> <a href='"+url+"' target='_blank'>"+title + "</a> (" + domain + ")<br />";
             } else {
               line1 = title + " (" + domain + ")<br />";
             }
@@ -1214,10 +1214,10 @@ $(function() {
             time = moment.unix(created).fromNow();
             author = this.data.author;
             autocomplete.push(author);
-            line2 = "<span style='color: #666;'>submitted " + time + " by " + author + " to /r/" + subreddit + "</span><br />";
+            line2 = "<span class='line'>submitted " + time + " by " + author + " to /r/" + subreddit + "</span><br />";
             ups = this.data.ups;
             num_comments = this.data.num_comments;
-            line3 = "<span style='color: #666;'>" + ups + " upvotes with " + num_comments + " comments</span><p/>";
+            line3 = "<span class='line'>" + ups + " upvotes with " + num_comments + " comments</span><p/>";
             frontpage = line1 + line2 + line3 + '</div>';
             c = c + 1;
             term.echo(frontpage, {raw:true});
@@ -1228,20 +1228,20 @@ $(function() {
         if (before != null) {
           permalink = "https://www.reddit.com/search/.json?q="+encodeURIComponent(searchterm)+"&"+limit+"count="+c+"&before="+before+"&jsonp=?";
           previous = permalink;
-          previous_line = "<span><span id='index'>[<span style='color: #B3A600;'>previous</span>]</span><p />";
+          previous_line = "<span><span id='index'>[<span class='nav-color'>previous</span>]</span><p />";
           term.echo(previous_line, {raw:true});
         }
         if (after != null) {
           permalink = "https://www.reddit.com/search/.json?q="+encodeURIComponent(searchterm)+"&"+limit+"count="+c+"&after="+after+"&jsonp=?";
           next = permalink;
-          next_line = "<span><span id='index'>[<span style='color: #B3A600;'>next</span>]</span><p />";
+          next_line = "<span><span id='index'>[<span class='nav-color'>next</span>]</span><p />";
           term.echo(next_line, {raw:true});
         }
         autocomplete = autocomplete.reduce(function(a,b){if(a.indexOf(b)<0)a.push(b);return a;},[]);
         term.set_prompt(auth_user+'@reddit:~/search$ ');
         term.resume();
       });
-      setTimeout(function(){if (!success){term.resume();term.echo("<span style='color: #FF6868;'>error fetching data from reddit</span>", {raw:true});}}, 10000);
+      setTimeout(function(){if (!success){term.resume();term.echo("<span class='err'>error fetching data from reddit</span>", {raw:true});}}, 10000);
     // SEARCH PREVIOUS
     } else if (posts.length !== 0 && command[0] == "reddit" && command[1] == "search" && command[2] == "previous" && !command[3]) {
       success = false;
@@ -1269,7 +1269,7 @@ $(function() {
             subreddit = this.data.subreddit;
             autocomplete.push(subreddit);
             if (url) {
-              line1 = "<div style='width:100%;float:left;'><span id='index'>[<span style='color: #2C9A96;'>" + c + "</span>]</span> <a href='"+url+"' target='_blank'>"+title + "</a> (" + domain + ")<br />";
+              line1 = "<div class='post-wrapper'><span id='index'>[<span class='post-color'>" + c + "</span>]</span> <a href='"+url+"' target='_blank'>"+title + "</a> (" + domain + ")<br />";
             } else {
               line1 = title + " (" + domain + ")<br />";
             }
@@ -1281,10 +1281,10 @@ $(function() {
             time = moment.unix(created).fromNow();
             author = this.data.author;
             autocomplete.push(author);
-            line2 = "<span style='color: #666;'>submitted " + time + " by " + author + " to /r/" + subreddit + "</span><br />";
+            line2 = "<span class='line'>submitted " + time + " by " + author + " to /r/" + subreddit + "</span><br />";
             ups = this.data.ups;
             num_comments = this.data.num_comments;
-            line3 = "<span style='color: #666;'>" + ups + " upvotes with " + num_comments + " comments</span><p/>";
+            line3 = "<span class='line'>" + ups + " upvotes with " + num_comments + " comments</span><p/>";
             frontpage = line1 + line2 + line3 + '</div>';
             c = c - 1;
             term.echo(frontpage, {raw:true});
@@ -1295,13 +1295,13 @@ $(function() {
         if (before != null) {
           permalink = "https://www.reddit.com/search/.json?q="+encodeURIComponent(searchterm)+"&"+limit+"count="+c+"&before="+before+"&jsonp=?";
           previous = permalink;
-          previous_line = "<span><span id='index'>[<span style='color: #B3A600;'>previous</span>]</span><p />";
+          previous_line = "<span><span id='index'>[<span class='nav-color'>previous</span>]</span><p />";
           term.echo(previous_line, {raw:true});
         }
         if (after != null) {
           permalink = "https://www.reddit.com/search/.json?q="+encodeURIComponent(searchterm)+"&"+limit+"count="+c+"&after="+after+"&jsonp=?";
           next = permalink;
-          next_line = "<span><span id='index'>[<span style='color: #B3A600;'>next</span>]</span><p />";
+          next_line = "<span><span id='index'>[<span class='nav-color'>next</span>]</span><p />";
           term.echo(next_line, {raw:true});
         }
         autocomplete = autocomplete.reduce(function(a,b){if(a.indexOf(b)<0)a.push(b);return a;},[]);
@@ -1309,7 +1309,7 @@ $(function() {
         term.set_prompt(auth_user+'@reddit:~/search$ ');
         term.resume();
       });
-      setTimeout(function(){if (!success){term.resume();term.echo("<span style='color: #FF6868;'>error fetching data from reddit</span>", {raw:true});}}, 10000);
+      setTimeout(function(){if (!success){term.resume();term.echo("<span class='err'>error fetching data from reddit</span>", {raw:true});}}, 10000);
     // USER OVERVIEW
     } else if (command[0] == "reddit" && command[1] == "user" && command[2] && !command[3]) {
       success = false;
@@ -1344,22 +1344,22 @@ $(function() {
             subreddit = this.data.subreddit;
             autocomplete.push(subreddit);
             if (url) {
-              line1 = "<div style='width:100%;float:left;'><span id='index'>[<span style='color: #2C9A96;'>" + c + "</span>]</span> <a href='"+url+"' target='_blank'>"+title + "</a> (" + domain + ")<br />";
+              line1 = "<div class='post-wrapper'><span id='index'>[<span class='post-color'>" + c + "</span>]</span> <a href='"+url+"' target='_blank'>"+title + "</a> (" + domain + ")<br />";
             } else {
               line1 = title + " (" + domain + ")<br />";
             }
 
             if (image && showimages) {
-              line1 = line1 + "<img src='" + image + "' style='float: left;margin: 10px;' /><br />";
+              line1 = line1 + "<img src='" + image + "' class='post-img' /><br />";
             }
             created = this.data.created_utc;
             time = moment.unix(created).fromNow();
             author = this.data.author;
             autocomplete.push(author);
-            line2 = "<span style='color: #666;'>submitted " + time + " by " + author + " to /r/" + subreddit + "</span><br />";
+            line2 = "<span class='line'>submitted " + time + " by " + author + " to /r/" + subreddit + "</span><br />";
             ups = this.data.ups;
             num_comments = this.data.num_comments;
-            line3 = "<span style='color: #666;'>" + ups + " upvotes with " + num_comments + " comments</span><p/>";
+            line3 = "<span class='line'>" + ups + " upvotes with " + num_comments + " comments</span><p/>";
             frontpage = line1 + line2 + line3 + '</div>';
             c = c + 1;
             term.echo(frontpage, {raw:true});
@@ -1383,9 +1383,9 @@ $(function() {
             id = this.data.id;
             if (this.data.replies != "") {
               nested_count = this.data.replies.data.children.length;
-              line1 = "<div style='float: left;width: 100%;'><span id='index'>[<span style='color: #B1AB19;'>" + r + "</span>]</span> <span id='text-body'>" + body + "</span><br />";
-              line2 = "<span style='color: #666;'>posted " + time + " by " + author + " to /r/" + subreddit + "</span><br/>";
-              line3 = "<span style='color: #666;'>" + ups + " upvotes</span><p />";
+              line1 = "<div class='post-wrapper'><span id='index'>[<span style='color: #B1AB19;'>" + r + "</span>]</span> <span id='text-body'>" + body + "</span><br />";
+              line2 = "<span class='line'>posted " + time + " by " + author + " to /r/" + subreddit + "</span><br/>";
+              line3 = "<span class='line'>" + ups + " upvotes</span><p />";
               comment_url = json_base+id;
               comments.push(comment_url);
               reply_message = line1 + line2 + line3;
@@ -1402,9 +1402,9 @@ $(function() {
                   nested_id = this.data.replies.data.children[i].data.id;
                   if (this.data.replies.data.children[i].data.replies != "") {
                     nested_count = this.data.replies.data.children[i].data.replies.data.children.length;
-                    nest_line1 = "<div style='float: left;width: 100%;'><span id='index'>[<span style='color: #2C9A96;'>" + r + "</span>]</span> <span id='text-body'>" + nested_body + "</span><br />";
-                    nest_line2 = "<span style='color: #666;'>posted " + nested_time + " by " + nested_author + "</span><br/>";
-                    nest_line3 = "<span style='color: #666;'>" + nested_ups + " upvotes</span><p/>";
+                    nest_line1 = "<div class='post-wrapper'><span id='index'>[<span class='post-color'>" + r + "</span>]</span> <span id='text-body'>" + nested_body + "</span><br />";
+                    nest_line2 = "<span class='line'>posted " + nested_time + " by " + nested_author + "</span><br/>";
+                    nest_line3 = "<span class='line'>" + nested_ups + " upvotes</span><p/>";
                     nested_url = json_base+nested_id;
                     comments.push(nested_url);
                     r = r + 1;
@@ -1412,9 +1412,9 @@ $(function() {
                     term.echo(reply_message, {raw:true});
                   } else {
                     nested_count = 0;
-                    nest_line1 = "<div style='margin-top:2%;float: left;width: 100%;><span id='index'>[<span style='color: #2C9A96;'>" + r + "</span>]</span> <span id='text-body'>" + nested_body + "</span><br />";
-                    nest_line2 = "<span style='color: #666;'>posted " + nested_time + " by " + nested_author + "</span><br/>";
-                    nest_line3 = "<span style='color: #666;'>" + nested_ups + " upvotes</span><p/>";
+                    nest_line1 = "<div class='nested-wrapper2'><span id='index'>[<span class='post-color'>" + r + "</span>]</span> <span id='text-body'>" + nested_body + "</span><br />";
+                    nest_line2 = "<span class='line'>posted " + nested_time + " by " + nested_author + "</span><br/>";
+                    nest_line3 = "<span class='line'>" + nested_ups + " upvotes</span><p/>";
                     nested_url = json_base+nested_id;
                     comments.push(nested_url);
                     r = r + 1;
@@ -1425,9 +1425,9 @@ $(function() {
               }
             } else {
               nested_count = 0;
-              line1 = "<div style='float: left;width: 100%;'><span id='index'>[<span style='color: #B1AB19;'>" + r + "</span>]</span> <span id='text-body'>" + body + "</span><br />";
-              line2 = "<span style='color: #666;'>posted " + time + " by " + author + " to /r/" + subreddit + "</span><br/>";
-              line3 = "<span style='color: #666;'>" + ups + " upvotes</span><p />";
+              line1 = "<div class='post-wrapper'><span id='index'>[<span style='color: #B1AB19;'>" + r + "</span>]</span> <span id='text-body'>" + body + "</span><br />";
+              line2 = "<span class='line'>posted " + time + " by " + author + " to /r/" + subreddit + "</span><br/>";
+              line3 = "<span class='line'>" + ups + " upvotes</span><p />";
               comment_url = json_base+id;
               comments.push(comment_url);
               r = r + 1;
@@ -1441,13 +1441,13 @@ $(function() {
         if (before != null) {
           permalink = "https://www.reddit.com/user/"+command[2]+".json?"+limit+"count="+c+"&before="+before+"&jsonp=?";
           previous = permalink;
-          previous_line = "<span><span id='index'>[<span style='color: #B3A600;'>previous</span>]</span><p />";
+          previous_line = "<span><span id='index'>[<span class='nav-color'>previous</span>]</span><p />";
           term.echo(previous_line, {raw:true});
         }
         if (after != null) {
           permalink = "https://www.reddit.com/user/"+command[2]+".json?"+limit+"count="+c+"&after="+after+"&jsonp=?";
           next = permalink;
-          next_line = "<span><span id='index'>[<span style='color: #B3A600;'>next</span>]</span><p />";
+          next_line = "<span><span id='index'>[<span class='nav-color'>next</span>]</span><p />";
           term.echo(next_line, {raw:true});
         }
         autocomplete = autocomplete.reduce(function(a,b){if(a.indexOf(b)<0)a.push(b);return a;},[]);
@@ -1457,7 +1457,7 @@ $(function() {
         term.set_prompt(auth_user+'@reddit:~/user/'+author+'$ ');
         term.resume();
       });
-      setTimeout(function(){if (!success){term.resume();term.echo("<span style='color: #FF6868;'>error fetching data from reddit</span>", {raw:true});}}, 10000);
+      setTimeout(function(){if (!success){term.resume();term.echo("<span class='err'>error fetching data from reddit</span>", {raw:true});}}, 10000);
     // USER OVERVIEW NEXT
     } else if (posts.length !== 0 && command[0] == "reddit" && command[1] == "user" && command[2] && command[3] == "next" || comments.length !== 0 && command[0] == "reddit" && command[1] == "user" && command[2] && command[3] == "next") {
       success = false;
@@ -1484,7 +1484,7 @@ $(function() {
             subreddit = this.data.subreddit;
             autocomplete.push(subreddit);
             if (url) {
-              line1 = "<div style='width:100%;float:left;'><span id='index'>[<span style='color: #2C9A96;'>" + c + "</span>]</span> <a href='"+url+"' target='_blank'>"+title + "</a> (" + domain + ")<br />";
+              line1 = "<div class='post-wrapper'><span id='index'>[<span class='post-color'>" + c + "</span>]</span> <a href='"+url+"' target='_blank'>"+title + "</a> (" + domain + ")<br />";
             } else {
               line1 = title + " (" + domain + ")<br />";
             }
@@ -1496,10 +1496,10 @@ $(function() {
             time = moment.unix(created).fromNow();
             author = this.data.author;
             autocomplete.push(author);
-            line2 = "<span style='color: #666;'>submitted " + time + " by " + author + " to /r/" + subreddit + "</span><br />";
+            line2 = "<span class='line'>submitted " + time + " by " + author + " to /r/" + subreddit + "</span><br />";
             ups = this.data.ups;
             num_comments = this.data.num_comments;
-            line3 = "<span style='color: #666;'>" + ups + " upvotes with " + num_comments + " comments</span><p/>";
+            line3 = "<span class='line'>" + ups + " upvotes with " + num_comments + " comments</span><p/>";
             frontpage = line1 + line2 + line3 + '</div>';
             c = c + 1;
             term.echo(frontpage, {raw:true});
@@ -1523,9 +1523,9 @@ $(function() {
             id = this.data.id;
             if (this.data.replies != "") {
               nested_count = this.data.replies.data.children.length;
-              line1 = "<div style='float: left;width: 100%;'><span id='index'>[<span style='color: #B1AB19;'>" + r + "</span>]</span> <span id='text-body'>" + body + "</span><br />";
-              line2 = "<span style='color: #666;'>posted " + time + " by " + author + " to /r/" + subreddit + "</span><br/>";
-              line3 = "<span style='color: #666;'>" + ups + " upvotes</span><p />";
+              line1 = "<div class='post-wrapper'><span id='index'>[<span style='color: #B1AB19;'>" + r + "</span>]</span> <span id='text-body'>" + body + "</span><br />";
+              line2 = "<span class='line'>posted " + time + " by " + author + " to /r/" + subreddit + "</span><br/>";
+              line3 = "<span class='line'>" + ups + " upvotes</span><p />";
               comment_url = json_base+id;
               comments.push(comment_url);
               reply_message = line1 + line2 + line3;
@@ -1542,9 +1542,9 @@ $(function() {
                   nested_id = this.data.replies.data.children[i].data.id;
                   if (this.data.replies.data.children[i].data.replies != "") {
                     nested_count = this.data.replies.data.children[i].data.replies.data.children.length;
-                    nest_line1 = "<div style='float: left;width: 100%;'><span id='index'>[<span style='color: #2C9A96;'>" + r + "</span>]</span> <span id='text-body'>" + nested_body + "</span><br />";
-                    nest_line2 = "<span style='color: #666;'>posted " + nested_time + " by " + nested_author + "</span><br/>";
-                    nest_line3 = "<span style='color: #666;'>" + nested_ups + " upvotes</span><p/>";
+                    nest_line1 = "<div class='post-wrapper'><span id='index'>[<span class='post-color'>" + r + "</span>]</span> <span id='text-body'>" + nested_body + "</span><br />";
+                    nest_line2 = "<span class='line'>posted " + nested_time + " by " + nested_author + "</span><br/>";
+                    nest_line3 = "<span class='line'>" + nested_ups + " upvotes</span><p/>";
                     nested_url = json_base+nested_id;
                     comments.push(nested_url);
                     r = r + 1;
@@ -1552,9 +1552,9 @@ $(function() {
                     term.echo(reply_message, {raw:true});
                   } else {
                     nested_count = 0;
-                    nest_line1 = "<div style='margin-top:2%;float: left;width: 100%;><span id='index'>[<span style='color: #2C9A96;'>" + r + "</span>]</span> <span id='text-body'>" + nested_body + "</span><br />";
-                    nest_line2 = "<span style='color: #666;'>posted " + nested_time + " by " + nested_author + "</span><br/>";
-                    nest_line3 = "<span style='color: #666;'>" + nested_ups + " upvotes</span><p/>";
+                    nest_line1 = "<div class='nested-wrapper2'><span id='index'>[<span class='post-color'>" + r + "</span>]</span> <span id='text-body'>" + nested_body + "</span><br />";
+                    nest_line2 = "<span class='line'>posted " + nested_time + " by " + nested_author + "</span><br/>";
+                    nest_line3 = "<span class='line'>" + nested_ups + " upvotes</span><p/>";
                     nested_url = json_base+nested_id;
                     comments.push(nested_url);
                     r = r + 1;
@@ -1565,9 +1565,9 @@ $(function() {
               }
             } else {
               nested_count = 0;
-              line1 = "<div style='float: left;width: 100%;'><span id='index'>[<span style='color: #B1AB19;'>" + r + "</span>]</span> <span id='text-body'>" + body + "</span><br />";
-              line2 = "<span style='color: #666;'>posted " + time + " by " + author + " to /r/" + subreddit + "</span><br/>";
-              line3 = "<span style='color: #666;'>" + ups + " upvotes</span><p />";
+              line1 = "<div class='post-wrapper'><span id='index'>[<span style='color: #B1AB19;'>" + r + "</span>]</span> <span id='text-body'>" + body + "</span><br />";
+              line2 = "<span class='line'>posted " + time + " by " + author + " to /r/" + subreddit + "</span><br/>";
+              line3 = "<span class='line'>" + ups + " upvotes</span><p />";
               comment_url = json_base+id;
               comments.push(comment_url);
               r = r + 1;
@@ -1581,13 +1581,13 @@ $(function() {
         if (before != null) {
           permalink = "https://www.reddit.com/user/"+command[2]+".json?"+limit+"count="+c+"&before="+before+"&jsonp=?";
           previous = permalink;
-          previous_line = "<span><span id='index'>[<span style='color: #B3A600;'>previous</span>]</span><p />";
+          previous_line = "<span><span id='index'>[<span class='nav-color'>previous</span>]</span><p />";
           term.echo(previous_line, {raw:true});
         }
         if (after != null) {
           permalink = "https://www.reddit.com/user/"+command[2]+".json?"+limit+"count="+c+"&after="+after+"&jsonp=?";
           next = permalink;
-          next_line = "<span><span id='index'>[<span style='color: #B3A600;'>next</span>]</span><p />";
+          next_line = "<span><span id='index'>[<span class='nav-color'>next</span>]</span><p />";
           term.echo(next_line, {raw:true});
         }
         autocomplete = autocomplete.reduce(function(a,b){if(a.indexOf(b)<0)a.push(b);return a;},[]);
@@ -1595,7 +1595,7 @@ $(function() {
         term.set_prompt(auth_user+'@reddit:~/user/'+author+'$ ');
         term.resume();
       });
-      setTimeout(function(){if (!success){term.resume();term.echo("<span style='color: #FF6868;'>error fetching data from reddit</span>", {raw:true});}}, 10000);
+      setTimeout(function(){if (!success){term.resume();term.echo("<span class='err'>error fetching data from reddit</span>", {raw:true});}}, 10000);
       // USER OVERVIEW PREVIOUS
     } else if (posts.length !== 0 && command[0] == "reddit" && command[1] == "user" && command[2] && command[3] == "previous" || comments.length !== 0 && command[0] == "reddit" && command[1] == "user" && command[2] && command[3] == "previous") {
       success = false;
@@ -1622,22 +1622,22 @@ $(function() {
             subreddit = this.data.subreddit;
             autocomplete.push(subreddit);
             if (url) {
-              line1 = "<div style='width:100%;float:left;'><span id='index'>[<span style='color: #2C9A96;'>" + c + "</span>]</span> <a href='"+url+"' target='_blank'>"+title + "</a> (" + domain + ")<br />";
+              line1 = "<div class='post-wrapper'><span id='index'>[<span class='post-color'>" + c + "</span>]</span> <a href='"+url+"' target='_blank'>"+title + "</a> (" + domain + ")<br />";
             } else {
               line1 = title + " (" + domain + ")<br />";
             }
 
             if (image && showimages) {
-              line1 = line1 + "<img src='" + image + "' style='float: left;margin: 10px;' /><br />";
+              line1 = line1 + "<img src='" + image + "' class='post-img' /><br />";
             }
             created = this.data.created_utc;
             time = moment.unix(created).fromNow();
             author = this.data.author;
             autocomplete.push(author);
-            line2 = "<span style='color: #666;'>submitted " + time + " by " + author + " to /r/" + subreddit + "</span><br />";
+            line2 = "<span class='line'>submitted " + time + " by " + author + " to /r/" + subreddit + "</span><br />";
             ups = this.data.ups;
             num_comments = this.data.num_comments;
-            line3 = "<span style='color: #666;'>" + ups + " upvotes with " + num_comments + " comments</span><p/>";
+            line3 = "<span class='line'>" + ups + " upvotes with " + num_comments + " comments</span><p/>";
             frontpage = line1 + line2 + line3 + '</div>';
             c = c - 1;
             term.echo(frontpage, {raw:true});
@@ -1661,9 +1661,9 @@ $(function() {
             id = this.data.id;
             if (this.data.replies != "") {
               nested_count = this.data.replies.data.children.length;
-              line1 = "<div style='float: left;width: 100%;'><span id='index'>[<span style='color: #B1AB19;'>" + r + "</span>]</span> <span id='text-body'>" + body + "</span><br />";
-              line2 = "<span style='color: #666;'>posted " + time + " by " + author + " to /r/" + subreddit + "</span><br/>";
-              line3 = "<span style='color: #666;'>" + ups + " upvotes</span><p />";
+              line1 = "<div class='post-wrapper'><span id='index'>[<span style='color: #B1AB19;'>" + r + "</span>]</span> <span id='text-body'>" + body + "</span><br />";
+              line2 = "<span class='line'>posted " + time + " by " + author + " to /r/" + subreddit + "</span><br/>";
+              line3 = "<span class='line'>" + ups + " upvotes</span><p />";
               comment_url = json_base+id;
               comments.push(comment_url);
               reply_message = line1 + line2 + line3;
@@ -1680,9 +1680,9 @@ $(function() {
                   nested_id = this.data.replies.data.children[i].data.id;
                   if (this.data.replies.data.children[i].data.replies != "") {
                     nested_count = this.data.replies.data.children[i].data.replies.data.children.length;
-                    nest_line1 = "<div style='float: left;width: 100%;'><span id='index'>[<span style='color: #2C9A96;'>" + r + "</span>]</span> <span id='text-body'>" + nested_body + "</span><br />";
-                    nest_line2 = "<span style='color: #666;'>posted " + nested_time + " by " + nested_author + "</span><br/>";
-                    nest_line3 = "<span style='color: #666;'>" + nested_ups + " upvotes</span><p/>";
+                    nest_line1 = "<div class='post-wrapper'><span id='index'>[<span class='post-color'>" + r + "</span>]</span> <span id='text-body'>" + nested_body + "</span><br />";
+                    nest_line2 = "<span class='line'>posted " + nested_time + " by " + nested_author + "</span><br/>";
+                    nest_line3 = "<span class='line'>" + nested_ups + " upvotes</span><p/>";
                     nested_url = json_base+nested_id;
                     comments.push(nested_url);
                     r = r - 1;
@@ -1690,9 +1690,9 @@ $(function() {
                     term.echo(reply_message, {raw:true});
                   } else {
                     nested_count = 0;
-                    nest_line1 = "<div style='margin-top:2%;float: left;width: 100%;><span id='index'>[<span style='color: #2C9A96;'>" + r + "</span>]</span> <span id='text-body'>" + nested_body + "</span><br />";
-                    nest_line2 = "<span style='color: #666;'>posted " + nested_time + " by " + nested_author + "</span><br/>";
-                    nest_line3 = "<span style='color: #666;'>" + nested_ups + " upvotes</span><p/>";
+                    nest_line1 = "<div class='nested-wrapper2'><span id='index'>[<span class='post-color'>" + r + "</span>]</span> <span id='text-body'>" + nested_body + "</span><br />";
+                    nest_line2 = "<span class='line'>posted " + nested_time + " by " + nested_author + "</span><br/>";
+                    nest_line3 = "<span class='line'>" + nested_ups + " upvotes</span><p/>";
                     nested_url = json_base+nested_id;
                     comments.push(nested_url);
                     r = r - 1;
@@ -1703,9 +1703,9 @@ $(function() {
               }
             } else {
               nested_count = 0;
-              line1 = "<div style='float: left;width: 100%;'><span id='index'>[<span style='color: #B1AB19;'>" + r + "</span>]</span> <span id='text-body'>" + body + "</span><br />";
-              line2 = "<span style='color: #666;'>posted " + time + " by " + author + " to /r/" + subreddit + "</span><br/>";
-              line3 = "<span style='color: #666;'>" + ups + " upvotes</span><p />";
+              line1 = "<div class='post-wrapper'><span id='index'>[<span style='color: #B1AB19;'>" + r + "</span>]</span> <span id='text-body'>" + body + "</span><br />";
+              line2 = "<span class='line'>posted " + time + " by " + author + " to /r/" + subreddit + "</span><br/>";
+              line3 = "<span class='line'>" + ups + " upvotes</span><p />";
               comment_url = json_base+id;
               comments.push(comment_url);
               r = r - 1;
@@ -1719,13 +1719,13 @@ $(function() {
         if (before != null) {
           permalink = "https://www.reddit.com/user/"+command[2]+".json?"+limit+"count="+c+"&before="+before+"&jsonp=?";
           previous = permalink;
-          previous_line = "<span><span id='index'>[<span style='color: #B3A600;'>previous</span>]</span><p />";
+          previous_line = "<span><span id='index'>[<span class='nav-color'>previous</span>]</span><p />";
           term.echo(previous_line, {raw:true});
         }
         if (after != null) {
           permalink = "https://www.reddit.com/user/"+command[2]+".json?"+limit+"count="+c+"&after="+after+"&jsonp=?";
           next = permalink;
-          next_line = "<span><span id='index'>[<span style='color: #B3A600;'>next</span>]</span><p />";
+          next_line = "<span><span id='index'>[<span class='nav-color'>next</span>]</span><p />";
           term.echo(next_line, {raw:true});
         }
         autocomplete = autocomplete.reduce(function(a,b){if(a.indexOf(b)<0)a.push(b);return a;},[]);
@@ -1733,7 +1733,7 @@ $(function() {
         term.set_prompt(auth_user+'@reddit:~/user/'+author+'$ ');
         term.resume();
       });
-      setTimeout(function(){if (!success){term.resume();term.echo("<span style='color: #FF6868;'>error fetching data from reddit</span>", {raw:true});}}, 10000);
+      setTimeout(function(){if (!success){term.resume();term.echo("<span class='err'>error fetching data from reddit</span>", {raw:true});}}, 10000);
     // UPVOTE
     } else if (token !== false && fullnames.length !== 0 && command[0] == "reddit" && command[1] == "upvote" && command[2] && !command[3]) {
       success = false;
@@ -1756,7 +1756,7 @@ $(function() {
         },
         error: function(jqXHR, textStatus, errorThrown) {
           success = false;
-          term.echo("<span style='color: #FF6868;'>error - you may need to re-authorize reddit shell by typing login</span>", {raw:true});
+          term.echo("<span class='err'>error - you may need to re-authorize reddit shell by typing login</span>", {raw:true});
           term.resume();
         }
       });
@@ -1782,7 +1782,7 @@ $(function() {
         },
         error: function(jqXHR, textStatus, errorThrown) {
           success = false;
-          term.echo("<span style='color: #FF6868;'>error - you may need to re-authorize reddit shell by typing login</span>", {raw:true});
+          term.echo("<span class='err'>error - you may need to re-authorize reddit shell by typing login</span>", {raw:true});
           term.resume();
         }
       });
@@ -1820,9 +1820,9 @@ $(function() {
               pwd = "/r/"+subreddit+"/comments";
               ups = this.data.ups;
               id = this.data.id;
-              line1 = "<div style='width:100%;margin-left:5%;'><span id='text-body'>" + body + "</span><br />";
-              line2 = "<span style='color: #666;'>posted " + time + " by " + author + " to /r/" + subreddit + "</span><br/>";
-              line3 = "<span style='color: #666;'>" + ups + " upvotes</span><p />";
+              line1 = "<div class='post-comment'><span id='text-body'>" + body + "</span><br />";
+              line2 = "<span class='line'>posted " + time + " by " + author + " to /r/" + subreddit + "</span><br/>";
+              line3 = "<span class='line'>" + ups + " upvotes</span><p />";
               comment_url = json_base+id;
               comments.push(comment_url);
               reply_message = line1 + line2 + line3;
@@ -1834,7 +1834,7 @@ $(function() {
         },
         error: function(jqXHR, textStatus, errorThrown) {
           success = false;
-          term.echo("<span style='color: #FF6868;'>error - you may need to re-authorize reddit shell by typing login</span>", {raw:true});
+          term.echo("<span class='err'>error - you may need to re-authorize reddit shell by typing login</span>", {raw:true});
           term.resume();
         }
       });
@@ -1872,9 +1872,9 @@ $(function() {
               pwd = "/r/"+subreddit+"/comments";
               ups = this.data.ups;
               id = this.data.id;
-              line1 = "<div style='width:100%;margin-top:1%;'><span id='text-body'>" + body + "</span><br />";
-              line2 = "<span style='color: #666;'>posted " + time + " by " + author + " to /r/" + subreddit + "</span><br/>";
-              line3 = "<span style='color: #666;'>" + ups + " upvotes</span><p />";
+              line1 = "<div class='reply-comment'><span id='text-body'>" + body + "</span><br />";
+              line2 = "<span class='line'>posted " + time + " by " + author + " to /r/" + subreddit + "</span><br/>";
+              line3 = "<span class='line'>" + ups + " upvotes</span><p />";
               comment_url = json_base+id;
               comments.push(comment_url);
               reply_message = line1 + line2 + line3;
@@ -1886,7 +1886,7 @@ $(function() {
         },
         error: function(jqXHR, textStatus, errorThrown) {
           success = false;
-          term.echo("<span style='color: #FF6868;'>error - you may need to re-authorize reddit shell by typing login</span>", {raw:true});
+          term.echo("<span class='err'>error - you may need to re-authorize reddit shell by typing login</span>", {raw:true});
           term.resume();
         }
       });
@@ -1982,7 +1982,7 @@ $(function() {
             }
           },
           error: function(jqXHR, textStatus, errorThrown) {
-            term.echo("<span style='color: #FF6868;'>error - you may need to re-authorize reddit shell by typing login</span>", {raw:true});
+            term.echo("<span class='err'>error - you may need to re-authorize reddit shell by typing login</span>", {raw:true});
           }
         });
       } else {
