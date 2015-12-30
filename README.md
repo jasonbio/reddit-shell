@@ -6,6 +6,7 @@ reddit shell is a web based linux shell emulator written in JavaScript that lets
 
 * Browse public subreddits, posts, comments, and users.
 * Iterate through comment chains and post indexes.
+* Watch subreddits for new posts
 * Scope-based tabbed auto-completion of commands, subreddit names, and usernames (double tab for list view)
 * Search for posts, comments, and users.
 * Login authentication via OAuth 2
@@ -55,6 +56,10 @@ reddit shell is a web based linux shell emulator written in JavaScript that lets
   * Options:
     * **[index] [confidence|top|new|hot|controversial|old|random|qa]** - can only be used on result set
   * Description: Loads more comments from the post scope if no index is given and there are posts to load, otherwise loads the specified comment tree for the index given.
+* **watch**
+  * Options:
+    * **[subreddit]**
+  * Description: Watches the specified subreddit for new posts
 * **search**
   * Options:
     * **[search term]**
