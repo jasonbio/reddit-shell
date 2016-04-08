@@ -88,7 +88,7 @@ $(function() {
         if (this.data != undefined) {
           if ($.inArray(this.data.id, stream) == -1) {
             stream.push(this.data.id);
-            permalink = "https://reddit.com"+this.data.permalink;
+            permalink = "https://www.reddit.com"+this.data.permalink;
             url = this.data.url;
             content.push(url);
             posts.push(permalink);
@@ -169,6 +169,9 @@ $(function() {
     if (command[1] == "cd") {
       command[1] = "list";
     }
+    if (command[1] == "load") {
+      command[1] = "view";
+    }
     if (command[2] == "prev") {
       command[2] = "previous";
     }
@@ -206,7 +209,7 @@ $(function() {
         var redditjson = data.data.children;
         $(redditjson).each(function() {
           if (this.data != undefined) {
-            permalink = "https://reddit.com"+this.data.permalink;
+            permalink = "https://www.reddit.com"+this.data.permalink;
             url = this.data.url;
             content.push(url);
             posts.push(permalink);
@@ -274,7 +277,7 @@ $(function() {
         var redditjson = data.data.children;
         $(redditjson).each(function() {
           if (this.data != undefined) {
-            permalink = "https://reddit.com"+this.data.permalink;
+            permalink = "https://www.reddit.com"+this.data.permalink;
             url = this.data.url;
             content.push(url);
             posts.push(permalink);
@@ -342,7 +345,7 @@ $(function() {
         var redditjson = data.data.children;
         $(redditjson).each(function() {
           if (this.data != undefined) {
-            permalink = "https://reddit.com"+this.data.permalink;
+            permalink = "https://www.reddit.com"+this.data.permalink;
             url = this.data.url;
             content.push(url);
             posts.push(permalink);
@@ -418,7 +421,7 @@ $(function() {
             display_name = this.data.display_name;
             autocomplete.push(display_name);
             title = this.data.title;
-            line1 = "<div class='post-wrapper'><span id='index'>[<span class='post-color'>" + s + "</span>]</span> <a href='https://reddit.com" + url + "' target='_blank'>/r/" + display_name + " - " + title + "</a><br />";
+            line1 = "<div class='post-wrapper'><span id='index'>[<span class='post-color'>" + s + "</span>]</span> <a href='https://www.reddit.com" + url + "' target='_blank'>/r/" + display_name + " - " + title + "</a><br />";
             description = this.data.public_description;
             line2 = "<span class='line'>" + description + "</span><br />";
             subscribers = this.data.subscribers;
@@ -465,7 +468,7 @@ $(function() {
             display_name = this.data.display_name;
             autocomplete.push(display_name);
             title = this.data.title;
-            line1 = "<div class='post-wrapper'><span id='index'>[<span class='post-color'>" + s + "</span>]</span> <a href='https://reddit.com" + url + "' target='_blank'>/r/" + display_name + " - " + title + "</a><br />";
+            line1 = "<div class='post-wrapper'><span id='index'>[<span class='post-color'>" + s + "</span>]</span> <a href='https://www.reddit.com" + url + "' target='_blank'>/r/" + display_name + " - " + title + "</a><br />";
             description = this.data.public_description;
             line2 = "<span class='line'>" + description + "</span><br />";
             subscribers = this.data.subscribers;
@@ -512,7 +515,7 @@ $(function() {
             display_name = this.data.display_name;
             autocomplete.push(display_name);
             title = this.data.title;
-            line1 = "<div class='post-wrapper'><span id='index'>[<span class='post-color'>" + s + "</span>]</span> <a href='https://reddit.com" + url + "' target='_blank'>/r/" + display_name + " - " + title + "</a><br />";
+            line1 = "<div class='post-wrapper'><span id='index'>[<span class='post-color'>" + s + "</span>]</span> <a href='https://www.reddit.com" + url + "' target='_blank'>/r/" + display_name + " - " + title + "</a><br />";
             description = this.data.public_description;
             line2 = "<span class='line'>" + description + "</span><br />";
             subscribers = this.data.subscribers;
@@ -613,7 +616,7 @@ $(function() {
         var redditjson = data.data.children;
         $(redditjson).each(function() {
           if (this.data != undefined) {
-            permalink = "https://reddit.com"+this.data.permalink;
+            permalink = "https://www.reddit.com"+this.data.permalink;
             url = this.data.url;
             content.push(url);
             posts.push(permalink);
@@ -683,7 +686,7 @@ $(function() {
         var redditjson = data.data.children;
         $(redditjson).each(function() {
           if (this.data != undefined) {
-            permalink = "https://reddit.com"+this.data.permalink;
+            permalink = "https://www.reddit.com"+this.data.permalink;
             url = this.data.url;
             content.push(url);
             posts.push(permalink);
@@ -750,7 +753,7 @@ $(function() {
         var redditjson = data.data.children;
         $(redditjson).each(function() {
           if (this.data != undefined) {
-            permalink = "https://reddit.com"+this.data.permalink+".json?jsonp=?";
+            permalink = "https://www.reddit.com"+this.data.permalink+".json?jsonp=?";
             url = this.data.url;
             content.push(url);
             posts.push(permalink);
@@ -824,6 +827,7 @@ $(function() {
         parent_name = "";
         r = 0;
         morelink = "";
+        moreverb = "";
         autocomplete = autobase;
         success = true;
         var viewpost = data[0].data.children;
@@ -835,11 +839,12 @@ $(function() {
             time = moment.unix(created).fromNow();
             ups = this.data.ups;
             id = this.data.id;
+            parent_link_id = id;
             parent_name = this.data.name;
             title = this.data.title;
             domain = this.data.domain;
             subreddit = this.data.subreddit;
-            pwd = "/r/"+subreddit+"/comments";
+            pwd = this.data.permalink.slice(0, -1);
             url = this.data.url;
             if (this.data.thumbnail && this.data.thumbnail.indexOf("http") > -1) {
               image = this.data.thumbnail;
@@ -884,9 +889,14 @@ $(function() {
             id = this.data.id;
             if (this.data.replies != "") {
               nested_count = this.data.replies.data.children.length;
+              if (nested_count > 1) {
+                moreverb = "replies";
+              } else {
+                moreverb = "reply";
+              }
               line1 = "<div class='comment-wrapper'><span id='index'>[<span class='post-color'>" + r + "</span>]</span> <span id='text-body'>" + body + "</span><br />";
-              line2 = "<span class='line'>posted " + time + " by " + author + " to /r/" + subreddit + "</span><br/>";
-              line3 = "<span class='line'>" + ups + " upvotes with " + nested_count + " replies</span><p />";
+              line2 = "<span class='line'>posted " + time + " by " + author + "</span><br/>";
+              line3 = "<span class='line'>" + ups + " upvotes with " + nested_count + " " + moreverb + "</span><p />";
               comment_url = json_base+id;
               comments.push(comment_url);
               reply_message = line1 + line2 + line3;
@@ -905,14 +915,58 @@ $(function() {
                   fullnames.push(nested_fullname);
                   if (this.data.replies.data.children[i].data.replies != "") {
                     nested_count = this.data.replies.data.children[i].data.replies.data.children.length;
+                    if (nested_count > 1) {
+                      moreverb = "replies";
+                    } else {
+                      moreverb = "reply";
+                    }
                     nest_line1 = "<div class='nested-wrapper'><span id='index'>[<span class='post-color'>" + r + "</span>]</span> <span id='text-body'>" + nested_body + "</span><br />";
                     nest_line2 = "<span class='line'>posted " + nested_time + " by " + nested_author + "</span><br/>";
-                    nest_line3 = "<span class='line'>" + nested_ups + " upvotes with " + nested_count + " replies</span><p/>";
+                    nest_line3 = "<span class='line'>" + nested_ups + " upvotes with " + nested_count + " " + moreverb + "</span><p/>";
                     nested_url = json_base+nested_id;
                     comments.push(nested_url);
                     r = r + 1;
                     reply_message = nest_line1 + nest_line2 + nest_line3;
                     term.echo(reply_message, {raw:true});
+                    for (var j = 0, m = this.data.replies.data.children[i].data.replies.data.children.length; j < m; j++) {
+                      if (this.data.replies.data.children[i].data.replies.data.children[j].kind == "t1") {
+                        nested_author2 = this.data.replies.data.children[i].data.replies.data.children[j].data.author;
+                        nested_body2 = converter.makeHtml(this.data.replies.data.children[i].data.replies.data.children[j].data.body);
+                        nested_created2 = this.data.replies.data.children[i].data.replies.data.children[j].data.created_utc;
+                        nested_time2 = moment.unix(nested_created).fromNow();
+                        nested_ups2 = this.data.replies.data.children[i].data.replies.data.children[j].data.ups;
+                        nested_count2 = this.data.replies.data.children[i].data.replies.data.children[j].data.count;
+                        nested_id2 = this.data.replies.data.children[i].data.replies.data.children[j].data.id;
+                        nested_fullname2 = this.data.replies.data.children[i].data.replies.data.children[j].data.id.name;
+                        fullnames.push(nested_fullname2);
+                        if (this.data.replies.data.children[i].data.replies.data.children[j].data.replies != "") {
+                          nested_count2 = this.data.replies.data.children[i].data.replies.data.children[j].data.replies.data.children.length;
+                          if (nested_count2 > 1) {
+                            moreverb = "replies";
+                          } else {
+                            moreverb = "reply";
+                          }
+                          nest_line1 = "<div class='nested-wrapper-2'><span id='index'>[<span class='post-color'>" + r + "</span>]</span> <span id='text-body'>" + nested_body2 + "</span><br />";
+                          nest_line2 = "<span class='line'>posted " + nested_time2 + " by " + nested_author2 + "</span><br/>";
+                          nest_line3 = "<span class='line'>" + nested_ups2 + " upvotes with " + nested_count2 + " " + moreverb + "</span><p/>";
+                          nested_url = json_base+nested_id2;
+                          comments.push(nested_url);
+                          r = r + 1;
+                          reply_message = nest_line1 + nest_line2 + nest_line3;
+                          term.echo(reply_message, {raw:true});
+                        } else {
+                          nested_count2 = 0;
+                          nest_line1 = "<div class='nested-wrapper-2'><span id='index'>[<span class='post-color'>" + r + "</span>]</span> <span id='text-body'>" + nested_body2 + "</span><br />";
+                          nest_line2 = "<span class='line'>posted " + nested_time2 + " by " + nested_author2 + "</span><br/>";
+                          nest_line3 = "<span class='line'>" + nested_ups2 + " upvotes with " + nested_count2 + " replies</span><p/>";
+                          nested_url = json_base+nested_id2;
+                          comments.push(nested_url);
+                          r = r + 1;
+                          reply_message = nest_line1 + nest_line2 + nest_line3;
+                          term.echo(reply_message, {raw:true});
+                        }
+                      }
+                    }
                   } else {
                     nested_count = 0;
                     nest_line1 = "<div class='nested-wrapper'><span id='index'>[<span class='post-color'>" + r + "</span>]</span> <span id='text-body'>" + nested_body + "</span><br />";
@@ -929,7 +983,7 @@ $(function() {
             } else {
               nested_count = 0;
               line1 = "<div class='comment-wrapper'><span id='index'>[<span class='post-color'>" + r + "</span>]</span> <span id='text-body'>" + body + "</span><br />";
-              line2 = "<span class='line'>posted " + time + " by " + author + " to /r/" + subreddit + "</span><br/>";
+              line2 = "<span class='line'>posted " + time + " by " + author + "</span><br/>";
               line3 = "<span class='line'>" + ups + " upvotes with " + nested_count + " replies</span><p />";
               comment_url = json_base+id;
               comments.push(comment_url);
@@ -942,13 +996,19 @@ $(function() {
             morecount = this.data.count;
             morename = this.data.name;
             moreparent = this.data.parent_id;
+            parent_link_id = moreparent;
             children = "";
             for (var i = 0, l = this.data.children.length; i < l; i++) {
               children = children + this.data.children[i]+",";
             }
             children = children.replace(/(^,)|(,$)/g, "");
-            morelink = "https://www.reddit.com/api/morechildren.json?"+limit+sort+"link_id="+moreparent+"&children="+children+"&id="+morename+"&api_type=json";
-            more_line = "<span><span id='index'>[<span class='nav-color'>"+morecount+" more comments</span>]</span><p />";
+            if (morecount > 1) {
+              moreverb = "replies";
+            } else {
+              moreverb = "reply";
+            }
+            morelink = "https://www.reddit.com/api/morechildren.json?link_id=" + moreparent + "&children=" + children + "&api_type=json";
+            more_line = "<span><span id='index'>[<span class='nav-color'>load more comments (" + morecount + " " + moreverb + ")</span>]</span><p />";
             term.echo(more_line, {raw:true});
           }
         });
@@ -956,7 +1016,7 @@ $(function() {
         cmd_state.push(command);
         cs = cs + 1;
         ls_state = command.join(" ");
-        term.set_prompt(auth_user+'@reddit:~/r/'+subreddit+'/comments$ ');
+        term.set_prompt(auth_user+'@reddit:~'+pwd+'$ ');
         term.resume();
       });
       clearTimeout(poll);
@@ -969,13 +1029,32 @@ $(function() {
         morelink = "";
         link_id = "";
         morecount = 0;
+        moreline = "";
+        moreverb = "replies";
         autocomplete = autobase;
         var morecomments = data.json.data.things;
         term.echo(parent_post, {raw:true});
         $(morecomments).each(function () {
+          if (this.kind == "more") {
+            morecount = this.data.count;
+            morename = this.data.name;
+            moreparent = this.data.parent_id;
+            parent_link_id = moreparent;
+            children = "";
+            for (var i = 0, l = this.data.children.length; i < l; i++) {
+              children = children + this.data.children[i]+",";
+            }
+            children = children.replace(/(^,)|(,$)/g, "");
+            if (morecount > 1 || morecount == 0) {
+              moreverb = "replies";
+            } else {
+              moreverb = "reply";
+            }
+            morelink = "https://www.reddit.com/api/morechildren.json?link_id=" + moreparent + "&children=" + children + "&api_type=json";
+            more_line = "<span><span id='index'>[<span class='nav-color'>load more comments (" + morecount + " " + moreverb + ")</span>]</span><p />";
+          }
           if (this.kind == "t1") {
             var reply_message = "";
-            var reply2_message = "";
             author = this.data.author;
             autocomplete.push(author);
             fullname = this.data.name;
@@ -984,84 +1063,31 @@ $(function() {
             created = this.data.created_utc;
             time = moment.unix(created).fromNow();
             subreddit = this.data.subreddit;
-            pwd = "/r/"+subreddit+"/comments";
             ups = this.data.ups;
             id = this.data.id;
             link_id = this.data.link_id;
             link_id = link_id.replace('t3_','');
-            if (this.data.replies != "") {
-              nested_count = this.data.replies.data.children.length;
-              line1 = "<div class='comment-wrapper'><span id='index'>[<span class='post-color'>" + r + "</span>]</span> <span id='text-body'>" + body + "</span><br />";
-              line2 = "<span class='line'>posted " + time + " by " + author + " to /r/" + subreddit + "</span><br/>";
-              line3 = "<span class='line'>" + ups + " upvotes</span><p />";
-              comment_url = json_base+id;
-              comments.push(comment_url);
-              reply_message = line1 + line2 + line3;
-              term.echo(reply_message, {raw:true});
-              r = r + 1;
-              for (var i = 0, l = this.data.replies.data.children.length; i < l; i++) {
-                if (this.data.replies.data.children[i].kind == "t1") {
-                  nested_author = this.data.replies.data.children[i].data.author;
-                  nested_body = converter.makeHtml(this.data.replies.data.children[i].data.body);
-                  nested_created = this.data.replies.data.children[i].data.created_utc;
-                  nested_time = moment.unix(nested_created).fromNow();
-                  nested_ups = this.data.replies.data.children[i].data.ups;
-                  nested_count = this.data.replies.data.children[i].data.count;
-                  nested_id = this.data.replies.data.children[i].data.id;
-                  if (this.data.replies.data.children[i].data.replies != "") {
-                    nested_count = this.data.replies.data.children[i].data.replies.data.children.length;
-                    nest_line1 = "<div class='nested-wrapper'><span id='index'>[<span class='post-color'>" + r + "</span>]</span> <span id='text-body'>" + nested_body + "</span><br />";
-                    nest_line2 = "<span class='line'>posted " + nested_time + " by " + nested_author + "</span><br/>";
-                    nest_line3 = "<span class='line'>" + nested_ups + " upvotes with " + nested_count + " replies</span><p/>";
-                    nested_url = json_base+nested_id;
-                    comments.push(nested_url);
-                    r = r + 1;
-                    reply_message = nest_line1 + nest_line2 + nest_line3;
-                    term.echo(reply_message, {raw:true});
-                  } else {
-                    nested_count = 0;
-                    nest_line1 = "<div class='nested-wrapper'><span id='index'>[<span class='post-color'>" + r + "</span>]</span> <span id='text-body'>" + nested_body + "</span><br />";
-                    nest_line2 = "<span class='line'>posted " + nested_time + " by " + nested_author + "</span><br/>";
-                    nest_line3 = "<span class='line'>" + nested_ups + " upvotes with " + nested_count + " replies</span><p/>";
-                    nested_url = json_base+nested_id;
-                    comments.push(nested_url);
-                    r = r + 1;
-                    reply_message = nest_line1 + nest_line2 + nest_line3;
-                    term.echo(reply_message, {raw:true});
-                  }
-                }
-              }
-            } else {
-              nested_count = 0;
-              line1 = "<div class='comment-wrapper'><span id='index'>[<span class='post-color'>" + r + "</span>]</span> <span id='text-body'>" + body + "</span><br />";
-              line2 = "<span class='line'>posted " + time + " by " + author + " to /r/" + subreddit + "</span><br/>";
-              line3 = "<span class='line'>" + ups + " upvotes with " + nested_count + " replies</span><p />";
-              comment_url = json_base+id;
-              comments.push(comment_url);
-              r = r + 1;
-              reply_message = line1 + line2 + line3;
-              term.echo(reply_message, {raw:true});
-            }
-          }
-          else if (this.kind == "more") {
-            morecount = this.data.count;
             morename = this.data.name;
             moreparent = this.data.parent_id;
-            children = "";
-            for (var i = 0, l = this.data.children.length; i < l; i++) {
-              children = children + this.data.children[i]+",";
-            }
-            children = children.replace(/(^,)|(,$)/g, "");
-            morelink = "https://www.reddit.com/api/morechildren.json?"+limit+sort+"link_id=t3_"+link_id+"&children="+children+"&id="+morename+"&api_type=json";
-            more_line = "<span><span id='index'>[<span class='nav-color'>"+morecount+" more comments</span>]</span><p />";
+            line1 = "<div class='comment-wrapper'><span id='index'>[<span class='post-color'>" + r + "</span>]</span> <span id='text-body'>" + body + "</span><br />";
+            line2 = "<span class='line'>posted " + time + " by " + author + "</span><br/>";
+            line3 = "<span class='line'>" + ups + " upvotes with " + morecount + " " + moreverb + "</span><p />";
+            comment_url = json_base+id;
+            comments.push(comment_url);
+            r = r + 1;
+            reply_message = line1 + line2 + line3;
+            term.echo(reply_message, {raw:true});
+            morecount = 0;
+            moreverb = "replies";
           }
         });
-        if (morelink != "") {
+        if (more_line !== "") {
           term.echo(more_line, {raw:true});
+          more_line = "";
         }
         autocomplete = autocomplete.reduce(function(a,b){if(a.indexOf(b)<0)a.push(b);return a;},[]);
         ls_state = command.join(" ");
-        term.set_prompt(auth_user+'@reddit:~/r/'+subreddit+'/comments$ ');
+        term.set_prompt(auth_user+'@reddit:~'+pwd+'$ ');
         term.resume();
       });
       clearTimeout(poll);
@@ -1076,6 +1102,8 @@ $(function() {
       }
       $.getJSON(comments[command[4]]+"/.json?"+sort+"jsonp=?", function(data) {
         success = true;
+        moreverb = "replies";
+        morecount = 0;
         autocomplete = autobase;
         var viewpost = data[0].data.children;
         $(viewpost).each(function () {
@@ -1089,7 +1117,7 @@ $(function() {
             title = this.data.title;
             domain = this.data.domain;
             subreddit = this.data.subreddit;
-            pwd = "/r/"+subreddit+"/comments";
+            pwd = this.data.permalink.slice(0, -1);
             url = this.data.url;
             if (this.data.thumbnail && this.data.thumbnail.indexOf("http") > -1) {
               image = this.data.thumbnail;
@@ -1132,9 +1160,14 @@ $(function() {
             id = this.data.id;
             if (this.data.replies != "") {
               nested_count = this.data.replies.data.children.length;
+              if (nested_count > 1 || nested_count == 0) {
+                moreverb = "replies";
+              } else {
+                moreverb = "reply";
+              }
               line1 = "<div class='comment-wrapper'><span id='index'>[<span class='post-color'>" + r + "</span>]</span> <span id='text-body'>" + body + "</span><br />";
-              line2 = "<span class='line'>posted " + time + " by " + author + " to /r/" + subreddit + "</span><br/>";
-              line3 = "<span class='line'>" + ups + " upvotes with " + nested_count + " replies</span><p />";
+              line2 = "<span class='line'>posted " + time + " by " + author + "</span><br/>";
+              line3 = "<span class='line'>" + ups + " upvotes with " + nested_count + " " + moreverb + "</span><p />";
               comment_url = json_base+id;
               comments.push(comment_url);
               reply_message = line1 + line2 + line3;
@@ -1153,9 +1186,14 @@ $(function() {
                   fullnames.push(nested_fullname);
                   if (this.data.replies.data.children[i].data.replies != "") {
                     nested_count = this.data.replies.data.children[i].data.replies.data.children.length;
+                    if (nested_count > 1 || nested_count == 0) {
+                      moreverb = "replies";
+                    } else {
+                      moreverb = "reply";
+                    }
                     nest_line1 = "<div class='nested-wrapper'><span id='index'>[<span class='post-color'>" + r + "</span>]</span> <span id='text-body'>" + nested_body + "</span><br />";
                     nest_line2 = "<span class='line'>posted " + nested_time + " by " + nested_author + "</span><br/>";
-                    nest_line3 = "<span class='line'>" + nested_ups + " upvotes with " + nested_count + " replies</span><p/>";
+                    nest_line3 = "<span class='line'>" + nested_ups + " upvotes with " + nested_count + " " + moreverb + "</span><p/>";
                     nested_url = json_base+nested_id;
                     comments.push(nested_url);
                     r = r + 1;
@@ -1177,7 +1215,7 @@ $(function() {
             } else {
               nested_count = 0;
               line1 = "<div class='comment-wrapper'><span id='index'>[<span class='post-color'>" + r + "</span>]</span> <span id='text-body'>" + body + "</span><br />";
-              line2 = "<span class='line'>posted " + time + " by " + author + " to /r/" + subreddit + "</span><br/>";
+              line2 = "<span class='line'>posted " + time + " by " + author + "</span><br/>";
               line3 = "<span class='line'>" + ups + " upvotes with " + nested_count + " replies</span><p />";
               comment_url = json_base+id;
               comments.push(comment_url);
@@ -1191,7 +1229,7 @@ $(function() {
         cmd_state.push(command);
         cs = cs + 1;
         ls_state = command.join(" ");
-        term.set_prompt(auth_user+'@reddit:~/r/'+subreddit+'/comments$ ');
+        term.set_prompt(auth_user+'@reddit:~'+pwd+'$ ');
         term.resume();
       });
       clearTimeout(poll);
@@ -1222,7 +1260,7 @@ $(function() {
         var redditjson = data.data.children;
         $(redditjson).each(function() {
           if (this.data != undefined) {
-            permalink = "https://reddit.com"+this.data.permalink;
+            permalink = "https://www.reddit.com"+this.data.permalink;
             permalink = permalink.replace('?ref=search_posts','');
             url = this.data.url;
             content.push(url);
@@ -1295,7 +1333,7 @@ $(function() {
         var redditjson = data.data.children;
         $(redditjson).each(function() {
           if (this.data != undefined) {
-            permalink = "https://reddit.com"+this.data.permalink;
+            permalink = "https://www.reddit.com"+this.data.permalink;
             permalink = permalink.replace('?ref=search_posts','');
             url = this.data.url;
             content.push(url);
@@ -1363,7 +1401,7 @@ $(function() {
         var redditjson = data.data.children;
         $(redditjson).each(function() {
           if (this.data != undefined) {
-            permalink = "https://reddit.com"+this.data.permalink;
+            permalink = "https://www.reddit.com"+this.data.permalink;
             permalink = permalink.replace('?ref=search_posts','');
             url = this.data.url;
             content.push(url);
@@ -1440,7 +1478,7 @@ $(function() {
         var redditjson = data.data.children;
         $(redditjson).each(function() {
           if (this.kind == "t3") {
-            permalink = "https://reddit.com"+this.data.permalink;
+            permalink = "https://www.reddit.com"+this.data.permalink;
             url = this.data.url;
             content.push(url);
             posts.push(permalink);
@@ -1581,7 +1619,7 @@ $(function() {
         var redditjson = data.data.children;
         $(redditjson).each(function() {
           if (this.kind == "t3") {
-            permalink = "https://reddit.com"+this.data.permalink;
+            permalink = "https://www.reddit.com"+this.data.permalink;
             url = this.data.url;
             content.push(url);
             posts.push(permalink);
@@ -1720,7 +1758,7 @@ $(function() {
         var redditjson = data.data.children;
         $(redditjson).each(function() {
           if (this.kind == "t3") {
-            permalink = "https://reddit.com"+this.data.permalink;
+            permalink = "https://www.reddit.com"+this.data.permalink;
             url = this.data.url;
             content.push(url);
             posts.push(permalink);
