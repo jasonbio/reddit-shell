@@ -1238,6 +1238,7 @@ $(function() {
     } else if (posts.length !== 0 && command[0] == "reddit" && command[1] == "view" && command[2] == "content" && command[3]) {
       var content_url = content[command[3]];
       if (content_url) {
+        content_url = content_url.replace(/&amp;/g, '&');
         window.open(content_url);
       }
       term.resume();
