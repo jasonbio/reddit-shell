@@ -38,7 +38,7 @@ reddit shell is a web based linux shell emulator written in JavaScript that lets
     * **[subreddit] [new|rising|top|controversial]** - sort applies to subreddits only (not frontpage)
     * **[subreddit] [next|previous]** - can only be used on result set
     * **[..|-|~/]** - common directory nav commands - can only be used with the "cd" alias
- * Description: list posts from the the specified subreddit or the front page if no subreddit specified and sorts by optional new, rising, top, controversial. Use the "cd" alias to forwards and backwards with the [..|-|~/] options
+ * Description: list posts from the specified subreddit or the front page if no subreddit specified and sorts by optional new, rising, top, controversial. Use the "cd" alias to forwards and backwards with the [..|-|~/] options
 * **list subreddits**
   * Aliases: **[ls, cd], subs** 
   * Options:
